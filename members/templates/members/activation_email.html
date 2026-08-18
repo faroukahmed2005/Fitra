@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="{{ language }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: {% if language == 'ar' %}'Cairo', 'Segoe UI', Tahoma, sans-serif{% else %}'Inter', 'Segoe UI', Tahoma, sans-serif{% endif %};
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            {% if language == 'ar' %}direction: rtl;{% endif %}
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .header {
+            background: linear-gradient(135deg, rgb(71, 221, 71) 0%, rgb(37, 121, 37) 100%);
+            padding: 40px 20px;
+            text-align: center;
+            color: white;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        .content {
+            padding: 40px 30px;
+            color: #333;
+        }
+        .greeting {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .message {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 30px;
+        }
+        .button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, rgb(71, 221, 71) 0%, rgb(37, 121, 37) 100%);
+            color: white !important;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(71, 221, 71, 0.4);
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(71, 221, 71, 0.6);
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            border-top: 1px solid #e0e0e0;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #856404;
+        }
+        .logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">💪</div>
+            <h1>FITRA</h1>
+        </div>
+        
+        <div class="content">
+            <div class="greeting">
+                {% if language == 'ar' %}
+                    مرحباً {{ name }} 👋
+                {% else %}
+                    Hello {{ name }} 👋
+                {% endif %}
+            </div>
+            
+            <div class="message">
+                {% if language == 'ar' %}
+                    <p>شكراً لتسجيلك في <strong>Fitra</strong> - رحلتك نحو اللياقة والصحة تبدأ هنا!</p>
+                    <p>لتفعيل حسابك والبدء في رحلتك، يرجى الضغط على الزر أدناه:</p>
+                {% else %}
+                    <p>Thank you for registering with <strong>Fitra</strong> - your journey to fitness and health starts here!</p>
+                    <p>To activate your account and begin your journey, please click the button below:</p>
+                {% endif %}
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="{{ activation_link }}" class="button">
+                    {% if language == 'ar' %}
+                        تفعيل الحساب الآن
+                    {% else %}
+                        Activate Account Now
+                    {% endif %}
+                </a>
+            </div>
+            
+            <div class="warning">
+                {% if language == 'ar' %}
+                    ⏰ <strong>تنبيه:</strong> هذا الرابط صالح لمدة <strong>24 ساعة</strong> فقط.
+                {% else %}
+                    ⏰ <strong>Note:</strong> This link is valid for <strong>24 hours</strong> only.
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="footer">
+            {% if language == 'ar' %}
+                © 2025 FITRA - جميع الحقوق محفوظة<br>
+                إذا لم تقم بإنشاء هذا الحساب، يرجى تجاهل هذا البريد.
+            {% else %}
+                © 2025 FITRA - All Rights Reserved<br>
+                If you didn't create this account, please ignore this email.
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

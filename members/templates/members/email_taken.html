@@ -1,0 +1,100 @@
+{% extends "status_page_base.html" %}
+
+{% block title %}{% if preferred_language == 'ar' %}البريد الإلكتروني مستخدم بالفعل{% else %}Email Already Taken{% endif %}{% endblock %}
+
+{% block gradient %}linear-gradient(135deg, #f7971e 0%, #ffd200 100%){% endblock %}
+{% block header_gradient %}linear-gradient(135deg, #f7971e 0%, #ffd200 100%){% endblock %}
+{% block header_text_color %}#333{% endblock %}
+{% block icon_color %}#f7971e{% endblock %}
+{% block container_width %}620px{% endblock %}
+{% block icon_class %}fas fa-envelope-open-text{% endblock %}
+
+{% block header_title %}
+    {% if preferred_language == 'ar' %}
+        البريد الإلكتروني مستخدم بالفعل 📧
+    {% else %}
+        Email Already Taken 📧
+    {% endif %}
+{% endblock %}
+
+{% block header_subtitle %}
+    {% if preferred_language == 'ar' %}
+        عذراً، لم نتمكن من إتمام تسجيلك
+    {% else %}
+        Sorry, we could not complete your registration
+    {% endif %}
+{% endblock %}
+
+{% block extra_style %}
+    .status-message {
+        font-size: 18px;
+        color: #333;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+    .info-box {
+        background: #fff8e1;
+        border-left: {% if preferred_language == 'ar' %}none{% else %}4px solid #ffd200{% endif %};
+        border-right: {% if preferred_language == 'ar' %}4px solid #ffd200{% else %}none{% endif %};
+        padding: 20px;
+        margin: 30px 0;
+        border-radius: 10px;
+        text-align: {% if preferred_language == 'ar' %}right{% else %}left{% endif %};
+    }
+    .info-box p {
+        color: #7a5c00;
+        font-size: 15px;
+        line-height: 1.8;
+    }
+    .info-box strong {
+        color: #5a4000;
+    }
+{% endblock %}
+
+{% block status_body %}
+    <div class="status-message">
+        {% if preferred_language == 'ar' %}
+            تم استخدام هذا البريد الإلكتروني من قِبَل شخص آخر
+        {% else %}
+            This email address was claimed by another account
+        {% endif %}
+    </div>
+
+    <div class="info-box">
+        <p>
+            {% if preferred_language == 'ar' %}
+                يبدو أن شخصاً آخر سجّل بنفس البريد الإلكتروني وأتمّ تفعيل حسابه قبلك.
+                لا يمكن ربط بريد إلكتروني واحد بأكثر من حساب.
+                <br><br>
+                <strong>ماذا تفعل؟</strong> يُرجى التسجيل مجدداً باستخدام بريد إلكتروني مختلف،
+                أو التواصل معنا عبر WhatsApp إذا كنت تعتقد أن هناك خطأ.
+            {% else %}
+                It looks like someone else registered with the same email address and
+                activated their account before you. Each email can only be linked to
+                one account.
+                <br><br>
+                <strong>What to do?</strong> Please register again using a different
+                email address, or contact us via WhatsApp if you believe this is a mistake.
+            {% endif %}
+        </p>
+    </div>
+{% endblock %}
+
+{% block buttons %}
+    <a href="{% url 'members:register' %}" class="btn btn-primary">
+        <i class="fas fa-redo"></i>
+        {% if preferred_language == 'ar' %}التسجيل مرة أخرى{% else %}Register Again{% endif %}
+    </a>
+    <a href="{% url 'home:home' %}" class="btn btn-secondary">
+        <i class="fas fa-home"></i>
+        {% if preferred_language == 'ar' %}العودة للرئيسية{% else %}Back to Home{% endif %}
+    </a>
+{% endblock %}
+
+{% block footer_note %}
+    {% if preferred_language == 'ar' %}
+        إذا كنت بحاجة للمساعدة، يرجى التواصل معنا عبر WhatsApp
+    {% else %}
+        If you need help, please contact us via WhatsApp
+    {% endif %}
+{% endblock %}

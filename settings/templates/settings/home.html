@@ -1,0 +1,299 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}FITRA | Online Coaching{% endblock %}
+
+{% block extra_head %}
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+
+    {% if LANGUAGE_CODE == 'ar' %}
+        <link rel="stylesheet" href="{% static 'css/style2.css' %}">
+    {% else %}
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% endif %}
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Merienda:wght@300..900&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Noto+Nastaliq+Urdu:wght@400..700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div id="overlay"></div>
+
+    <header>
+        <div class="container">
+            <a href="" class="logo">
+                {% if info.logo %}
+                    <img src="{{info.logo.url}}" alt="logo">
+                {% endif %}
+            </a>
+            <nav>
+                <i class="fas fa-bars toggle-menu"></i>
+                <ul>
+                    <li><a href="/">{% translate "Home" %}</a></li>
+                    <li><a href="#Packages">{% translate "Packages" %} <i class="bi bi-cart3"></i></a></li>
+                    <li><a href="#Contact">{% translate "Contact US" %}</a></li>
+                    <li><a class="active" href="{% url 'members:register' %}">{% translate "Become a Member" %}</a></li>
+
+                    {% get_current_language as LANGUAGE_CODE %}
+
+                    {% if LANGUAGE_CODE == "en" %}
+                        <li>
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('lang-ar').submit();">
+                                العربية
+                            </a>
+                            <form id="lang-ar" action="{% url 'set_language' %}" method="post" style="display:none;">
+                                {% csrf_token %}
+                                <input type="hidden" name="language" value="ar">
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                            </form>
+                        </li>
+                    {% elif LANGUAGE_CODE == "ar" %}
+                        <li>
+                            <a href="#" onclick="event.preventDefault(); document.getElementById('lang-en').submit();">
+                                English
+                            </a>
+                            <form id="lang-en" action="{% url 'set_language' %}" method="post" style="display:none;">
+                                {% csrf_token %}
+                                <input type="hidden" name="language" value="en">
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                            </form>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="landing">
+        <div class="overlay"></div>
+        <div class="content">
+            <h2>{{info.slogan}}</h2>
+        </div>
+    </div>
+
+    <main>
+        <div class="container">
+            <div class="main animation-3d-container">
+                <div class="animated-card animation-3d-card">
+                    <div class="goku animation-3d-goku">
+                        {% if brief.brief_image %}
+                            <img src="{{brief.brief_image.url}}" alt="Animated Person" class="animation-3d-img">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="prag">
+                <h1>{{brief.brief_title}}</h1>
+                <h2>{{brief.brief_content|safe}}</h2>
+            </div>
+        </div>
+    </main>
+
+    <section>
+        <div class="container">
+            <div class="about">
+                <h2>
+                    {% translate "About" %} <br>
+                    <span>{% translate "US" %}</span>
+                </h2>
+                <p>{{about_us.about_us_content|safe}}</p>
+            </div>
+            <div class="section">
+                {% if about_us.about_us_image %}
+                    <img src="{{about_us.about_us_image.url}}" alt="">
+                {% endif %}
+            </div>
+            <div class="extra">
+                <div>
+                    <i class="fa-regular fa-clock"></i>
+                    <p>24</p>
+                    <span> Working Hours</span>
+                </div>
+                <div>
+                    <i class="fa-solid fa-users icon"></i>
+                    <p id="followersCount">509</p>
+                    <a href="{{social_links.instagram}}"> Followers</a>
+                </div>
+                <div>
+                    <i class="fa-solid fa-dumbbell"></i>
+                    <p>45</p>
+                    <a href="{{social_links.instagram_page}}">Successful Stories</a>
+                </div>
+                <div>
+                    <i class="fa-solid fa-dna"></i>
+                    <p>5</p>
+                    <a href="{{social_links.instagram_page}}">Perfect Bodies</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <aside>
+        <div class="container">
+            <div class="arrow">
+                <i class="fas fa-angle-down fa-2x"></i>
+            </div>
+
+            <!-- Successful Stories Section -->
+            <div class="success-stories">
+                <div class="stories-header">
+                    <h2>{% translate "Successful Stories" %}</h2>
+                    <h3>FITRA Results</h3>
+                </div>
+
+                <div class="owl-carousel destination-slider stories-carousel">
+                {% for story in successful_stories %}
+                    <div class="story-transformation-card item">
+                        <img src="{% static './img/logo-T.png' %}" alt="Logo" draggable="false" class="story-logo">
+                        <div class="story-photos-container">
+                            <div class="story-photo-comparison">
+                                <img src="{{story.before_image.url}}" alt="before" draggable="false" class="img-before before">
+                                <div class="img-after-container">
+                                    <img src="{{story.after_image.url}}" alt="after" draggable="false" class="img-after after">
+                                </div>
+                                <div class="divider-handle"></div>
+                            </div>
+                        </div>
+                        <div class="story-branding">{{story.name}}</div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+
+            <h1 id="Packages">{% translate "Our Plans" %}</h1>
+            <h2>{% translate "CHOOSE YOUR PLAN" %}</h2>
+            <div class="plans">
+            {% for pack in packages %}
+                <div class="card">
+                    <div style="--hover-img: url('{{ pack.image.url }}')">
+                        <h1>{{pack.name}}</h1>
+                        <article>
+                            <del>{{pack.before_price}}LE</del>
+                            <h3>{{pack.after_price}} LE</h3>
+                        </article>
+                        <p>{{pack.time}}</p>
+                        <span class="btn">
+                            <a href="{% url 'members:register' %}">{% translate "Join Now" %}</a>
+                        </span>
+                        <ul>
+                        {% for pf in pack.packagefeature_set.all %}
+                            {% if pf.is_included %}
+                                <li><i class="bi bi-check-lg"></i>{{ pf.feature.text|safe }}</li>
+                            {% else %}
+                                <li><i class="fas fa-times red"></i>{{ pf.feature.text|safe }}</li>
+                            {% endif %}
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </aside>
+
+    <div class="quot">
+        <canvas id="glow-bg"></canvas>
+        <div class="container fade-in">
+            <q>
+                Even a glow stick needs to be
+                <span class="broken" data-text="BROKEN"><span>BROKEN</span></span>
+                to light !
+            </q>
+        </div>
+    </div>
+
+    <footer id="Contact">
+        <div class="container fade-in">
+            <div class="footer_1 fade-in">
+                <h3>FITRA</h3>
+                <p>{% translate "Feel free to be a part of our family." %}</p>
+            </div>
+            {% if LANGUAGE_CODE == 'ar' %}
+            <div class="footer_2 fade-in">
+                <h3 class="dynamic-word">
+                    <span>ا</span><span>ن</span><span>و</span><span>ر</span><span>و</span><span>ز</span>
+            {% else %}
+            <div class="footer_2 fade-in">
+                <h3 class="dynamic-word">
+                    <span>C</span><span>O</span><span>N</span><span>N</span><span>E</span><span>C</span><span>T</span><span>I</span><span>O</span><span>N</span>
+            {% endif %}
+                </h3>
+
+                <div class="rack">
+                    <div class="support_1"></div>
+                    <div class="support_2"></div>
+                    <div class="base"></div>
+
+                    <div class="bar bar-1">
+                        <a href="{{social_links.youtube}}" class="holder youtube"><i class="fab fa-youtube"></i></a>
+                        <a href="{{social_links.facebook}}" class="holder facebook"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                    <div class="bar bar-2">
+                        <a href="{{social_links.whatsapp}}" class="holder whatsapp"><i class="fab fa-whatsapp"></i></a>
+                        <a href="{{social_links.instagram}}" class="holder instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                    <div class="bar bar-3">
+                        <a href="{{social_links.telegram}}" class="holder telegram"><i class="fab fa-telegram-plane"></i></a>
+                        <a href="{{social_links.tiktok}}" class="holder tiktok"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="farouk">
+            Copyright © 2025 All rights reserved | Made by
+            <span class="frontend">Front-End: <a href="https://t.me/Roka_31"> Farouk</a></span>
+            &amp;
+            Back-End:
+            <span class="backend"><a href="https://t.me/mostafarrashwan"> Mostafa</a></span>
+        </p>
+    </footer>
+{% endblock %}
+
+{% block extra_scripts %}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
+    <script src="{% static 'js/1.js' %}"></script>
+    <script src="{% static 'js/animations.js' %}"></script>
+    <script src="{% static 'js/instagram-api.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            $('.stories-carousel').owlCarousel({
+                center: false,
+                loop: true,
+                items: 1,
+                margin: 30,
+                stagePadding: 14,
+                nav: true,
+                autoplay: false,
+                autoplayTimeout: 2000,
+                autoplayHoverPause: true,
+                navText: [
+                    '<i class="fas fa-angle-left fa-2x"></i>',
+                    '<i class="fas fa-angle-right fa-2x"></i>'
+                ],
+                responsive: {
+                    0: { items: 1 },
+                    650: { items: 2 },
+                    992: { items: 3 },
+                    1200: { items: 4 }
+                }
+            });
+        });
+    </script>
+    {% if alert_message %}
+    <script>
+        alert("{{ alert_message }}");
+    </script>
+    {% endif %}
+{% endblock %}

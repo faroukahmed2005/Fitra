@@ -1,0 +1,64 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-25 13:23+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: .\settings\templates\settings\home.html:66
+msgid "Home"
+msgstr "الرئيسية"
+
+#: .\settings\templates\settings\home.html:67
+msgid "Packages"
+msgstr "الباقات"
+
+#: .\settings\templates\settings\home.html:68
+msgid "Contact US"
+msgstr "تواصل معنا"
+
+#: .\settings\templates\settings\home.html:69
+msgid "Become a Member"
+msgstr "انضم لينا"
+
+#: .\settings\templates\settings\home.html:132
+msgid "About"
+msgstr "إتعرف"
+
+#: .\settings\templates\settings\home.html:133
+msgid "US"
+msgstr "علينا"
+
+#: .\settings\templates\settings\home.html:174
+msgid "Successful Stories"
+msgstr "اجمد التحولات"
+
+#: .\settings\templates\settings\home.html:197
+msgid "Our Plans"
+msgstr "الباقات"
+
+#: .\settings\templates\settings\home.html:198
+msgid "CHOOSE YOUR PLAN"
+msgstr "اختار باقتك"
+
+#: .\settings\templates\settings\home.html:210
+msgid "Join Now"
+msgstr "انضم الأن"
+
+#: .\settings\templates\settings\home.html:242
+msgid "Feel free to be a part of our family."
+msgstr "دايماً مُرحَّب بيك في العيله."

@@ -1,0 +1,305 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="{{ preferred_language }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if preferred_language == 'ar' %}فشل التفعيل{% else %}Activation Failed{% endif %}</title>
+    <link rel="icon" type="image/png" href="{% static 'img/logo-H.png' %}">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: {% if preferred_language == 'ar' %}'Cairo', sans-serif{% else %}'Inter', sans-serif{% endif %};
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            {% if preferred_language == 'ar' %}direction: rtl;{% endif %}
+        }
+        
+        .error-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .error-header {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 50px 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        
+        .error-circle {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: scaleIn 0.5s ease-out 0.3s both;
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+        
+        .error-icon {
+            font-size: 50px;
+            color: #f5576c;
+        }
+        
+        .error-header h1 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .error-header p {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+        
+        .error-content {
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .error-message {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .info-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 10px;
+            text-align: {% if preferred_language == 'ar' %}right{% else %}left{% endif %};
+        }
+        
+        .info-box h3 {
+            color: #856404;
+            font-size: 16px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-box ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .info-box li {
+            padding: 8px 0;
+            color: #856404;
+            font-size: 14px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .info-box li i {
+            color: #ffc107;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, rgb(71, 221, 71) 0%, rgb(37, 121, 37) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(71, 221, 71, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(71, 221, 71, 0.6);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            box-shadow: 0 4px 15px rgba(108, 117, 125, 0.4);
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 117, 125, 0.6);
+        }
+        
+        .footer-note {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 13px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-header">
+            <div class="error-circle">
+                <i class="fas fa-exclamation-triangle error-icon"></i>
+            </div>
+            <h1>
+                {% if preferred_language == 'ar' %}
+                    فشل التفعيل ⚠️
+                {% else %}
+                    Activation Failed ⚠️
+                {% endif %}
+            </h1>
+            <p>
+                {% if preferred_language == 'ar' %}
+                    عذراً، حدث خطأ أثناء تفعيل حسابك
+                {% else %}
+                    Sorry, an error occurred while activating your account
+                {% endif %}
+            </p>
+        </div>
+        
+        <div class="error-content">
+            <div class="error-message">
+                {% if preferred_language == 'ar' %}
+                    رابط التفعيل غير صالح أو انتهت صلاحيته
+                {% else %}
+                    The activation link is invalid or has expired
+                {% endif %}
+            </div>
+            
+            <div class="info-box">
+                <h3>
+                    <i class="fas fa-info-circle"></i>
+                    {% if preferred_language == 'ar' %}
+                        الأسباب المحتملة:
+                    {% else %}
+                        Possible Reasons:
+                    {% endif %}
+                </h3>
+                <ul>
+                    <li>
+                        <i class="fas fa-clock"></i>
+                        <span>
+                            {% if preferred_language == 'ar' %}
+                                انتهت صلاحية الرابط (الرابط صالح لمدة 24 ساعة فقط)
+                            {% else %}
+                                The link has expired (link is valid for 24 hours only)
+                            {% endif %}
+                        </span>
+                    </li>
+                    <li>
+                        <i class="fas fa-link"></i>
+                        <span>
+                            {% if preferred_language == 'ar' %}
+                                الرابط غير صحيح أو تم استخدامه من قبل
+                            {% else %}
+                                The link is incorrect or has already been used
+                            {% endif %}
+                        </span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check-circle"></i>
+                        <span>
+                            {% if preferred_language == 'ar' %}
+                                تم تفعيل الحساب بالفعل
+                            {% else %}
+                                The account has already been activated
+                            {% endif %}
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="button-group">
+                <a href="{% url 'members:register' %}" class="btn btn-primary">
+                    <i class="fas fa-redo"></i>
+                    {% if preferred_language == 'ar' %}
+                        التسجيل مرة أخرى
+                    {% else %}
+                        Register Again
+                    {% endif %}
+                </a>
+                
+                <a href="{% url 'home:home' %}" class="btn btn-secondary">
+                    <i class="fas fa-home"></i>
+                    {% if preferred_language == 'ar' %}
+                        العودة للرئيسية
+                    {% else %}
+                        Back to Home
+                    {% endif %}
+                </a>
+            </div>
+            
+            <div class="footer-note">
+                {% if preferred_language == 'ar' %}
+                    إذا كنت بحاجة للمساعدة، يرجى التواصل معنا عبر WhatsApp
+                {% else %}
+                    If you need help, please contact us via WhatsApp
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

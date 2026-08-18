@@ -1,0 +1,41 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Django
+db.sqlite3
+db.sqlite3-journal
+staticfiles/
+media/
+
+# Environment & secrets
+.env
+.envrc
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store
+
+# Docker itself
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Docs/misc
+*.md
+htmlcov/
+.pytest_cache/
+.coverage

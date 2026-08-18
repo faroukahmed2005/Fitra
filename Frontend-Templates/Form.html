@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FITRA | Online Coaching</title>
+    <link rel="icon" type="image/png" href="./img/logo-H.png">
+    <!-- Load Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Define custom colors in Tailwind config
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'main-fitra': 'rgb(71, 221, 71)',    /* Bright Green */
+                        'second-fitra': 'rgb(37, 121, 37)',  /* Dark Green */
+                        // تم التعديل: أسود داكن بـ 80% شفافية لجعل الخلفية تظهر قليلاً من خلاله
+                        'form-dark-bg': 'rgba(26, 26, 26, 0.8)', 
+                        'section-dark-bg': '#3a3a3a',        /* New Dark Gray for sections */
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Define Inter font for clarity */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            
+            /* Image Background Setup */
+            background-image: url(../img/BG_FORM.jpg); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Keep image fixed when scrolling */
+            
+            /* Black Overlay for readability - تم التعديل لتقليل الكثافة من 0.8 إلى 0.6 لجعل الصورة أوضح */
+            background-color: rgba(0, 0, 0, 0.6); 
+            background-blend-mode: darken; /* Darkens the image */
+            min-height: 100vh;
+        }
+        
+        /* Custom style for required labels (White text with Green asterisk) */
+        .required-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            color: #ffffff; 
+            font-weight: 600;
+        }
+        .required-label::after {
+            content: '*';
+            color: rgb(71, 221, 71); /* Main Green for required marker */
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        /* Custom styling for Checkbox/Radio options */
+        .custom-radio-input, .custom-checkbox-input {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            position: absolute;
+            opacity: 0;
+        }
+
+        .custom-label {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid #555555; /* Slightly lighter border for dark gray sections */
+            margin-bottom: 0.5rem;
+            background-color: #3a3a3a; /* Dark gray for unselected */
+            color: #f3f4f6; /* Light text */
+            text-align: center;
+            user-select: none;
+        }
+
+        /* Styling for the Selected/Checked State - Using Main Green */
+        .custom-radio-input:checked + .custom-label,
+        .custom-checkbox-input:checked + .custom-label {
+            background-color: rgb(71, 221, 71); /* Main Green */
+            color: #111827; /* Dark text for contrast against bright green */
+            border-color: rgb(71, 221, 71);
+            box-shadow: 0 4px 10px rgba(71, 221, 71, 0.4);
+        }
+        
+        /* Hover effect - Using Second Green */
+        .custom-label:hover {
+            border-color: rgb(37, 121, 37); /* Second Green */
+            background-color: #3a3a3a; /* Keep section background on hover */
+        }
+        
+        .custom-radio-input:checked + .custom-label:hover,
+        .custom-checkbox-input:checked + .custom-label:hover {
+             /* A slightly more pronounced shadow on hover for selected items */
+            box-shadow: 0 4px 12px rgba(37, 121, 37, 0.6);
+        }
+
+        /* Style for text inputs on dark mode (using section background color) */
+        input[type="text"], input[type="number"], input[type="tel"], input[type="email"], input[type="date"], textarea, select {
+            background-color: #3a3a3a; /* Dark input background (same as section) */
+            color: white; /* White text input */
+            border-color: #555555; /* Darker border for inputs */
+        }
+        
+        /* Ensure specific selection elements (like date input button) look good */
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1); /* Invert the calendar icon color to white for dark mode */
+        }
+        select {
+            /* Custom styling for select arrow for dark mode */
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23d1d5db' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            background-position: right 0.75rem center;
+            background-repeat: no-repeat;
+            background-size: 0.65em auto;
+            padding-right: 2.5rem;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8 text-gray-100">
+    <!-- Main Form Container: Uses the updated dark gray color with opacity -->
+    <div class="max-w-4xl mx-auto bg-form-dark-bg p-6 md:p-10 shadow-2xl rounded-xl border border-second-fitra/50">
+        
+        <!-- Main Header -->
+        <header class="mb-8 pb-4 border-b border-gray-600">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-main-fitra mb-2">FITRA Membership</h1>
+            <p class="text-xl text-gray-400 font-semibold">Registration Form</p>
+        </header>
+
+        <form id="fitra-form" class="space-y-8">
+
+            <!-- Core Personal Data Section: Using the slightly lighter dark gray color -->
+            <section class="p-5 bg-section-dark-bg rounded-lg shadow-inner">
+                <h2 class="text-2xl font-bold text-main-fitra mb-6 border-b pb-2 border-gray-600">Personal Information</h2>
+                
+                <!-- Full Name -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2" for="full_name"><span class="required-label">Full Name</span></label>
+                    <input type="text" id="full_name" name="full_name" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Enter your full name">
+                </div>
+
+                <!-- Age & Height -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2" for="age"><span class="required-label">Age</span></label>
+                        <input type="number" id="age" name="age" min="10" max="100" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Enter your age (number)">
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2" for="height"><span class="required-label">Height (CM)</span></label>
+                        <input type="number" id="height" name="height" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Enter your height in CM">
+                    </div>
+                </div>
+
+                <!-- Weight & Measurement Date -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2" for="current_weight"><span class="required-label">Current Weight (KG)</span></label>
+                        <input type="number" id="current_weight" name="current_weight" step="0.1" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Enter your current weight in KG">
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2" for="measurement_date"><span class="required-label">Weight Measurement Date</span></label>
+                        <input type="date" id="measurement_date" name="measurement_date" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150">
+                    </div>
+                </div>
+                
+                <!-- Gender (Conditional Logic) -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2"><span class="required-label">Gender</span></label>
+                    <div class="flex flex-wrap gap-4">
+                        <div>
+                            <input type="radio" id="gender-male" name="gender" value="Male" required class="custom-radio-input">
+                            <label for="gender-male" class="custom-label">Male</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="gender-female" name="gender" value="Female" required class="custom-radio-input">
+                            <label for="gender-female" class="custom-label">Female</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- **Conditional Section - 1: Male Photos** -->
+                <div id="male-photo-section" class="mb-6 p-4 border border-main-fitra bg-main-fitra/10 rounded-lg hidden">
+                    <label class="block text-lg font-medium mb-2" for="male_photos">
+                        <span class="required-label">If you are a male, insert 4 photos from umbilicus to above (2 sides - face - back)</span>
+                    </label>
+                    <p class="text-sm text-gray-300 mb-3">Upload up to 5 supported files: image. Max 10 MB per file.</p>
+                    <input type="file" id="male_photos" name="male_photos" multiple accept="image/*" class="block w-full text-sm text-gray-100
+                        file:mr-4 file:py-2 file:px-4
+                        file:rounded-full file:border-0
+                        file:text-sm file:font-semibold
+                        file:bg-second-fitra file:text-white
+                        hover:file:bg-main-fitra/70 hover:file:text-black">
+                </div>
+
+                <!-- **Conditional Section - 2: Female Measurements** -->
+                <div id="female-measurements-section" class="mb-6 p-4 border border-second-fitra bg-second-fitra/10 rounded-lg hidden">
+                    <label class="block text-lg font-medium mb-2" for="female_measurements">
+                        <span class="required-label">If you are a female, send your Circumferential measurements by measuring tape</span>
+                    </label>
+                    <p class="text-sm text-gray-300 mb-3">Right and Left (Arms & Thighs) - Waist - Belly from level of umbilicus - Chest</p>
+                    <textarea id="female_measurements" name="female_measurements" rows="4" class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-second-fitra focus:ring focus:ring-second-fitra/50 transition duration-150" placeholder="Enter measurements here. Example: (Right Arm: 30 cm, Waist: 70 cm, Chest: 95 cm...)"></textarea>
+                </div>
+                
+                <!-- Occupation or academic year -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2" for="occupation"><span class="required-label">Occupation or Academic Year</span></label>
+                    <input type="text" id="occupation" name="occupation" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="e.g., Engineer, 4th Year Science">
+                </div>
+                
+                <!-- Place of living (Egypt Governorates) -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2" for="place_of_living"><span class="required-label">Place of Living</span></label>
+                    <select id="place_of_living" name="place_of_living" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150">
+                        <option value="" disabled selected>Choose Governorate</option>
+                        <!-- Egypt Governorates in English, Alphabetical Order -->
+                        <option value="Alexandria">Alexandria</option>
+                        <option value="Aswan">Aswan</option>
+                        <option value="Asyut">Asyut</option>
+                        <option value="Beheira">Beheira</option>
+                        <option value="Beni Suef">Beni Suef</option>
+                        <option value="Cairo">Cairo</option>
+                        <option value="Dakahlia">Dakahlia</option>
+                        <option value="Damietta">Damietta</option>
+                        <option value="Faiyum">Faiyum</option>
+                        <option value="Gharbia">Gharbia</option>
+                        <option value="Giza">Giza</option>
+                        <option value="Ismailia">Ismailia</option>
+                        <option value="Kafr El Sheikh">Kafr El Sheikh</option>
+                        <option value="Luxor">Luxor</option>
+                        <option value="Matruh">Matruh</option>
+                        <option value="Minya">Minya</option>
+                        <option value="Monufia">Monufia</option>
+                        <option value="New Valley">New Valley (Wadi El Gedid)</option>
+                        <option value="North Sinai">North Sinai</option>
+                        <option value="Port Said">Port Said</option>
+                        <option value="Qalyubia">Qalyubia</option>
+                        <option value="Qena">Qena</option>
+                        <option value="Red Sea">Red Sea</option>
+                        <option value="Sharqia">Sharqia</option>
+                        <option value="Sohag">Sohag</option>
+                        <option value="South Sinai">South Sinai</option>
+                        <option value="Suez">Suez</option>
+                    </select>
+                </div>
+
+            </section>
+            
+            <!-- Contact Section -->
+            <section class="p-5 bg-section-dark-bg rounded-lg shadow-inner">
+                <h2 class="text-2xl font-bold text-main-fitra mb-6 border-b pb-2 border-gray-600">Contact Details</h2>
+
+                <!-- Phone number (with Whatsapp) - **Validation added to ensure it starts with 01** -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2" for="phone"><span class="required-label">Phone Number (with WhatsApp)</span></label>
+                    <input type="tel" id="phone" name="phone" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="e.g., 01XXXXXXXXX">
+                    <p class="text-sm text-gray-400 mt-1">Must start with '01'</p>
+                </div>
+
+                <!-- Email -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2" for="email">Email (Optional)</label>
+                    <input type="email" id="email" name="email" class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Your answer">
+                </div>
+
+                <!-- (Optional) Telegram user -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2" for="telegram_user">Telegram User (Optional)</label>
+                    <input type="text" id="telegram_user" name="telegram_user" class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Like @example">
+                </div>
+            </section>
+
+            <!-- Goals and Lifestyle Section -->
+            <section class="p-5 bg-section-dark-bg rounded-lg shadow-inner">
+                <h2 class="text-2xl font-bold text-main-fitra mb-6 border-b pb-2 border-gray-600">Goals and Lifestyle</h2>
+
+                <!-- Fitness Goal (Multiple choice) -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2"><span class="required-label">Fitness Goal</span></label>
+                    <p class="text-sm text-main-fitra mb-3 font-semibold">You can choose more than one goal</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="goal-fatloss" name="fitness_goal" value="Fat loss" class="custom-checkbox-input" required>
+                            <label for="goal-fatloss" class="custom-label w-full">Fat Loss</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="goal-muscle" name="fitness_goal" value="Increase Muscle Mass" class="custom-checkbox-input">
+                            <label for="goal-muscle" class="custom-label w-full">Increase Muscle Mass</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="goal-strength" name="fitness_goal" value="Increase Strength" class="custom-checkbox-input">
+                            <label for="goal-strength" class="custom-label w-full">Increase Strength</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="goal-endurance" name="fitness_goal" value="Increase Endurance" class="custom-checkbox-input">
+                            <label for="goal-endurance" class="custom-label w-full">Increase Endurance</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="goal-functional" name="fitness_goal" value="Train for functionality" class="custom-checkbox-input">
+                            <label for="goal-functional" class="custom-label w-full">Train for Functionality</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="goal-fun" name="fitness_goal" value="Having Fun and avoid routine stress" class="custom-checkbox-input">
+                            <label for="goal-fun" class="custom-label w-full">Having Fun and Avoid Routine Stress</label>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="goal-rehab" name="fitness_goal" value="Post rehabilitation strength" class="custom-checkbox-input">
+                            <label for="goal-rehab" class="custom-label w-full">Post Rehabilitation Strength</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Meals per day -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2"><span class="required-label">How many meals can you eat per day?</span></label>
+                    <p class="text-sm text-main-fitra mb-3 font-semibold">Best recommended (3 - 4)</p>
+                    <div class="grid grid-cols-3 md:grid-cols-5 gap-2">
+                        <div><input type="radio" id="meals-1" name="meals_per_day" value="1 meal" required class="custom-radio-input"><label for="meals-1" class="custom-label w-full">A meal</label></div>
+                        <div><input type="radio" id="meals-2" name="meals_per_day" value="2 meals" required class="custom-radio-input"><label for="meals-2" class="custom-label w-full">2 meals</label></div>
+                        <div><input type="radio" id="meals-3" name="meals_per_day" value="3 meals" required class="custom-radio-input"><label for="meals-3" class="custom-label w-full">3 meals</label></div>
+                        <div><input type="radio" id="meals-4" name="meals_per_day" value="4 meals" required class="custom-radio-input"><label for="meals-4" class="custom-label w-full">4 meals</label></div>
+                        <div><input type="radio" id="meals-5" name="meals_per_day" value="5 meals" required class="custom-radio-input"><label for="meals-5" class="custom-label w-full">5 meals</label></div>
+                    </div>
+                </div>
+
+                <!-- Budget -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2"><span class="required-label">How much can you spend daily on your training food?</span></label>
+                    <p class="text-sm text-gray-400 mb-3">The more budget we have, the better results we can get. (This also includes food you already have at home, in case you’re living away from family).</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div><input type="radio" id="budget-1" name="food_budget" value="Less than 100 Bucks daily" required class="custom-radio-input"><label for="budget-1" class="custom-label w-full">Less than 100 Bucks daily</label></div>
+                        <div><input type="radio" id="budget-2" name="food_budget" value="100 - 150 Bucks daily" required class="custom-radio-input"><label for="budget-2" class="custom-label w-full">100 - 150 Bucks daily</label></div>
+                        <div><input type="radio" id="budget-3" name="food_budget" value="150 - 200 Bucks daily" required class="custom-radio-input"><label for="budget-3" class="custom-label w-full">150 - 200 Bucks daily</label></div>
+                        <div><input type="radio" id="budget-4" name="food_budget" value="More than 200 Bucks Daily" required class="custom-radio-input"><label for="budget-4" class="custom-label w-full">More than 200 Bucks Daily</label></div>
+                    </div>
+                </div>
+
+                <!-- Measuring Scale -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2"><span class="required-label">Do you have a measuring scale or would you measure with spoons (not accurate)?</span></label>
+                    <div class="flex flex-wrap gap-4">
+                        <div><input type="radio" id="scale-yes" name="measuring_scale" value="I do have" required class="custom-radio-input"><label for="scale-yes" class="custom-label">I do have</label></div>
+                        <div><input type="radio" id="scale-no" name="measuring_scale" value="No I dont" required class="custom-radio-input"><label for="scale-no" class="custom-label">No, I don't</label></div>
+                        <div><input type="radio" id="scale-will" name="measuring_scale" value="I dont but I will" required class="custom-radio-input"><label for="scale-will" class="custom-label">I don't, but I will</label></div>
+                    </div>
+                </div>
+                
+                <!-- Available days for workout -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2"><span class="required-label">Available days for workout?</span></label>
+                    <div class="grid grid-cols-3 md:grid-cols-6 gap-2">
+                        <div><input type="radio" id="days-1" name="workout_days" value="1 day" required class="custom-radio-input"><label for="days-1" class="custom-label w-full">1 day</label></div>
+                        <div><input type="radio" id="days-2" name="workout_days" value="2 days" required class="custom-radio-input"><label for="days-2" class="custom-label w-full">2 days</label></div>
+                        <div><input type="radio" id="days-3" name="workout_days" value="3 days" required class="custom-radio-input"><label for="days-3" class="custom-label w-full">3 days</label></div>
+                        <div><input type="radio" id="days-4" name="workout_days" value="4 days" required class="custom-radio-input"><label for="days-4" class="custom-label w-full">4 days</label></div>
+                        <div><input type="radio" id="days-5" name="workout_days" value="5 days" required class="custom-radio-input"><label for="days-5" class="custom-label w-full">5 days</label></div>
+                        <div><input type="radio" id="days-6" name="workout_days" value="6 days" required class="custom-radio-input"><label for="days-6" class="custom-label w-full">6 days</label></div>
+                    </div>
+                </div>
+                
+                <!-- Training Location -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2"><span class="required-label">Do you seek training at home or at the gym?</span></label>
+                    <div class="flex flex-wrap gap-4">
+                        <div><input type="radio" id="location-gym" name="training_location" value="Gym" required class="custom-radio-input"><label for="location-gym" class="custom-label">Gym</label></div>
+                        <div><input type="radio" id="location-home" name="training_location" value="Home" required class="custom-radio-input"><label for="location-home" class="custom-label">Home</label></div>
+                    </div>
+                </div>
+
+                <!-- Daily/Weekly Habit -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2" for="habit"><span class="required-label">Do you have any daily or weekly habit (good or bad)?</span></label>
+                    <p class="text-sm text-gray-400 mb-3">Example: (weekly football match - Go to work walking on foot - smoking)</p>
+                    <textarea id="habit" name="habit" rows="3" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Your answer"></textarea>
+                </div>
+
+                <!-- Nutrition in the past -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2" for="past_nutrition"><span class="required-label">Tell me about your nutrition in the past 6-3 months (How many meals, type of food)</span></label>
+                    <textarea id="past_nutrition" name="past_nutrition" rows="4" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Your answer"></textarea>
+                </div>
+                
+                <!-- Your Plan (Rare, Epic, Legendary) -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2"><span class="required-label">Your Plan</span></label>
+                    <div class="flex flex-wrap gap-4">
+                        <div><input type="radio" id="plan-rare" name="plan_type" value="Rare" required class="custom-radio-input"><label for="plan-rare" class="custom-label">🟦 Rare</label></div>
+                        <div><input type="radio" id="plan-epic" name="plan_type" value="Epic" required class="custom-radio-input"><label for="plan-epic" class="custom-label">🟪 Epic</label></div>
+                        <div><input type="radio" id="plan-legendary" name="plan_type" value="Legendary" required class="custom-radio-input"><label for="plan-legendary" class="custom-label">🟨 Legendary</label></div>
+                    </div>
+                </div>
+                
+                <!-- Illness or injury -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2" for="illness"><span class="required-label">Do you suffer from any illness or injury that affects your performance (If Yes explain)</span></label>
+                    <textarea id="illness" name="illness" rows="3" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Your answer"></textarea>
+                </div>
+
+                <!-- Play Any Sports Besides the gym -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2" for="other_sports">Do You Play Any Sports Besides the gym (If Yes explain)</label>
+                    <textarea id="other_sports" name="other_sports" rows="3" class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Your answer (Optional)"></textarea>
+                </div>
+
+            </section>
+
+            <!-- Commitment Section -->
+            <section class="p-5 bg-section-dark-bg rounded-lg shadow-inner">
+                <h2 class="text-2xl font-bold text-main-fitra mb-6 border-b pb-2 border-gray-600">Commitment and Confidence</h2>
+
+                <!-- Have You Ever Hit The GYM Before -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2"><span class="required-label">Have You Ever Hit The GYM Before?</span></label>
+                    <div class="flex flex-wrap gap-4">
+                        <div><input type="radio" id="gym-yes" name="gym_before" value="Yes" required class="custom-radio-input"><label for="gym-yes" class="custom-label">Yes</label></div>
+                        <div><input type="radio" id="gym-no" name="gym_before" value="No" required class="custom-radio-input"><label for="gym-no" class="custom-label">No</label></div>
+                    </div>
+                </div>
+                
+                <!-- Are You Confident Enough to Take Up sports lifestyle -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2"><span class="required-label">Are You Confident Enough to Take Up a Sports Lifestyle?</span></label>
+                    <div class="flex flex-wrap gap-4">
+                        <div><input type="radio" id="confidence-abs" name="confidence" value="Absolutely" required class="custom-radio-input"><label for="confidence-abs" class="custom-label">Absolutely</label></div>
+                        <div><input type="radio" id="confidence-maybe" name="confidence" value="Maybe" required class="custom-radio-input"><label for="confidence-maybe" class="custom-label">Maybe</label></div>
+                        <div><input type="radio" id="confidence-no" name="confidence" value="No" required class="custom-radio-input"><label for="confidence-no" class="custom-label">No</label></div>
+                    </div>
+                </div>
+
+                <!-- In Case of Lack of Continuity Will You Come Back Again? -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2"><span class="required-label">In Case of Lack of Continuity, Will You Come Back Again?</span></label>
+                    <div class="flex flex-wrap gap-4">
+                        <div><input type="radio" id="return-abs" name="return_continuity" value="Absolutely" required class="custom-radio-input"><label for="return-abs" class="custom-label">Absolutely</label></div>
+                        <div><input type="radio" id="return-not-sure" name="return_continuity" value="Not sure" required class="custom-radio-input"><label for="return-not-sure" class="custom-label">Not sure</label></div>
+                    </div>
+                </div>
+
+                <!-- How did you hear about FITRA -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2"><span class="required-label">How did you hear about "FITRA"?</span></label>
+                    <p class="text-sm text-gray-400 mb-3">You can choose more than one option.</p>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        <div><input type="checkbox" id="hear-friend" name="how_hear" value="A friend" class="custom-checkbox-input"><label for="hear-friend" class="custom-label w-full">A friend</label></div>
+                        <div><input type="checkbox" id="hear-facebook" name="how_hear" value="Facebook" class="custom-checkbox-input"><label for="hear-facebook" class="custom-label w-full">Facebook</label></div>
+                        <div><input type="checkbox" id="hear-instagram" name="how_hear" value="Instagram" class="custom-checkbox-input"><label for="hear-instagram" class="custom-label w-full">Instagram</label></div>
+                        <div><input type="checkbox" id="hear-tiktok" name="how_hear" value="Tiktok" class="custom-checkbox-input"><label for="hear-tiktok" class="custom-label w-full">TikTok</label></div>
+                        <div><input type="checkbox" id="hear-other" name="how_hear" value="Other" class="custom-checkbox-input"><label for="hear-other" class="custom-label w-full">Other</label></div>
+                    </div>
+                </div>
+                
+                <!-- How do you recommend us to a friend -->
+                <div class="mb-6">
+                    <label class="block text-lg font-medium mb-2"><span class="required-label">How do you recommend us to a friend?</span></label>
+                    <div class="flex justify-between mt-4">
+                        <span class="text-sm text-gray-400">1 (Not Recommended)</span>
+                        <span class="text-sm text-gray-400">5 (Highly Recommended)</span>
+                    </div>
+                    <!-- تم إزالة bg-gray-700 و border border-gray-700 -->
+                    <div class="flex justify-between items-center p-3 rounded-lg"> 
+                        <div class="flex justify-around w-full">
+                            <div><input type="radio" id="rating-1" name="recommendation_rating" value="1" required class="custom-radio-input"><label for="rating-1" class="custom-label text-center p-2">1</label></div>
+                            <div><input type="radio" id="rating-2" name="recommendation_rating" value="2" required class="custom-radio-input"><label for="rating-2" class="custom-label text-center p-2">2</label></div>
+                            <div><input type="radio" id="rating-3" name="recommendation_rating" value="3" required class="custom-radio-input"><label for="rating-3" class="custom-label text-center p-2">3</label></div>
+                            <div><input type="radio" id="rating-4" name="recommendation_rating" value="4" required class="custom-radio-input"><label for="rating-4" class="custom-label text-center p-2">4</label></div>
+                            <div><input type="radio" id="rating-5" name="recommendation_rating" value="5" required class="custom-radio-input"><label for="rating-5" class="custom-label text-center p-2">5</label></div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            
+            <!-- Submit and Clear Buttons -->
+            <div class="flex flex-col md:flex-row justify-between gap-4 pt-6 border-t border-gray-600">
+                <button type="submit" class="bg-main-fitra hover:bg-second-fitra text-black font-bold py-3 px-6 rounded-xl shadow-lg transition duration-300 transform hover:scale-[1.01] hover:text-white">
+                    Submit
+                </button>
+                <button type="button" id="clear-form-btn" class="bg-red-700 hover:bg-red-800 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition duration-300 transform hover:scale-[1.01]">
+                    Clear Form
+                </button>
+            </div>
+            
+        </form>
+        
+        <!-- Notification Message Box (Replaces alert()) -->
+        <div id="message-box" class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-main-fitra text-black p-4 rounded-lg shadow-xl hidden transition-opacity duration-300 z-50" role="alert">
+            Form submitted successfully! Thank you.
+        </div>
+
+    </div>
+
+    <script>
+        // JavaScript for conditional logic and form validation
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('fitra-form');
+            const maleRadio = document.getElementById('gender-male');
+            const femaleRadio = document.getElementById('gender-female');
+            const maleSection = document.getElementById('male-photo-section');
+            const femaleSection = document.getElementById('female-measurements-section');
+            const malePhotosInput = document.getElementById('male_photos');
+            const femaleMeasurementsInput = document.getElementById('female_measurements');
+            const clearBtn = document.getElementById('clear-form-btn');
+            const messageBox = document.getElementById('message-box');
+            const phoneInput = document.getElementById('phone');
+
+            // Function to show notification messages
+            function showMessage(message, isError = false) {
+                messageBox.textContent = message;
+                // Ensure visibility and correct color
+                messageBox.classList.remove('hidden', 'bg-main-fitra', 'bg-red-500', 'text-black', 'text-white');
+                
+                if (isError) {
+                    messageBox.classList.add('bg-red-500', 'text-white');
+                } else {
+                    messageBox.classList.add('bg-main-fitra', 'text-black');
+                }
+
+                messageBox.classList.add('opacity-100');
+                
+                setTimeout(() => {
+                    messageBox.classList.add('hidden');
+                    messageBox.classList.remove('opacity-100');
+                }, 4000);
+            }
+
+            // **1. Gender Conditional Logic**
+            function toggleGenderFields() {
+                // Hide all conditional sections and remove required attribute first
+                maleSection.classList.add('hidden');
+                femaleSection.classList.add('hidden');
+                malePhotosInput.removeAttribute('required');
+                femaleMeasurementsInput.removeAttribute('required');
+
+                if (maleRadio.checked) {
+                    // Male selected: show photo section and make it required
+                    maleSection.classList.remove('hidden');
+                    malePhotosInput.setAttribute('required', 'required');
+                } else if (femaleRadio.checked) {
+                    // Female selected: show measurement section and make it required
+                    femaleSection.classList.remove('hidden');
+                    femaleMeasurementsInput.setAttribute('required', 'required');
+                }
+            }
+
+            // Add event listeners for gender radio buttons
+            maleRadio.addEventListener('change', toggleGenderFields);
+            femaleRadio.addEventListener('change', toggleGenderFields);
+
+            // Run on load to set initial state
+            toggleGenderFields();
+
+
+            // **2. Form Submission Handler**
+            form.addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevent default submission
+
+                if (!form.checkValidity()) {
+                    showMessage("Please review the form data. There are missing or incorrect required fields.", true);
+                    return;
+                }
+
+                const formData = new FormData(form);
+                const data = {};
+                
+                // Get phone number for specific validation
+                const phoneNumber = formData.get('phone');
+                
+                // **Custom Validation: Phone Number must start with '01'**
+                if (phoneNumber && !phoneNumber.startsWith('01')) {
+                    showMessage("The Phone Number must start with '01'.", true);
+                    phoneInput.focus();
+                    return; // Stop submission
+                }
+                // End custom validation
+
+                // Collect form data (handling multiple checkboxes)
+                for (const [key, value] of formData.entries()) {
+                    if (data[key]) {
+                        if (Array.isArray(data[key])) {
+                            data[key].push(value);
+                        } else {
+                            data[key] = [data[key], value];
+                        }
+                    } else {
+                        data[key] = value;
+                    }
+                }
+
+                // Log data to console (in a real app, this would be an API call)
+                console.log("--- Form Data Submitted (to be sent to server) ---");
+                console.log(data);
+
+                // Show success message
+                showMessage("Form submitted successfully! Thank you.");
+
+                // Optional: Clear form after successful submission
+                // form.reset();
+                // toggleGenderFields();
+            });
+            
+            // **3. Clear Form Handler**
+            clearBtn.addEventListener('click', () => {
+                form.reset();
+                toggleGenderFields(); // Reset gender conditional fields
+                showMessage("Form fields have been cleared.");
+            });
+        });
+    </script>
+</body>
+</html>

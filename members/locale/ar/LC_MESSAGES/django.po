@@ -1,0 +1,617 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-25 14:44+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: .\members\models.py:126
+msgid "Governrate name"
+msgstr "أسم المحافظة"
+
+#: .\members\models.py:131
+msgid "Meals number"
+msgstr "عدد الوجبات"
+
+#: .\members\models.py:132
+msgid "Gym or home"
+msgstr "جيم ولا في البيت"
+
+#: .\members\models.py:133
+msgid "Workout available days"
+msgstr "أيام التمرين المتاحة"
+
+#: .\members\models.py:134
+msgid "Daily spend"
+msgstr "المصاريف اليومية"
+
+#: .\members\models.py:135
+msgid "Having measurement scale"
+msgstr "معاك ميزان قياس؟"
+
+#: .\members\models.py:136
+msgid "Previous Nutrition"
+msgstr "نظام أكلك قبل كده"
+
+#: .\members\models.py:137
+msgid "Injuries"
+msgstr "إصابات"
+
+#: .\members\models.py:138
+msgid "Previous gym"
+msgstr "كنت بتتمرن في جيم قبل كده؟"
+
+#: .\members\models.py:139
+msgid "Another Sports"
+msgstr "رياضات تانية بتلعبها"
+
+#: .\members\models.py:140
+msgid "Any Habits"
+msgstr "عاداتك اليومية"
+
+#: .\members\models.py:141
+msgid "Confidence"
+msgstr "ثقتك في نفسك"
+
+#: .\members\models.py:142
+msgid "Comeback"
+msgstr "لو بطلت، هترجع تكمّل؟"
+
+#: .\members\models.py:143
+msgid "Hear about us"
+msgstr "عرفتنا منين؟"
+
+#: .\members\models.py:148 .\members\templates\members\form.html:305
+msgid "Fitness Goal"
+msgstr "هدفك الرياضي"
+
+#: .\members\models.py:151
+msgid "Join Date"
+msgstr "تاريخ الانضمام"
+
+#: .\members\models.py:152
+msgid "Name"
+msgstr "الاسم"
+
+#: .\members\models.py:153 .\members\templates\members\form.html:169
+msgid "Age"
+msgstr "السن"
+
+#: .\members\models.py:154
+msgid "Height (cm)"
+msgstr "الطول (سم)"
+
+#: .\members\models.py:155
+msgid "Weight (kg)"
+msgstr "الوزن (كجم)"
+
+#: .\members\models.py:156 .\members\templates\members\form.html:187
+msgid "Weight Measurement Date"
+msgstr "تاريخ قياس الوزن"
+
+#: .\members\models.py:157
+msgid "Whatsapp Number"
+msgstr "رقم الواتساب"
+
+#: .\members\models.py:158
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+#: .\members\models.py:159
+msgid "Telegram User"
+msgstr "اسم مستخدم تيليجرام"
+
+#: .\members\models.py:161 .\members\templates\members\form.html:194
+msgid "Gender"
+msgstr "النوع"
+
+#: .\members\models.py:162
+msgid "Education"
+msgstr "المستوى الدراسي"
+
+#: .\members\models.py:164
+msgid "Plan"
+msgstr "الخطة"
+
+#: .\members\models.py:165
+msgid "Recommend us"
+msgstr "ترشحنا لحد؟"
+
+#: .\members\models.py:172
+msgid "images"
+msgstr "الصور"
+
+#: .\members\templates\members\form.html:150
+msgid "Registration Form"
+msgstr "نموذج التسجيل"
+
+#: .\members\templates\members\form.html:158
+msgid "Personal Information"
+msgstr "البيانات الشخصية"
+
+#: .\members\templates\members\form.html:162
+msgid "Full Name"
+msgstr "الاسم بالكامل"
+
+#: .\members\templates\members\form.html:174
+msgid "Height (CM)"
+msgstr "الطول (سم)"
+
+#: .\members\templates\members\form.html:182
+msgid "Current Weight (KG)"
+msgstr "الوزن الحالي (كجم)"
+
+#: .\members\templates\members\form.html:198
+msgid "Male"
+msgstr "ذكر"
+
+#: .\members\templates\members\form.html:202
+msgid "Female"
+msgstr "أنثى"
+
+#: .\members\templates\members\form.html:210
+msgid ""
+"If you are a male, insert 4 photos from umbilicus to above (2 sides - face - "
+"back)"
+msgstr "لو راجل، ابعت ٤ صور من منطقة السُرّة لحد فوق (الجانبين، الوجه، والظهر)"
+
+#: .\members\templates\members\form.html:212
+msgid "Upload up to 5 supported files: image. Max 10 MB per file."
+msgstr "ارفع لحد ٥ صور، كل صورة حجمها مايزدش عن ١٠ ميجا."
+
+#: .\members\templates\members\form.html:224
+msgid ""
+"If you are a female, send your Circumferential measurements by measuring tape"
+msgstr "لو بنت، ابعتي قياساتك بالمتر (محيط الجسم)."
+
+#: .\members\templates\members\form.html:226
+msgid ""
+"Right and Left (Arms & Thighs) - Waist - Belly from level of umbilicus - "
+"Chest"
+msgstr "يمين وشمال (الدرعات والفخذين) - الوسط - البطن عند السُرّة - الصدر"
+
+#: .\members\templates\members\form.html:232
+msgid "Occupation or Academic Year"
+msgstr "الوظيفة أو السنة الدراسية"
+
+#: .\members\templates\members\form.html:238
+msgid "Place of Living"
+msgstr "مكان السكن"
+
+#: .\members\templates\members\form.html:240
+msgid "Choose Governorate"
+msgstr "اختار المحافظة"
+
+#: .\members\templates\members\form.html:242
+msgid "Alexandria"
+msgstr "الإسكندرية"
+
+#: .\members\templates\members\form.html:243
+msgid "Aswan"
+msgstr "أسوان"
+
+#: .\members\templates\members\form.html:244
+msgid "Asyut"
+msgstr "أسيوط"
+
+#: .\members\templates\members\form.html:245
+msgid "Beheira"
+msgstr "البحيرة"
+
+#: .\members\templates\members\form.html:246
+msgid "Beni Suef"
+msgstr "بني سويف"
+
+#: .\members\templates\members\form.html:247
+msgid "Cairo"
+msgstr "القاهرة"
+
+#: .\members\templates\members\form.html:248
+msgid "Dakahlia"
+msgstr "الدقهلية"
+
+#: .\members\templates\members\form.html:249
+msgid "Damietta"
+msgstr "دمياط"
+
+#: .\members\templates\members\form.html:250
+msgid "Faiyum"
+msgstr "الفيوم"
+
+#: .\members\templates\members\form.html:251
+msgid "Gharbia"
+msgstr "الغربية"
+
+#: .\members\templates\members\form.html:252
+msgid "Giza"
+msgstr "الجيزة"
+
+#: .\members\templates\members\form.html:253
+msgid "Ismailia"
+msgstr "الإسماعيلية"
+
+#: .\members\templates\members\form.html:254
+msgid "Kafr El Sheikh"
+msgstr "كفر الشيخ"
+
+#: .\members\templates\members\form.html:255
+msgid "Luxor"
+msgstr "الأقصر"
+
+#: .\members\templates\members\form.html:256
+msgid "Matruh"
+msgstr "مطروح"
+
+#: .\members\templates\members\form.html:257
+msgid "Minya"
+msgstr "المنيا"
+
+#: .\members\templates\members\form.html:258
+msgid "Monufia"
+msgstr "المنوفية"
+
+#: .\members\templates\members\form.html:259
+msgid "New Valley (Wadi El Gedid)"
+msgstr "الوادي الجديد"
+
+#: .\members\templates\members\form.html:260
+msgid "North Sinai"
+msgstr "شمال سينا"
+
+#: .\members\templates\members\form.html:261
+msgid "Port Said"
+msgstr "بورسعيد"
+
+#: .\members\templates\members\form.html:262
+msgid "Qalyubia"
+msgstr "القليوبية"
+
+#: .\members\templates\members\form.html:263
+msgid "Qena"
+msgstr "قنا"
+
+#: .\members\templates\members\form.html:264
+msgid "Red Sea"
+msgstr "البحر الأحمر"
+
+#: .\members\templates\members\form.html:265
+msgid "Sharqia"
+msgstr "الشرقية"
+
+#: .\members\templates\members\form.html:266
+msgid "Sohag"
+msgstr "سوهاج"
+
+#: .\members\templates\members\form.html:267
+msgid "South Sinai"
+msgstr "جنوب سينا"
+
+#: .\members\templates\members\form.html:268
+msgid "Suez"
+msgstr "السويس"
+
+#: .\members\templates\members\form.html:277
+msgid "Contact Details"
+msgstr "بيانات التواصل"
+
+#: .\members\templates\members\form.html:281
+msgid "Phone Number (with WhatsApp)"
+msgstr "رقم التليفون (واتساب)"
+
+#: .\members\templates\members\form.html:283
+msgid "Must start with 01"
+msgstr "لازم يبدأ بـ 01"
+
+#: .\members\templates\members\form.html:288
+msgid "Email (Optional)"
+msgstr "الإيميل (اختياري)"
+
+#: .\members\templates\members\form.html:294
+msgid "Telegram User (Optional)"
+msgstr "تيليجرام (اختياري)"
+
+#: .\members\templates\members\form.html:301
+msgid "Goals and Lifestyle"
+msgstr "الأهداف ونمط حياتك"
+
+#: .\members\templates\members\form.html:306
+msgid "You can choose more than one goal"
+msgstr "تقدر تختار أكتر من هدف"
+
+#: .\members\templates\members\form.html:310
+msgid "Fat Loss"
+msgstr "خسارة دهون"
+
+#: .\members\templates\members\form.html:314
+msgid "Increase Muscle Mass"
+msgstr "زيادة العضلات"
+
+#: .\members\templates\members\form.html:318
+msgid "Increase Strength"
+msgstr "زيادة القوة"
+
+#: .\members\templates\members\form.html:322
+msgid "Increase Endurance"
+msgstr "زيادة التحمل"
+
+#: .\members\templates\members\form.html:326
+msgid "Train for Functionality"
+msgstr "تدريب لتحسين الأداء العام"
+
+#: .\members\templates\members\form.html:330
+msgid "Having Fun and Avoid Routine Stress"
+msgstr "التمرين للمتعة وكسر الروتين"
+
+#: .\members\templates\members\form.html:334
+msgid "Post Rehabilitation Strength"
+msgstr "استرجاع القوة بعد الإصابة"
+
+#: .\members\templates\members\form.html:342
+msgid "How many meals can you eat per day?"
+msgstr "بتقدر تاكل كام وجبة في اليوم؟"
+
+#: .\members\templates\members\form.html:343
+msgid "Best recommended (3 - 4)"
+msgstr "المفضل من ٣ لـ ٤ وجبات"
+
+#: .\members\templates\members\form.html:345
+msgid "A meal"
+msgstr "وجبة واحدة"
+
+#: .\members\templates\members\form.html:346
+msgid "2 meals"
+msgstr "وجبتين"
+
+#: .\members\templates\members\form.html:347
+msgid "3 meals"
+msgstr "٣ وجبات"
+
+#: .\members\templates\members\form.html:348
+msgid "4 meals"
+msgstr "٤ وجبات"
+
+#: .\members\templates\members\form.html:349
+msgid "5 meals"
+msgstr "٥ وجبات"
+
+#: .\members\templates\members\form.html:355
+msgid "How much can you spend daily on your training food?"
+msgstr "تقدر تصرف كام في اليوم على أكل التمرين؟"
+
+#: .\members\templates\members\form.html:356
+msgid ""
+"The more budget we have, the better results we can get. (This also includes "
+"food you already have at home, in case you’re living away from family)."
+msgstr ""
+"كل ما الميزانية زادت، النتايج بتكون أحسن. (وده يشمل الأكل اللي عندك في البيت "
+"كمان لو ساكن بعيد عن أهلك)."
+
+#: .\members\templates\members\form.html:358
+msgid "Less than 100 Bucks daily"
+msgstr "أقل من ١٠٠ جنيه في اليوم"
+
+#: .\members\templates\members\form.html:359
+msgid "100 - 150 Bucks daily"
+msgstr "من ١٠٠ لـ ١٥٠ جنيه في اليوم"
+
+#: .\members\templates\members\form.html:360
+msgid "150 - 200 Bucks daily"
+msgstr "من ١٥٠ لـ ٢٠٠ جنيه في اليوم"
+
+#: .\members\templates\members\form.html:361
+msgid "More than 200 Bucks Daily"
+msgstr "أكتر من ٢٠٠ جنيه في اليوم"
+
+#: .\members\templates\members\form.html:367
+msgid ""
+"Do you have a measuring scale or would you measure with spoons (not "
+"accurate)?"
+msgstr "معاك ميزان للمقادير ولا بتقيس بالمعلقة (مش دقيق)؟"
+
+#: .\members\templates\members\form.html:369
+msgid "I do have"
+msgstr "آه، عندي"
+
+#: .\members\templates\members\form.html:370
+msgid "No, I don't"
+msgstr "لأ، ماعنديش"
+
+#: .\members\templates\members\form.html:371
+msgid "I don't, but I will"
+msgstr "ما عنديش، بس هجيب"
+
+#: .\members\templates\members\form.html:377
+msgid "Available days for workout?"
+msgstr "عندك كام يوم متاح للتمرين؟"
+
+#: .\members\templates\members\form.html:379
+msgid "1 day"
+msgstr "يوم واحد"
+
+#: .\members\templates\members\form.html:380
+msgid "2 days"
+msgstr "يومين"
+
+#: .\members\templates\members\form.html:381
+msgid "3 days"
+msgstr "٣ أيام"
+
+#: .\members\templates\members\form.html:382
+msgid "4 days"
+msgstr "٤ أيام"
+
+#: .\members\templates\members\form.html:383
+msgid "5 days"
+msgstr "٥ أيام"
+
+#: .\members\templates\members\form.html:384
+msgid "6 days"
+msgstr "٦ أيام"
+
+#: .\members\templates\members\form.html:390
+msgid "Do you seek training at home or at the gym?"
+msgstr "تحب تتمرن في البيت ولا في الجيم؟"
+
+#: .\members\templates\members\form.html:392
+msgid "Gym"
+msgstr "جيم"
+
+#: .\members\templates\members\form.html:393
+msgid "Home"
+msgstr "في البيت"
+
+#: .\members\templates\members\form.html:399
+msgid "Do you have any daily or weekly habit (good or bad)?"
+msgstr "عندك عادة يومية أو أسبوعية (كويسة أو وحشة)؟"
+
+#: .\members\templates\members\form.html:400
+msgid "Example: (weekly football match - Go to work walking on foot - smoking)"
+msgstr "زي مثلًا (ماتش كورة أسبوعي - تروح الشغل ماشي - بتدخن)"
+
+#: .\members\templates\members\form.html:401
+#: .\members\templates\members\form.html:407
+#: .\members\templates\members\form.html:423
+msgid "Your answer"
+msgstr "إجابتك"
+
+#: .\members\templates\members\form.html:406
+msgid ""
+"Tell me about your nutrition in the past 6-3 months (How many meals, type of "
+"food)"
+msgstr "احكيلي عن أكلك في آخر ٣ لـ ٦ شهور (عدد الوجبات ونوع الأكل)"
+
+#: .\members\templates\members\form.html:412
+msgid "Your Plan"
+msgstr "الخطة بتاعتك"
+
+#: .\members\templates\members\form.html:414
+msgid "Rare"
+msgstr "مميزة"
+
+#: .\members\templates\members\form.html:415
+msgid "Epic"
+msgstr "استثنائية"
+
+#: .\members\templates\members\form.html:416
+msgid "Legendary"
+msgstr "أسطورية"
+
+#: .\members\templates\members\form.html:422
+msgid ""
+"Do you suffer from any illness or injury that affects your performance (If "
+"Yes explain)"
+msgstr "عندك أي مرض أو إصابة بتأثر على أدائك؟ (لو آه، وضّح)"
+
+#: .\members\templates\members\form.html:428
+msgid "Do You Play Any Sports Besides the gym (If Yes explain)"
+msgstr "بتلعب رياضة تانية غير الجيم؟ (لو آه، وضّح)"
+
+#: .\members\templates\members\form.html:429
+msgid "Your answer (Optional)"
+msgstr "إجابتك (اختياري)"
+
+#: .\members\templates\members\form.html:434
+msgid "Commitment and Confidence"
+msgstr "الالتزام والثقة"
+
+#: .\members\templates\members\form.html:438
+#, fuzzy
+#| msgid "Have you ever been to the gym before?"
+msgid "Have You Ever Hit The GYM Before?"
+msgstr "رحت الجيم قبل كده؟"
+
+#: .\members\templates\members\form.html:440
+msgid "Yes"
+msgstr "آه"
+
+#: .\members\templates\members\form.html:441
+#: .\members\templates\members\form.html:451
+msgid "No"
+msgstr "لأ"
+
+#: .\members\templates\members\form.html:447
+msgid "Are You Confident Enough to Take Up a Sports Lifestyle?"
+msgstr "واثق إنك تقدر تلتزم بنظام رياضي؟"
+
+#: .\members\templates\members\form.html:449
+#: .\members\templates\members\form.html:459
+msgid "Absolutely"
+msgstr "أكيد"
+
+#: .\members\templates\members\form.html:450
+msgid "Maybe"
+msgstr "ممكن"
+
+#: .\members\templates\members\form.html:457
+msgid "In Case of Lack of Continuity, Will You Come Back Again?"
+msgstr "لو ملتزمتش او مكملتش، ناوي ترجع تاني؟"
+
+#: .\members\templates\members\form.html:460
+msgid "Not sure"
+msgstr "مش متأكد"
+
+#: .\members\templates\members\form.html:466
+msgid "How did you hear about \"FITRA\"?"
+msgstr "عرفت فطرة منين؟"
+
+#: .\members\templates\members\form.html:467
+msgid "You can choose more than one option."
+msgstr "تقدر تختار أكتر من اختيار."
+
+#: .\members\templates\members\form.html:469
+msgid "A friend"
+msgstr "صاحب"
+
+#: .\members\templates\members\form.html:470
+msgid "Facebook"
+msgstr "فيسبوك"
+
+#: .\members\templates\members\form.html:471
+msgid "Instagram"
+msgstr "إنستجرام"
+
+#: .\members\templates\members\form.html:472
+msgid "TikTok"
+msgstr "تيك توك"
+
+#: .\members\templates\members\form.html:473
+msgid "Other"
+msgstr "حاجة تانية"
+
+#: .\members\templates\members\form.html:479
+msgid "How do you recommend us to a friend?"
+msgstr "قد إيه ممكن ترشحنا لصحابك؟"
+
+#: .\members\templates\members\form.html:481
+msgid "1 (Not Recommended)"
+msgstr "١ (مش هترشحنا)"
+
+#: .\members\templates\members\form.html:482
+msgid "5 (Highly Recommended)"
+msgstr "٥ (أنصح بيكم جدًا)"
+
+#: .\members\templates\members\form.html:502
+msgid "Submit"
+msgstr "إرسال"
+
+#: .\members\templates\members\form.html:505
+msgid "Clear Form"
+msgstr "مسح البيانات"
+
+#: .\members\templates\members\form.html:513
+msgid "Form submitted successfully! Thank you."
+msgstr "تم إرسال النموذج بنجاح! شكرًا ليك."

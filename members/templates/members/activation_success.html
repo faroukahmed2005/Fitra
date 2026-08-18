@@ -1,0 +1,307 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="{{ member.preferred_language }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if member.preferred_language == 'ar' %}تم التفعيل بنجاح{% else %}Activation Successful{% endif %}</title>
+    <link rel="icon" type="image/png" href="{% static 'img/logo-H.png' %}">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: {% if member.preferred_language == 'ar' %}'Cairo', sans-serif{% else %}'Inter', sans-serif{% endif %};
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            {% if member.preferred_language == 'ar' %}direction: rtl;{% endif %}
+        }
+        
+        .success-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .success-header {
+            background: linear-gradient(135deg, rgb(71, 221, 71) 0%, rgb(37, 121, 37) 100%);
+            padding: 50px 30px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+        
+        .checkmark-circle {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: scaleIn 0.5s ease-out 0.3s both;
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+        
+        .checkmark {
+            font-size: 50px;
+            color: rgb(71, 221, 71);
+        }
+        
+        .success-header h1 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .success-header p {
+            font-size: 18px;
+            opacity: 0.95;
+        }
+        
+        .success-content {
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .welcome-message {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .info-message {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+        
+        .features {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: {% if member.preferred_language == 'ar' %}right{% else %}left{% endif %};
+        }
+        
+        .features h3 {
+            color: rgb(37, 121, 37);
+            font-size: 18px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 12px 0;
+            font-size: 15px;
+            color: #555;
+        }
+        
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, rgb(71, 221, 71) 0%, rgb(37, 121, 37) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .home-button {
+            display: inline-block;
+            padding: 15px 50px;
+            background: linear-gradient(135deg, rgb(71, 221, 71) 0%, rgb(37, 121, 37) 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(71, 221, 71, 0.4);
+        }
+        
+        .home-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(71, 221, 71, 0.6);
+        }
+        
+        .home-button i {
+            margin-{% if member.preferred_language == 'ar' %}left{% else %}right{% endif %}: 8px;
+        }
+        
+        .footer-note {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 13px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-header">
+            <div class="checkmark-circle">
+                <i class="fas fa-check checkmark"></i>
+            </div>
+            <h1>
+                {% if member.preferred_language == 'ar' %}
+                    تم التفعيل بنجاح! 🎉
+                {% else %}
+                    Successfully Activated! 🎉
+                {% endif %}
+            </h1>
+            <p>
+                {% if member.preferred_language == 'ar' %}
+                    مرحباً بك في عائلة FITRA
+                {% else %}
+                    Welcome to the FITRA Family
+                {% endif %}
+            </p>
+        </div>
+        
+        <div class="success-content">
+            <div class="welcome-message">
+                {% if member.preferred_language == 'ar' %}
+                    أهلاً {{ member.name }}! 👋
+                {% else %}
+                    Hello {{ member.name }}! 👋
+                {% endif %}
+            </div>
+            
+            <div class="info-message">
+                {% if member.preferred_language == 'ar' %}
+                    تم تفعيل حسابك بنجاح! أنت الآن جزء من مجتمع FITRA للياقة البدنية والصحة.
+                {% else %}
+                    Your account has been successfully activated! You are now part of the FITRA fitness and health community.
+                {% endif %}
+            </div>
+            
+            <div class="features">
+                <h3>
+                    {% if member.preferred_language == 'ar' %}
+                        ما الخطوة التالية؟
+                    {% else %}
+                        What's Next?
+                    {% endif %}
+                </h3>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div>
+                        {% if member.preferred_language == 'ar' %}
+                            سنتواصل معك قريباً عبر WhatsApp لبدء رحلتك
+                        {% else %}
+                            We'll contact you soon via WhatsApp to start your journey
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <div>
+                        {% if member.preferred_language == 'ar' %}
+                            احصل على خطة تمارين مخصصة حسب أهدافك
+                        {% else %}
+                            Get a personalized workout plan based on your goals
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div>
+                        {% if member.preferred_language == 'ar' %}
+                            خطة تغذية متكاملة تناسب ميزانيتك وأهدافك
+                        {% else %}
+                            Complete nutrition plan that fits your budget and goals
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div>
+                        {% if member.preferred_language == 'ar' %}
+                            متابعة مستمرة لتقدمك ونتائجك
+                        {% else %}
+                            Continuous tracking of your progress and results
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <a href="{% url 'home:home' %}" class="home-button">
+                <i class="fas fa-home"></i>
+                {% if member.preferred_language == 'ar' %}
+                    العودة للصفحة الرئيسية
+                {% else %}
+                    Go to Home Page
+                {% endif %}
+            </a>
+            
+            <div class="footer-note">
+                {% if member.preferred_language == 'ar' %}
+                    شكراً لاختيارك FITRA - معاً نحو حياة أفضل 💪
+                {% else %}
+                    Thank you for choosing FITRA - Together towards a better life 💪
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
