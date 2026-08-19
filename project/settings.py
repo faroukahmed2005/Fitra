@@ -39,6 +39,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
     "10.0.2.2",
+    "8wvmk03f-8000.uks1.devtunnels.ms",
 ]
 
 REST_FRAMEWORK = {
