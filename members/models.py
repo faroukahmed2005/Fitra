@@ -157,6 +157,7 @@ class Member(models.Model):
     weight_measure_date = models.DateField(verbose_name=_('Weight Measurement Date'), default= datetime.date.today)
     whatsapp_number = models.CharField(verbose_name=_('Whatsapp Number'), max_length=13)
     email = models.EmailField(verbose_name=_('Email'),unique=True)
+    email_confirmed = models.BooleanField(verbose_name='Email Confirmed', default=False)
     telegram_username = models.CharField(verbose_name=_('Telegram Username'), max_length=50, blank=True, null=True)
     place = models.ForeignKey(Governorate,on_delete=models.PROTECT, related_name='user_governorate')
     gender = models.CharField(verbose_name=_('Gender'), max_length=6, choices=GENDER)

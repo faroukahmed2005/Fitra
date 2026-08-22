@@ -188,9 +188,9 @@
                         <ul>
                         {% for pf in pack.packagefeature_set.all %}
                             {% if pf.is_included %}
-                                <li><i class="bi bi-check-lg"></i>{{ pf.feature.text|safe }}</li>
+                                <li><i class="bi bi-check-lg"></i>{{ pf.feature.text}}</li>
                             {% else %}
-                                <li><i class="fas fa-times red"></i>{{ pf.feature.text|safe }}</li>
+                                <li><i class="fas fa-times red"></i>{{ pf.feature.text}}</li>
                             {% endif %}
                         {% endfor %}
                         </ul>

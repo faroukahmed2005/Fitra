@@ -87,7 +87,7 @@ def activate_account(request, token):
         pending_id = int(raw_id)
         pending = PendingRegistration.objects.get(id=pending_id)
 
-        if Member.objects.filter(email=pending.email, is_activated=True).exists():
+        if Member.objects.filter(email=pending.email, email_confirmed=True).exists():
             preferred_language = pending.preferred_language
             _delete_pending_picture_files(pending)
             pending.delete()

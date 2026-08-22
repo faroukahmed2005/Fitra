@@ -23,12 +23,11 @@ class EmailTokenObtainPairView(TokenObtainPairView):
     serializer_class = EmailTokenObtainPairSerializer
     permission_classes = [AllowAny]
 
-
 @api_view(["GET"])
 @permission_classes([AllowAny])
 @firebase_admin_required
 def get_members(request):
-    members = Member.objects.all().order_by("-join_date")
+    members = Member.objects.filter(email_confirmed=True).order_by("-join_date")
     serializer = MemberSerializer(members, many=True)
     return Response(serializer.data)
 
@@ -37,7 +36,6 @@ def get_members(request):
 # ==========================================================
 
 def _validate_activation_data(data):
-    """يتحقق من وجود الحقول المطلوبة ويرجع (errors_response, cleaned_data)"""
     member_id = data.get("member_id")
     password = data.get("password")
     deadline = data.get("deadline")
@@ -65,7 +63,6 @@ def _validate_activation_data(data):
     }
 
 def _get_activatable_member(member_id):
-    """يرجع (error_response, member)"""
     try:
         member = Member.objects.get(id=member_id)
     except Member.DoesNotExist:
@@ -104,7 +101,6 @@ def _create_firebase_trainee(member, email, password, deadline_date):
     return firebase_user
 
 def _rollback_firebase(firebase_user):
-    """يحذف يوزر Firebase ومستنده لو حصل فشل بعد إنشائه"""
     if firebase_user is None:
         return
     try:
@@ -114,7 +110,6 @@ def _rollback_firebase(firebase_user):
         pass
 
 def _activate_member_in_django(member, email, password, firebase_uid, deadline_date, trainee_code):
-    """ينشئ/يحدّث Django User ويربطه بالـ Member، جوه transaction"""
     with transaction.atomic():
         User = get_user_model()
 
@@ -197,7 +192,10 @@ def activate_trainee(request):
 @firebase_admin_required
 def get_pending_registrations(request):
 
-    members = Member.objects.filter(is_activated=False).order_by("-join_date")
+    members = Member.objects.filter(
+        is_activated=False,
+        email_confirmed=True,
+    ).order_by("-join_date")
 
     data = [
         {

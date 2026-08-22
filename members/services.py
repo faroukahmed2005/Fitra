@@ -34,8 +34,7 @@ class RegistrationResult:
 def check_duplicate_email(email):
     if not email:
         return False
-    return Member.objects.filter(email=email, is_activated=True).exists()
-
+    return Member.objects.filter(email=email, email_confirmed=True).exists()
 
 
 def _serialize_form_data(data: dict) -> dict:
@@ -173,6 +172,7 @@ def activate_pending_registration(pending: PendingRegistration) -> Member:
             comeback=data['return_continuity'],
             preferred_language=current_language,
             is_activated=False,
+            email_confirmed=True,
         )
 
         Goals.objects.bulk_create([
