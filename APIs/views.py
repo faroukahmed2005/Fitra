@@ -14,8 +14,11 @@ from members.models import Member, PendingRegistration
 from project.firebase_authentication import firebase_admin_required
 from rest_framework.permissions import AllowAny
 import traceback
+from django.utils.decorators import method_decorator
+from django_ratelimit.decorators import ratelimit
 
 
+@method_decorator(ratelimit(key='ip', rate='5/m', method='POST', block=True), name='post')
 class EmailTokenObtainPairView(TokenObtainPairView):
     serializer_class = EmailTokenObtainPairSerializer
     permission_classes = [AllowAny]

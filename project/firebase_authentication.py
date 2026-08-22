@@ -8,7 +8,7 @@ from rest_framework import status
 def firebase_admin_required(view_func):
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
-        
+
         auth_header = request.headers.get("Authorization")
 
         if not auth_header:
@@ -30,13 +30,9 @@ def firebase_admin_required(view_func):
                 token,
                 clock_skew_seconds=60,
             )
-            request.firebase_user = decoded_token
-
         except Exception as e:
             import traceback
-
             traceback.print_exc()
-
             return Response(
                 {
                     "message": "Invalid Firebase Token.",
@@ -46,6 +42,13 @@ def firebase_admin_required(view_func):
                 status=status.HTTP_401_UNAUTHORIZED,
             )
 
+        if not decoded_token.get("admin", False):
+            return Response(
+                {"message": "Admin privileges required."},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        request.firebase_user = decoded_token
         return view_func(request, *args, **kwargs)
 
     return wrapper
