@@ -163,7 +163,10 @@ def activate_trainee(request):
     except Exception as e:
         traceback.print_exc()
         _rollback_firebase(firebase_user)
-        return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {"message": "Failed to create trainee account. Please try again or contact support."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
     # --- Django User + Member ---
     try:

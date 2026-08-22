@@ -32,15 +32,11 @@ def firebase_admin_required(view_func):
             )
         except Exception as e:
             import traceback
-            traceback.print_exc()
+            traceback.print_exc()  
             return Response(
-                {
-                    "message": "Invalid Firebase Token.",
-                    "error": str(e),
-                    "type": str(type(e)),
-                },
+                {"message": "Invalid or expired authentication token."},
                 status=status.HTTP_401_UNAUTHORIZED,
-            )
+    )
 
         if not decoded_token.get("admin", False):
             return Response(

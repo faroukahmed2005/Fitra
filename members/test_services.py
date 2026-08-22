@@ -154,7 +154,7 @@ class ActivatePendingRegistrationTests(TestCase):
 
         self.assertEqual(member.name, "Carol Test")
         self.assertEqual(member.email, "carol@example.com")
-        self.assertTrue(member.is_activated)
+        self.assertTrue(member.email_confirmed)
         self.assertEqual(member.height, Decimal("175.50"))
         self.assertEqual(member.weight_measure_date, datetime.date(2026, 7, 1))
         self.assertEqual(PendingRegistration.objects.filter(id=pending.id).count(), 0)
@@ -215,7 +215,7 @@ class ActivateAccountViewTests(TestCase):
         response = self.client.get(f"/register/activate/{token}/")
 
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(Member.objects.filter(email="henry@example.com", is_activated=True).exists())
+        self.assertTrue(Member.objects.filter(email="henry@example.com", email_confirmed=True).exists())
 
     def test_second_activation_of_same_email_shows_email_taken(self):
         """Simulates the race: two PendingRegistrations for the same email
