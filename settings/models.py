@@ -1,18 +1,33 @@
 from django.db import models
 from solo.models import SingletonModel
+import bleach
 
+ALLOWED_TAGS = ['h1', 'h2', 'h3', 'p', 'br', 'b', 'i', 'u', 'strong', 'em', 'ul', 'ol', 'li', 'a', 'span']
+ALLOWED_ATTRS = {'a': ['href', 'title'], 'span': ['style']}
 class Info(SingletonModel):
     logo = models.ImageField(verbose_name = 'Logo', upload_to = 'settings/')
     slogan = models.CharField(verbose_name ='Slogan', max_length = 200 )
 
-class Brief(SingletonModel): 
-    brief_title = models.CharField(verbose_name ='Brief Title', max_length = 100 )
-    brief_content = models.TextField(verbose_name ='Brief')
-    brief_image = models.ImageField(verbose_name = 'Brief Image', upload_to ='settings/') 
+class Brief(SingletonModel):
+    brief_title = models.CharField(verbose_name='Brief Title', max_length=100)
+    brief_content = models.TextField(verbose_name='Brief')
+    brief_image = models.ImageField(verbose_name='Brief Image', upload_to='settings/')
+
+    def save(self, *args, **kwargs):
+        self.brief_content = bleach.clean(
+            self.brief_content, tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRS, strip=True
+        )
+        super().save(*args, **kwargs)
 
 class AboutUs(SingletonModel):
-    about_us_content =  models.TextField(verbose_name ='About Us')
-    about_us_image = models.ImageField(verbose_name ='About US Image', upload_to='settings/')
+    about_us_content = models.TextField(verbose_name='About Us')
+    about_us_image = models.ImageField(verbose_name='About US Image', upload_to='settings/')
+
+    def save(self, *args, **kwargs):
+        self.about_us_content = bleach.clean(
+            self.about_us_content, tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRS, strip=True
+        )
+        super().save(*args, **kwargs)
 
 class SocialLinks(SingletonModel):
     youtube = models.URLField(verbose_name ='Youtube Link', max_length = 100, blank=True)  
