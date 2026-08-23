@@ -80,34 +80,42 @@ def _get_activatable_member(member_id):
     return None, member
 
 def _create_firebase_trainee(member, email, password, deadline_date):
+
     firebase_user = auth.create_user(
         email=email,
         password=password,
     )
 
-    db = firestore.client()
-
-    db.collection("Trainees").document(firebase_user.uid).set({
-        "Uid": firebase_user.uid,
-        "MemberId": member.id,
-        "Name": member.name,
-        "Email": email,
-        "Deadline": deadline_date,
-        "AccountStatus": True,
-        "AccountCreated": True,
-        "CreatedAt": firestore.SERVER_TIMESTAMP,
-    })
+    try:
+        db = firestore.client()
+        db.collection("Trainees").document(firebase_user.uid).set({
+            "Uid": firebase_user.uid,
+            "MemberId": member.id,
+            "Name": member.name,
+            "Email": email,
+            "Deadline": deadline_date,
+            "AccountStatus": True,
+            "AccountCreated": True,
+            "CreatedAt": firestore.SERVER_TIMESTAMP,
+        })
+    except Exception:
+        try:
+            auth.delete_user(firebase_user.uid)
+        except Exception:
+            traceback.print_exc()
+        raise
 
     return firebase_user
 
 def _rollback_firebase(firebase_user):
+
     if firebase_user is None:
         return
     try:
         auth.delete_user(firebase_user.uid)
         firestore.client().collection("Trainees").document(firebase_user.uid).delete()
     except Exception:
-        pass
+        traceback.print_exc()
 
 def _activate_member_in_django(member, email, password, firebase_uid, deadline_date, trainee_code):
     with transaction.atomic():
@@ -154,15 +162,13 @@ def activate_trainee(request):
 
     email = member.email
 
-    # --- Firebase + Firestore ---
     firebase_user = None
     try:
         firebase_user = _create_firebase_trainee(
             member, email, data["password"], data["deadline_date"]
         )
-    except Exception as e:
+    except Exception:
         traceback.print_exc()
-        _rollback_firebase(firebase_user)
         return Response(
             {"message": "Failed to create trainee account. Please try again or contact support."},
             status=status.HTTP_400_BAD_REQUEST,
@@ -178,9 +184,13 @@ def activate_trainee(request):
             deadline_date=data["deadline_date"],
             trainee_code=data["trainee_code"],
         )
-    except Exception as e:
+    except Exception:
+        traceback.print_exc()
         _rollback_firebase(firebase_user)
-        return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(
+            {"message": "Failed to finalize trainee activation. Please try again or contact support."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
     return Response(
         {
