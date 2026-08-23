@@ -807,7 +807,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('DOMContentLoaded', () => {
         const messageBox = document.getElementById('message-box');
         if (messageBox) {
-            messageBox.textContent = "{{ success_message }}";
+            messageBox.textContent = "{{ success_message|escapejs }}";
             messageBox.classList.remove('hidden');
             messageBox.classList.add('bg-main-fitra');
             setTimeout(() => { messageBox.classList.add('hidden'); }, 5000);

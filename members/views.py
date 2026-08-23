@@ -10,6 +10,7 @@ from .services import (
 )
 from datetime import date
 from django_ratelimit.decorators import ratelimit
+from django.views.decorators.http import require_GET
 
 signer = TimestampSigner()
 
@@ -80,7 +81,7 @@ def register(request):
         {'form': RegistrationForm(), 'today': date.today()},
     )
 
-
+@require_GET
 def activate_account(request, token):
     try:
         raw_id = signer.unsign(token, max_age=60 * 60 * 24)
