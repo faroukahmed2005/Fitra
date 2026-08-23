@@ -1,5 +1,5 @@
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from .serializer import MemberSerializer, EmailTokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -9,14 +9,11 @@ from rest_framework import status
 from firebase_admin import auth, firestore
 from datetime import datetime
 from django.db import transaction
-from firebase_admin import exceptions as firebase_exceptions
 from members.models import Member, PendingRegistration
 from project.firebase_authentication import firebase_admin_required
-from rest_framework.permissions import AllowAny
 import traceback
 from django.utils.decorators import method_decorator
 from django_ratelimit.decorators import ratelimit
-
 
 @method_decorator(ratelimit(key='ip', rate='5/m', method='POST', block=True), name='post')
 class EmailTokenObtainPairView(TokenObtainPairView):
