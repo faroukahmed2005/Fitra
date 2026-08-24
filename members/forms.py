@@ -1,3 +1,5 @@
+from typing import Any
+
 from django import forms
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
@@ -228,13 +230,13 @@ class RegistrationForm(forms.Form):
         }
     )
 
-    def clean_phone(self):
-        phone = self.cleaned_data['phone'].strip()
+    def clean_phone(self) -> str:
+        phone: str = self.cleaned_data['phone'].strip()
         return phone
 
-    def clean(self):
-        cleaned_data = super().clean()
-        gender = cleaned_data.get('gender')
+    def clean(self) -> dict[str, Any]:
+        cleaned_data: dict[str, Any] = super().clean()
+        gender: str | None = cleaned_data.get('gender')
 
         if gender == 'MALE':
             photos = self.files.getlist('male_photos')
@@ -242,13 +244,13 @@ class RegistrationForm(forms.Form):
             if len(photos) < 4 or len(photos) > 5:
                 self.add_error(None, _('Please upload 4 or 5 photos.'))
             else:
-                total_size = 0
+                total_size: int = 0
                 for photo in photos:
                     if not photo.content_type.startswith('image/'):
                         self.add_error(None, _('The file "%(filename)s" is not a valid image.') % {'filename': photo.name})
                     total_size += photo.size
 
-                if total_size > 10 * 1024 * 1024:  
+                if total_size > 10 * 1024 * 1024:
                     self.add_error(None, _('The total size of all photos must not exceed 10 MB.'))
 
         elif gender == 'FEMALE':

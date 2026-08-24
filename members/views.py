@@ -1,6 +1,12 @@
-from .forms import RegistrationForm
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.core.signing import BadSignature, SignatureExpired, TimestampSigner
+from datetime import date
+from django_ratelimit.decorators import ratelimit
+from django_ratelimit.exceptions import Ratelimited
+from django.views.decorators.http import require_GET
+
+from .forms import RegistrationForm
 from .models import Member, PendingRegistration
 from .services import (
     activate_pending_registration,
@@ -8,21 +14,18 @@ from .services import (
     create_pending_registration,
     _delete_pending_picture_files,
 )
-from datetime import date
-from django_ratelimit.decorators import ratelimit
-from django.views.decorators.http import require_GET
 
 signer = TimestampSigner()
 
 
 @ratelimit(key='ip', rate='5/m', method='POST', block=True)
-def register(request):
+def register(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
         form = RegistrationForm(request.POST, request.FILES)
 
         if form.is_valid():
             data = form.cleaned_data
-            email = data.get('email')
+            email: str | None = data.get('email')
 
             if check_duplicate_email(email):
                 form.add_error(
@@ -38,10 +41,10 @@ def register(request):
                 )
 
             result = create_pending_registration(data, request)
-            current_language = request.LANGUAGE_CODE
+            current_language: str = request.LANGUAGE_CODE
 
             if email and result.email_sent:
-                success_message = (
+                success_message: str = (
                     'تحقق من بريدك الإلكتروني لتفعيل الحساب.'
                     if current_language == 'ar'
                     else 'Check your email to activate your account.'
@@ -81,15 +84,16 @@ def register(request):
         {'form': RegistrationForm(), 'today': date.today()},
     )
 
+
 @require_GET
-def activate_account(request, token):
+def activate_account(request: HttpRequest, token: str) -> HttpResponse:
     try:
-        raw_id = signer.unsign(token, max_age=60 * 60 * 24)
-        pending_id = int(raw_id)
-        pending = PendingRegistration.objects.get(id=pending_id)
+        raw_id: str = signer.unsign(token, max_age=60 * 60 * 24)
+        pending_id: int = int(raw_id)
+        pending: PendingRegistration = PendingRegistration.objects.get(id=pending_id)
 
         if Member.objects.filter(email=pending.email, email_confirmed=True).exists():
-            preferred_language = pending.preferred_language
+            preferred_language: str = pending.preferred_language
             _delete_pending_picture_files(pending)
             pending.delete()
             return render(
@@ -138,8 +142,8 @@ def activate_account(request, token):
         )
 
 
-def ratelimited_view(request, exception):
-    message = (
+def ratelimited_view(request: HttpRequest, exception: Ratelimited) -> HttpResponse:
+    message: str = (
         'لقد قمت بمحاولات كثيرة جداً. الرجاء المحاولة لاحقاً.'
         if request.LANGUAGE_CODE == 'ar'
         else 'Too many attempts. Please try again later.'

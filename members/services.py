@@ -3,11 +3,13 @@ import shutil
 import traceback
 import datetime
 from decimal import Decimal
+from typing import Any
 
 from django.conf import settings as django_settings
 from django.core.mail import send_mail
 from django.core.signing import TimestampSigner
 from django.db import transaction
+from django.http import HttpRequest
 from django.template.loader import render_to_string
 from django.urls import reverse
 
@@ -25,20 +27,27 @@ signer = TimestampSigner()
 
 
 class RegistrationResult:
-    def __init__(self, pending=None, email_sent=False, email_error=None, duplicate_email=False):
+    def __init__(
+        self,
+        pending: PendingRegistration | None = None,
+        email_sent: bool = False,
+        email_error: str | None = None,
+        duplicate_email: bool = False,
+    ) -> None:
         self.pending = pending          # PendingRegistration instance (replaces old .member)
         self.email_sent = email_sent
         self.email_error = email_error
         self.duplicate_email = duplicate_email
 
-def check_duplicate_email(email):
+
+def check_duplicate_email(email: str | None) -> bool:
     if not email:
         return False
     return Member.objects.filter(email=email, email_confirmed=True).exists()
 
 
-def _serialize_form_data(data: dict) -> dict:
-    safe = {}
+def _serialize_form_data(data: dict[str, Any]) -> dict[str, Any]:
+    safe: dict[str, Any] = {}
     for key, value in data.items():
         if isinstance(value, Decimal):
             safe[key] = str(value)
@@ -49,7 +58,7 @@ def _serialize_form_data(data: dict) -> dict:
     return safe
 
 
-def _deserialize_form_data(raw: dict) -> dict:
+def _deserialize_form_data(raw: dict[str, Any]) -> dict[str, Any]:
     data = dict(raw)
     for field in ('height', 'current_weight'):
         if data.get(field) is not None:
@@ -59,10 +68,10 @@ def _deserialize_form_data(raw: dict) -> dict:
     return data
 
 
-def create_pending_registration(data: dict, request) -> RegistrationResult:
+def create_pending_registration(data: dict[str, Any], request: HttpRequest) -> RegistrationResult:
 
-    email = data.get('email')
-    current_language = request.LANGUAGE_CODE
+    email: str | None = data.get('email')
+    current_language: str = request.LANGUAGE_CODE
 
     if email:
         _delete_pending_registrations_for_email(email)
@@ -84,27 +93,27 @@ def create_pending_registration(data: dict, request) -> RegistrationResult:
                     image=image,
                 )
 
-    email_sent = False
-    email_error = None
+    email_sent: bool = False
+    email_error: str | None = None
 
     if email:
-        token = signer.sign(pending.id)
-        activation_path = reverse(
+        token: str = signer.sign(pending.id)
+        activation_path: str = reverse(
             'members:activate',
             kwargs={'token': token}
         )
 
-        activation_link = (
+        activation_link: str = (
             f"{django_settings.PUBLIC_BASE_URL}{activation_path}"
         )
 
-        subject = (
+        subject: str = (
             'تفعيل حسابك في Fitra'
             if current_language == 'ar'
             else 'Activate Your Fitra Account'
         )
 
-        message = render_to_string(
+        message: str = render_to_string(
             'members/activation_email.html',
             {
                 'name': data['full_name'],
@@ -136,14 +145,14 @@ def create_pending_registration(data: dict, request) -> RegistrationResult:
 
 def activate_pending_registration(pending: PendingRegistration) -> Member:
     data = _deserialize_form_data(pending.form_data)
-    current_language = pending.preferred_language
+    current_language: str = pending.preferred_language
 
     with transaction.atomic():
         governorate, _ = Governorate.objects.get_or_create(
             governorate_name=data['place_of_living']
         )
 
-        member = Member.objects.create(
+        member: Member = Member.objects.create(
             name=data['full_name'],
             age=data['age'],
             height=data['height'],
@@ -187,10 +196,10 @@ def activate_pending_registration(pending: PendingRegistration) -> Member:
 
         pending_pictures = list(pending.pending_pictures.all())
         for pp in pending_pictures:
-            src_path = pp.image.path                    
-            filename = os.path.basename(src_path)
-            dest_rel = f'members/{filename}'               
-            dest_path = os.path.join(
+            src_path: str = pp.image.path
+            filename: str = os.path.basename(src_path)
+            dest_rel: str = f'members/{filename}'
+            dest_path: str = os.path.join(
                 django_settings.MEDIA_ROOT, 'members', filename
             )
 
@@ -198,17 +207,18 @@ def activate_pending_registration(pending: PendingRegistration) -> Member:
 
             try:
                 shutil.move(src_path, dest_path)
-            except (OSError, shutil.Error) as exc:
+            except (OSError, shutil.Error):
                 traceback.print_exc()
                 try:
                     shutil.copy2(src_path, dest_path)
                 except Exception:
                     traceback.print_exc()
-                    dest_rel = pp.image.name  
+                    dest_rel = pp.image.name
             Picture.objects.create(member=member, images=dest_rel)
         pending.delete()
 
     return member
+
 
 def _delete_pending_registrations_for_email(email: str) -> None:
     qs = PendingRegistration.objects.filter(email=email)
