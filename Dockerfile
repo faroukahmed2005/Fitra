@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libjpeg-dev \
     zlib1g-dev \
     libpq-dev \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 

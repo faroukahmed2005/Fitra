@@ -110,7 +110,7 @@
             </div>
             <div class="section">
                 {% if about_us.about_us_image %}
-                    <img src="{{about_us.about_us_image.url}}" alt="">
+                    <img src="{{about_us.about_us_image.url}}" alt="About Fitra">
                 {% endif %}
             </div>
             <div class="extra">
@@ -157,9 +157,9 @@
                         <img src="{% static './img/logo-T.png' %}" alt="Logo" draggable="false" class="story-logo">
                         <div class="story-photos-container">
                             <div class="story-photo-comparison">
-                                <img src="{{story.before_image.url}}" alt="before" draggable="false" class="img-before before">
+                                <img src="{{story.before_image.url}}" alt="{{ story.name }} - {% translate 'before transformation' %}" draggable="false" class="img-before before">
                                 <div class="img-after-container">
-                                    <img src="{{story.after_image.url}}" alt="after" draggable="false" class="img-after after">
+                                    <img src="{{story.after_image.url}}" alt="{{ story.name }} - {% translate 'after transformation' %}" draggable="false" class="img-after after">
                                 </div>
                                 <div class="divider-handle"></div>
                             </div>
