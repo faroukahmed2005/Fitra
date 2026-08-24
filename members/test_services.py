@@ -14,11 +14,14 @@ Covers:
 - Duplicate-email check against already-activated Members blocks new pendings
   at the view level (register()) -- not re-tested here since it's a view-level
   form error, see test_views.py if you add one
+- ME-29: send_mail() failure still creates the PendingRegistration and
+  surfaces as email_sent=False rather than losing the submission
 """
 import datetime
 import tempfile
 import shutil
 from decimal import Decimal
+from unittest import mock
 
 from django.core import mail
 from django.core.signing import TimestampSigner
@@ -134,6 +137,28 @@ class CreatePendingRegistrationTests(TestCase):
             "create_pending_registration replaces prior pending registrations "
             "for the same email rather than keeping both -- confirm this is intended."
         )
+
+    def test_email_send_failure_still_creates_pending_registration(self):
+        """
+        Covers ME-29: if send_mail() itself raises (SMTP down, network
+        error, etc.), the PendingRegistration must still be created --
+        the registration itself succeeded independently of the email step.
+        The failure should surface as email_sent=False with the error
+        captured, not as an unhandled exception that loses the submission.
+        """
+        data = make_cleaned_data(email="unlucky@example.com")
+        request = make_request()
+
+        with mock.patch(
+            "members.services.send_mail",
+            side_effect=Exception("Simulated SMTP failure"),
+        ):
+            result = services.create_pending_registration(data, request)
+
+        self.assertIsNotNone(result.pending)
+        self.assertEqual(PendingRegistration.objects.filter(email="unlucky@example.com").count(), 1)
+        self.assertFalse(result.email_sent)
+        self.assertIn("Simulated SMTP failure", result.email_error)
 
 
 @override_settings(
@@ -265,7 +290,6 @@ class ActivateAccountViewTests(TestCase):
         # correctly cannot happen at all, since no data can be extracted
         # from a tampered signature.
         import time
-        from unittest import mock
 
         with mock.patch("django.core.signing.time.time", return_value=time.time() - 60 * 60 * 25):
             token = signer.sign(pending.id)
