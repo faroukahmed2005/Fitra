@@ -1,29 +1,38 @@
+from datetime import datetime
+from typing import Any
+
+from django.contrib.auth import get_user_model
+from django.db import transaction
+from django.http import HttpRequest
+from django.utils.decorators import method_decorator
+
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from .serializer import MemberSerializer, EmailTokenObtainPairSerializer
-from rest_framework_simplejwt.views import TokenObtainPairView
-from django.contrib.auth import get_user_model
 from rest_framework import status
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from firebase_admin import auth, firestore
-from datetime import datetime
-from django.db import transaction
+from firebase_admin.auth import UserRecord
+
+from django_ratelimit.decorators import ratelimit
+
 from members.models import Member, PendingRegistration
 from project.firebase_authentication import firebase_admin_required
+from .serializer import MemberSerializer, EmailTokenObtainPairSerializer
 import traceback
-from django.utils.decorators import method_decorator
-from django_ratelimit.decorators import ratelimit
+
 
 @method_decorator(ratelimit(key='ip', rate='5/m', method='POST', block=True), name='post')
 class EmailTokenObtainPairView(TokenObtainPairView):
     serializer_class = EmailTokenObtainPairSerializer
     permission_classes = [AllowAny]
 
+
 @api_view(["GET"])
 @permission_classes([AllowAny])
 @firebase_admin_required
-def get_members(request):
+def get_members(request: HttpRequest) -> Response:
     members = Member.objects.filter(email_confirmed=True).order_by("-join_date")
     serializer = MemberSerializer(members, many=True)
     return Response(serializer.data)
@@ -32,7 +41,7 @@ def get_members(request):
 # Helpers
 # ==========================================================
 
-def _validate_activation_data(data):
+def _validate_activation_data(data: dict[str, Any]) -> tuple[Response | None, dict[str, Any] | None]:
     member_id = data.get("member_id")
     password = data.get("password")
     deadline = data.get("deadline")
@@ -45,7 +54,7 @@ def _validate_activation_data(data):
         ), None
 
     try:
-        deadline_date = datetime.fromisoformat(deadline)
+        deadline_date: datetime = datetime.fromisoformat(deadline)
     except ValueError:
         return Response(
             {"message": "Invalid deadline format."},
@@ -59,7 +68,7 @@ def _validate_activation_data(data):
         "trainee_code": trainee_code,
     }
 
-def _get_activatable_member(member_id):
+def _get_activatable_member(member_id: int) -> tuple[Response | None, Member | None]:
     try:
         member = Member.objects.get(id=member_id)
     except Member.DoesNotExist:
@@ -76,9 +85,11 @@ def _get_activatable_member(member_id):
 
     return None, member
 
-def _create_firebase_trainee(member, email, password, deadline_date):
+def _create_firebase_trainee(
+    member: Member, email: str, password: str, deadline_date: datetime
+) -> UserRecord:
 
-    firebase_user = auth.create_user(
+    firebase_user: UserRecord = auth.create_user(
         email=email,
         password=password,
     )
@@ -104,7 +115,7 @@ def _create_firebase_trainee(member, email, password, deadline_date):
 
     return firebase_user
 
-def _rollback_firebase(firebase_user):
+def _rollback_firebase(firebase_user: UserRecord | None) -> None:
 
     if firebase_user is None:
         return
@@ -114,7 +125,14 @@ def _rollback_firebase(firebase_user):
     except Exception:
         traceback.print_exc()
 
-def _activate_member_in_django(member, email, password, firebase_uid, deadline_date, trainee_code):
+def _activate_member_in_django(
+    member: Member,
+    email: str,
+    password: str,
+    firebase_uid: str,
+    deadline_date: datetime,
+    trainee_code: str | None,
+) -> None:
     with transaction.atomic():
         User = get_user_model()
 
@@ -147,7 +165,7 @@ def _activate_member_in_django(member, email, password, firebase_uid, deadline_d
 @api_view(["POST"])
 @permission_classes([AllowAny])
 @firebase_admin_required
-def activate_trainee(request):
+def activate_trainee(request: HttpRequest) -> Response:
 
     error_response, data = _validate_activation_data(request.data)
     if error_response:
@@ -157,9 +175,9 @@ def activate_trainee(request):
     if error_response:
         return error_response
 
-    email = member.email
+    email: str = member.email
 
-    firebase_user = None
+    firebase_user: UserRecord | None = None
     try:
         firebase_user = _create_firebase_trainee(
             member, email, data["password"], data["deadline_date"]
@@ -200,14 +218,14 @@ def activate_trainee(request):
 @api_view(["GET"])
 @permission_classes([AllowAny])
 @firebase_admin_required
-def get_pending_registrations(request):
+def get_pending_registrations(request: HttpRequest) -> Response:
 
     members = Member.objects.filter(
         is_activated=False,
         email_confirmed=True,
     ).order_by("-join_date")
 
-    data = [
+    data: list[dict[str, Any]] = [
         {
             "member_id": m.id,
             "name": m.name,
