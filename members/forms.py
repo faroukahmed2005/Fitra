@@ -3,7 +3,7 @@ from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
 from .models import (
     GENDER, FITNESS_GOAL, MEALS, WORKOUT_DAYS, TRAINING_TYPE, PLAN,
-    DAILY_SPENDING, MEAURMENT_SCALE, PREVIOUS_GYM, CONFIDENCE, COMEBACK,
+    DAILY_SPENDING, MEASUREMENT_SCALE, PREVIOUS_GYM, CONFIDENCE, COMEBACK,
     HEAR_ABOUT_US, RECOMMEND_US, GOVERNORATE,
 )
 
@@ -133,7 +133,7 @@ class RegistrationForm(forms.Form):
         }
     )
     measuring_scale = forms.ChoiceField(
-        choices=MEAURMENT_SCALE, 
+        choices=MEASUREMENT_SCALE, 
         widget=forms.RadioSelect, 
         required=True,
         error_messages={
@@ -248,7 +248,7 @@ class RegistrationForm(forms.Form):
                         self.add_error(None, _('The file "%(filename)s" is not a valid image.') % {'filename': photo.name})
                     total_size += photo.size
 
-                if total_size > 10 * 1024 * 1024:  # 10 MB combined
+                if total_size > 10 * 1024 * 1024:  
                     self.add_error(None, _('The total size of all photos must not exceed 10 MB.'))
 
         elif gender == 'FEMALE':

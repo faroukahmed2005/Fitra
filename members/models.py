@@ -11,11 +11,11 @@ GENDER = [
 FITNESS_GOAL = [
     ('FAT LOSS','Fat loss'),
     ('INCREASE MUSCLE MASS','Increase muscle mass'),
-    ('INCREASE STRENTH','Increase strenth'),
+    ('INCREASE STRENGTH','Increase strength'),      
     ('INCREASE ENDURANCE','Increase endurance'),
     ('TRAIN FOR FUNCTIONALITY','Train for functionality'),
     ('HAVING FUN','Having fun'),
-    ('POST REHABILITATION STRENTH','Post rehabilitation strenth'),
+    ('POST REHABILITATION STRENGTH','Post rehabilitation strength'),  
 ]
 
 MEALS = [
@@ -54,7 +54,7 @@ DAILY_SPENDING = [
     ('MORE THAN 200 BUCKS','More then 200 bucks'),
 ]
 
-MEAURMENT_SCALE = [
+MEASUREMENT_SCALE = [
     ('I DO HAVE','I do have'),
     ('I DO NOT HAVE','I do not have'),
     ('NO, BUT I WILL','No, but i will'),
@@ -123,7 +123,7 @@ GOVERNORATE = [
 ]
 
 class Governorate(models.Model):
-    governorate_name = models.CharField(verbose_name=_('Governrate name'), max_length=30, choices=GOVERNORATE, unique=True)
+    governorate_name = models.CharField(verbose_name=_('Governorate name'), max_length=30, choices=GOVERNORATE, unique=True)
     def __str__(self):
         return self.governorate_name
 
@@ -169,7 +169,7 @@ class Member(models.Model):
     training_type = models.CharField(verbose_name=_('Gym or home'), max_length=4, choices=TRAINING_TYPE)
     workout_days = models.CharField(verbose_name=_('Workout available days'), max_length=6, choices=WORKOUT_DAYS)
     daily_spend = models.CharField(verbose_name=_('Daily spending for food '), max_length=20, choices=DAILY_SPENDING)
-    measure_scale = models.CharField(verbose_name=_('Having measurement scale?'), max_length=15, choices=MEAURMENT_SCALE)
+    measure_scale = models.CharField(verbose_name=_('Having measurement scale?'), max_length=15, choices=MEASUREMENT_SCALE)
     before_nutrition = models.TextField(verbose_name=_('Past Nutrition'))
     injuries = models.TextField(verbose_name=_('Injuries'))
     previous_gym = models.CharField(verbose_name=_('Previous gym'), max_length=3, choices=PREVIOUS_GYM)

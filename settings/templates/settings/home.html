@@ -31,7 +31,7 @@
 
     <header>
         <div class="container">
-            <a href="" class="logo">
+            <a href="{% url 'home:home' %}" class="logo">
                 {% if info.logo %}
                     <img src="{{info.logo.url}}" alt="logo">
                 {% endif %}
@@ -154,7 +154,7 @@
                 <div class="owl-carousel destination-slider stories-carousel">
                 {% for story in successful_stories %}
                     <div class="story-transformation-card item">
-                        <img src="{% static './img/logo-T.png' %}" alt="Logo" draggable="false" class="story-logo">
+                        <img src="{% static '/img/logo-T.png' %}" alt="Logo" draggable="false" class="story-logo">
                         <div class="story-photos-container">
                             <div class="story-photo-comparison">
                                 <img src="{{story.before_image.url}}" alt="{{ story.name }} - {% translate 'before transformation' %}" draggable="false" class="img-before before">
