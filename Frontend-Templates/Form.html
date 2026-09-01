@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FITRA | Online Coaching</title>
-    <link rel="icon" type="image/png" href="./img/logo-H.png">
-    <!-- Load Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>FITRA | Online Coaching</title>
+        <link rel="icon" type="image/png" href="./img/logo-H.png">
+        <!-- Load Tailwind CSS CDN -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
         // Define custom colors in Tailwind config
         tailwind.config = {
             theme: {
@@ -15,48 +15,40 @@
                     colors: {
                         'main-fitra': 'rgb(71, 221, 71)',    /* Bright Green */
                         'second-fitra': 'rgb(37, 121, 37)',  /* Dark Green */
-                        // تم التعديل: أسود داكن بـ 80% شفافية لجعل الخلفية تظهر قليلاً من خلاله
-                        'form-dark-bg': 'rgba(26, 26, 26, 0.8)', 
-                        'section-dark-bg': '#3a3a3a',        /* New Dark Gray for sections */
+                        'form-dark-bg': 'rgba(26, 26, 26, 0.8)',
+                        'section-dark-bg': '#3a3a3a',        /* Dark Gray for sections */
                     },
                 }
             }
         }
     </script>
-    <style>
-        /* Define Inter font for clarity */
+        <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
-            
-            /* Image Background Setup */
-            background-image: url(../img/BG_FORM.jpg); 
+            background-image: url(../img/BG_FORM.jpg);
             background-size: cover;
             background-position: center;
-            background-attachment: fixed; /* Keep image fixed when scrolling */
-            
-            /* Black Overlay for readability - تم التعديل لتقليل الكثافة من 0.8 إلى 0.6 لجعل الصورة أوضح */
-            background-color: rgba(0, 0, 0, 0.6); 
-            background-blend-mode: darken; /* Darkens the image */
+            background-attachment: fixed;
+            background-color: rgba(0, 0, 0, 0.6);
+            background-blend-mode: darken;
             min-height: 100vh;
         }
-        
-        /* Custom style for required labels (White text with Green asterisk) */
+
         .required-label {
             display: inline-flex;
             align-items: center;
             gap: 0.25rem;
-            color: #ffffff; 
+            color: #ffffff;
             font-weight: 600;
         }
         .required-label::after {
             content: '*';
-            color: rgb(71, 221, 71); /* Main Green for required marker */
+            color: rgb(71, 221, 71);
             font-size: 1.2rem;
             line-height: 1;
         }
 
-        /* Custom styling for Checkbox/Radio options */
         .custom-radio-input, .custom-checkbox-input {
             appearance: none;
             -webkit-appearance: none;
@@ -71,494 +63,2097 @@
             border-radius: 0.5rem;
             cursor: pointer;
             transition: all 0.2s;
-            border: 2px solid #555555; /* Slightly lighter border for dark gray sections */
+            border: 2px solid #555555;
             margin-bottom: 0.5rem;
-            background-color: #3a3a3a; /* Dark gray for unselected */
-            color: #f3f4f6; /* Light text */
+            background-color: #3a3a3a;
+            color: #f3f4f6;
             text-align: center;
             user-select: none;
         }
 
-        /* Styling for the Selected/Checked State - Using Main Green */
         .custom-radio-input:checked + .custom-label,
         .custom-checkbox-input:checked + .custom-label {
-            background-color: rgb(71, 221, 71); /* Main Green */
-            color: #111827; /* Dark text for contrast against bright green */
+            background-color: rgb(71, 221, 71);
+            color: #111827;
             border-color: rgb(71, 221, 71);
             box-shadow: 0 4px 10px rgba(71, 221, 71, 0.4);
         }
-        
-        /* Hover effect - Using Second Green */
+
         .custom-label:hover {
-            border-color: rgb(37, 121, 37); /* Second Green */
-            background-color: #3a3a3a; /* Keep section background on hover */
+            border-color: rgb(37, 121, 37);
+            background-color: #3a3a3a;
         }
-        
+
         .custom-radio-input:checked + .custom-label:hover,
         .custom-checkbox-input:checked + .custom-label:hover {
-             /* A slightly more pronounced shadow on hover for selected items */
             box-shadow: 0 4px 12px rgba(37, 121, 37, 0.6);
         }
 
-        /* Style for text inputs on dark mode (using section background color) */
         input[type="text"], input[type="number"], input[type="tel"], input[type="email"], input[type="date"], textarea, select {
-            background-color: #3a3a3a; /* Dark input background (same as section) */
-            color: white; /* White text input */
-            border-color: #555555; /* Darker border for inputs */
+            background-color: #3a3a3a;
+            color: white;
+            border-color: #555555;
         }
-        
-        /* Ensure specific selection elements (like date input button) look good */
+
         input[type="date"]::-webkit-calendar-picker-indicator {
-            filter: invert(1); /* Invert the calendar icon color to white for dark mode */
+            filter: invert(1);
         }
         select {
-            /* Custom styling for select arrow for dark mode */
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23d1d5db' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
             background-position: right 0.75rem center;
             background-repeat: no-repeat;
             background-size: 0.65em auto;
             padding-right: 2.5rem;
         }
+
+        /* Small helper note under a hidden/conditional section header */
+        .conditional-note {
+            font-size: 0.8rem;
+            color: rgb(71, 221, 71);
+            font-style: italic;
+        }
     </style>
-</head>
-<body class="p-4 md:p-8 text-gray-100">
-    <!-- Main Form Container: Uses the updated dark gray color with opacity -->
-    <div class="max-w-4xl mx-auto bg-form-dark-bg p-6 md:p-10 shadow-2xl rounded-xl border border-second-fitra/50">
-        
-        <!-- Main Header -->
-        <header class="mb-8 pb-4 border-b border-gray-600">
-            <h1 class="text-3xl md:text-4xl font-extrabold text-main-fitra mb-2">FITRA Membership</h1>
-            <p class="text-xl text-gray-400 font-semibold">Registration Form</p>
-        </header>
+    </head>
+    <body class="p-4 md:p-8 text-gray-100">
+        <div
+            class="max-w-4xl mx-auto bg-form-dark-bg p-6 md:p-10 shadow-2xl rounded-xl border border-second-fitra/50">
 
-        <form id="fitra-form" class="space-y-8">
+            <header class="mb-8 pb-4 border-b border-gray-600">
+                <h1
+                    class="text-3xl md:text-4xl font-extrabold text-main-fitra mb-2">FITRA
+                    Membership</h1>
+                <p class="text-xl text-gray-400 font-semibold">Registration
+                    Form</p>
+            </header>
 
-            <!-- Core Personal Data Section: Using the slightly lighter dark gray color -->
-            <section class="p-5 bg-section-dark-bg rounded-lg shadow-inner">
-                <h2 class="text-2xl font-bold text-main-fitra mb-6 border-b pb-2 border-gray-600">Personal Information</h2>
-                
-                <!-- Full Name -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2" for="full_name"><span class="required-label">Full Name</span></label>
-                    <input type="text" id="full_name" name="full_name" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Enter your full name">
-                </div>
+            <form id="fitra-form" class="space-y-8">
 
-                <!-- Age & Height -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- ============================================================ -->
+                <!-- Personal Information Section -->
+                <!-- ============================================================ -->
+                <section class="p-5 bg-section-dark-bg rounded-lg shadow-inner">
+                    <h2
+                        class="text-2xl font-bold text-main-fitra mb-6 border-b pb-2 border-gray-600">
+                        Personal Information
+                    </h2>
+
+                    <!-- Registration Type -->
                     <div class="mb-6">
-                        <label class="block text-lg font-medium mb-2" for="age"><span class="required-label">Age</span></label>
-                        <input type="number" id="age" name="age" min="10" max="100" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Enter your age (number)">
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                Are you a new trainee or renewing your
+                                subscription?
+                            </span>
+                        </label>
+
+                        <div class="flex flex-wrap gap-4">
+                            <div>
+                                <input type="radio" id="reg-new"
+                                    name="registration_type" value="New"
+                                    required class="custom-radio-input">
+                                <label for="reg-new"
+                                    class="custom-label">New</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="reg-renewal"
+                                    name="registration_type" value="Renewal"
+                                    required class="custom-radio-input">
+                                <label for="reg-renewal"
+                                    class="custom-label">Renewal</label>
+                            </div>
+                        </div>
                     </div>
-                    
+
+                    <!-- Full Name -->
                     <div class="mb-6">
-                        <label class="block text-lg font-medium mb-2" for="height"><span class="required-label">Height (CM)</span></label>
-                        <input type="number" id="height" name="height" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Enter your height in CM">
-                    </div>
-                </div>
+                        <label class="block text-lg font-medium mb-2"
+                            for="full_name">
+                            <span class="required-label">Full Name</span>
+                        </label>
 
-                <!-- Weight & Measurement Date -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <input type="text" id="full_name" name="full_name"
+                            required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Enter your full name">
+                    </div>
+
+                    <!-- Age -->
                     <div class="mb-6">
-                        <label class="block text-lg font-medium mb-2" for="current_weight"><span class="required-label">Current Weight (KG)</span></label>
-                        <input type="number" id="current_weight" name="current_weight" step="0.1" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Enter your current weight in KG">
+                        <label class="block text-lg font-medium mb-2"
+                            for="age">
+                            <span class="required-label">Age</span>
+                        </label>
+
+                        <input type="number" id="age" name="age" min="10"
+                            max="100" required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Enter your age (number)">
                     </div>
-                    
+
+                    <!-- Gender -->
                     <div class="mb-6">
-                        <label class="block text-lg font-medium mb-2" for="measurement_date"><span class="required-label">Weight Measurement Date</span></label>
-                        <input type="date" id="measurement_date" name="measurement_date" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150">
-                    </div>
-                </div>
-                
-                <!-- Gender (Conditional Logic) -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2"><span class="required-label">Gender</span></label>
-                    <div class="flex flex-wrap gap-4">
-                        <div>
-                            <input type="radio" id="gender-male" name="gender" value="Male" required class="custom-radio-input">
-                            <label for="gender-male" class="custom-label">Male</label>
-                        </div>
-                        <div>
-                            <input type="radio" id="gender-female" name="gender" value="Female" required class="custom-radio-input">
-                            <label for="gender-female" class="custom-label">Female</label>
-                        </div>
-                    </div>
-                </div>
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">Gender</span>
+                        </label>
 
-                <!-- **Conditional Section - 1: Male Photos** -->
-                <div id="male-photo-section" class="mb-6 p-4 border border-main-fitra bg-main-fitra/10 rounded-lg hidden">
-                    <label class="block text-lg font-medium mb-2" for="male_photos">
-                        <span class="required-label">If you are a male, insert 4 photos from umbilicus to above (2 sides - face - back)</span>
-                    </label>
-                    <p class="text-sm text-gray-300 mb-3">Upload up to 5 supported files: image. Max 10 MB per file.</p>
-                    <input type="file" id="male_photos" name="male_photos" multiple accept="image/*" class="block w-full text-sm text-gray-100
-                        file:mr-4 file:py-2 file:px-4
-                        file:rounded-full file:border-0
-                        file:text-sm file:font-semibold
-                        file:bg-second-fitra file:text-white
-                        hover:file:bg-main-fitra/70 hover:file:text-black">
-                </div>
+                        <div class="flex flex-wrap gap-4">
+                            <div>
+                                <input type="radio" id="gender-male"
+                                    name="gender" value="Male" required
+                                    class="custom-radio-input">
+                                <label for="gender-male"
+                                    class="custom-label">Male</label>
+                            </div>
 
-                <!-- **Conditional Section - 2: Female Measurements** -->
-                <div id="female-measurements-section" class="mb-6 p-4 border border-second-fitra bg-second-fitra/10 rounded-lg hidden">
-                    <label class="block text-lg font-medium mb-2" for="female_measurements">
-                        <span class="required-label">If you are a female, send your Circumferential measurements by measuring tape</span>
-                    </label>
-                    <p class="text-sm text-gray-300 mb-3">Right and Left (Arms & Thighs) - Waist - Belly from level of umbilicus - Chest</p>
-                    <textarea id="female_measurements" name="female_measurements" rows="4" class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-second-fitra focus:ring focus:ring-second-fitra/50 transition duration-150" placeholder="Enter measurements here. Example: (Right Arm: 30 cm, Waist: 70 cm, Chest: 95 cm...)"></textarea>
-                </div>
-                
-                <!-- Occupation or academic year -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2" for="occupation"><span class="required-label">Occupation or Academic Year</span></label>
-                    <input type="text" id="occupation" name="occupation" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="e.g., Engineer, 4th Year Science">
-                </div>
-                
-                <!-- Place of living (Egypt Governorates) -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2" for="place_of_living"><span class="required-label">Place of Living</span></label>
-                    <select id="place_of_living" name="place_of_living" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150">
-                        <option value="" disabled selected>Choose Governorate</option>
-                        <!-- Egypt Governorates in English, Alphabetical Order -->
-                        <option value="Alexandria">Alexandria</option>
-                        <option value="Aswan">Aswan</option>
-                        <option value="Asyut">Asyut</option>
-                        <option value="Beheira">Beheira</option>
-                        <option value="Beni Suef">Beni Suef</option>
-                        <option value="Cairo">Cairo</option>
-                        <option value="Dakahlia">Dakahlia</option>
-                        <option value="Damietta">Damietta</option>
-                        <option value="Faiyum">Faiyum</option>
-                        <option value="Gharbia">Gharbia</option>
-                        <option value="Giza">Giza</option>
-                        <option value="Ismailia">Ismailia</option>
-                        <option value="Kafr El Sheikh">Kafr El Sheikh</option>
-                        <option value="Luxor">Luxor</option>
-                        <option value="Matruh">Matruh</option>
-                        <option value="Minya">Minya</option>
-                        <option value="Monufia">Monufia</option>
-                        <option value="New Valley">New Valley (Wadi El Gedid)</option>
-                        <option value="North Sinai">North Sinai</option>
-                        <option value="Port Said">Port Said</option>
-                        <option value="Qalyubia">Qalyubia</option>
-                        <option value="Qena">Qena</option>
-                        <option value="Red Sea">Red Sea</option>
-                        <option value="Sharqia">Sharqia</option>
-                        <option value="Sohag">Sohag</option>
-                        <option value="South Sinai">South Sinai</option>
-                        <option value="Suez">Suez</option>
-                    </select>
-                </div>
-
-            </section>
-            
-            <!-- Contact Section -->
-            <section class="p-5 bg-section-dark-bg rounded-lg shadow-inner">
-                <h2 class="text-2xl font-bold text-main-fitra mb-6 border-b pb-2 border-gray-600">Contact Details</h2>
-
-                <!-- Phone number (with Whatsapp) - **Validation added to ensure it starts with 01** -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2" for="phone"><span class="required-label">Phone Number (with WhatsApp)</span></label>
-                    <input type="tel" id="phone" name="phone" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="e.g., 01XXXXXXXXX">
-                    <p class="text-sm text-gray-400 mt-1">Must start with '01'</p>
-                </div>
-
-                <!-- Email -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2" for="email">Email (Optional)</label>
-                    <input type="email" id="email" name="email" class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Your answer">
-                </div>
-
-                <!-- (Optional) Telegram user -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2" for="telegram_user">Telegram User (Optional)</label>
-                    <input type="text" id="telegram_user" name="telegram_user" class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Like @example">
-                </div>
-            </section>
-
-            <!-- Goals and Lifestyle Section -->
-            <section class="p-5 bg-section-dark-bg rounded-lg shadow-inner">
-                <h2 class="text-2xl font-bold text-main-fitra mb-6 border-b pb-2 border-gray-600">Goals and Lifestyle</h2>
-
-                <!-- Fitness Goal (Multiple choice) -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2"><span class="required-label">Fitness Goal</span></label>
-                    <p class="text-sm text-main-fitra mb-3 font-semibold">You can choose more than one goal</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                        <div class="flex items-center">
-                            <input type="checkbox" id="goal-fatloss" name="fitness_goal" value="Fat loss" class="custom-checkbox-input" required>
-                            <label for="goal-fatloss" class="custom-label w-full">Fat Loss</label>
-                        </div>
-                        <div class="flex items-center">
-                            <input type="checkbox" id="goal-muscle" name="fitness_goal" value="Increase Muscle Mass" class="custom-checkbox-input">
-                            <label for="goal-muscle" class="custom-label w-full">Increase Muscle Mass</label>
-                        </div>
-                        <div class="flex items-center">
-                            <input type="checkbox" id="goal-strength" name="fitness_goal" value="Increase Strength" class="custom-checkbox-input">
-                            <label for="goal-strength" class="custom-label w-full">Increase Strength</label>
-                        </div>
-                        <div class="flex items-center">
-                            <input type="checkbox" id="goal-endurance" name="fitness_goal" value="Increase Endurance" class="custom-checkbox-input">
-                            <label for="goal-endurance" class="custom-label w-full">Increase Endurance</label>
-                        </div>
-                        <div class="flex items-center">
-                            <input type="checkbox" id="goal-functional" name="fitness_goal" value="Train for functionality" class="custom-checkbox-input">
-                            <label for="goal-functional" class="custom-label w-full">Train for Functionality</label>
-                        </div>
-                        <div class="flex items-center">
-                            <input type="checkbox" id="goal-fun" name="fitness_goal" value="Having Fun and avoid routine stress" class="custom-checkbox-input">
-                            <label for="goal-fun" class="custom-label w-full">Having Fun and Avoid Routine Stress</label>
-                        </div>
-                        <div class="flex items-center">
-                            <input type="checkbox" id="goal-rehab" name="fitness_goal" value="Post rehabilitation strength" class="custom-checkbox-input">
-                            <label for="goal-rehab" class="custom-label w-full">Post Rehabilitation Strength</label>
+                            <div>
+                                <input type="radio" id="gender-female"
+                                    name="gender" value="Female" required
+                                    class="custom-radio-input">
+                                <label for="gender-female"
+                                    class="custom-label">Female</label>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Meals per day -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2"><span class="required-label">How many meals can you eat per day?</span></label>
-                    <p class="text-sm text-main-fitra mb-3 font-semibold">Best recommended (3 - 4)</p>
-                    <div class="grid grid-cols-3 md:grid-cols-5 gap-2">
-                        <div><input type="radio" id="meals-1" name="meals_per_day" value="1 meal" required class="custom-radio-input"><label for="meals-1" class="custom-label w-full">A meal</label></div>
-                        <div><input type="radio" id="meals-2" name="meals_per_day" value="2 meals" required class="custom-radio-input"><label for="meals-2" class="custom-label w-full">2 meals</label></div>
-                        <div><input type="radio" id="meals-3" name="meals_per_day" value="3 meals" required class="custom-radio-input"><label for="meals-3" class="custom-label w-full">3 meals</label></div>
-                        <div><input type="radio" id="meals-4" name="meals_per_day" value="4 meals" required class="custom-radio-input"><label for="meals-4" class="custom-label w-full">4 meals</label></div>
-                        <div><input type="radio" id="meals-5" name="meals_per_day" value="5 meals" required class="custom-radio-input"><label for="meals-5" class="custom-label w-full">5 meals</label></div>
-                    </div>
-                </div>
 
-                <!-- Budget -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2"><span class="required-label">How much can you spend daily on your training food?</span></label>
-                    <p class="text-sm text-gray-400 mb-3">The more budget we have, the better results we can get. (This also includes food you already have at home, in case you’re living away from family).</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div><input type="radio" id="budget-1" name="food_budget" value="Less than 100 Bucks daily" required class="custom-radio-input"><label for="budget-1" class="custom-label w-full">Less than 100 Bucks daily</label></div>
-                        <div><input type="radio" id="budget-2" name="food_budget" value="100 - 150 Bucks daily" required class="custom-radio-input"><label for="budget-2" class="custom-label w-full">100 - 150 Bucks daily</label></div>
-                        <div><input type="radio" id="budget-3" name="food_budget" value="150 - 200 Bucks daily" required class="custom-radio-input"><label for="budget-3" class="custom-label w-full">150 - 200 Bucks daily</label></div>
-                        <div><input type="radio" id="budget-4" name="food_budget" value="More than 200 Bucks Daily" required class="custom-radio-input"><label for="budget-4" class="custom-label w-full">More than 200 Bucks Daily</label></div>
-                    </div>
-                </div>
+                    <!-- Conditional: Male Photos -->
+                    <div id="male-photo-section"
+                        class="mb-6 p-4 border border-main-fitra bg-main-fitra/10 rounded-lg hidden">
+                        <label class="block text-lg font-medium mb-2"
+                            for="male_photos">
+                            <span class="required-label">
+                                If you are male, upload
+                                4 photos from the navel up (both sides - front -
+                                back)
+                            </span>
+                        </label>
 
-                <!-- Measuring Scale -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2"><span class="required-label">Do you have a measuring scale or would you measure with spoons (not accurate)?</span></label>
-                    <div class="flex flex-wrap gap-4">
-                        <div><input type="radio" id="scale-yes" name="measuring_scale" value="I do have" required class="custom-radio-input"><label for="scale-yes" class="custom-label">I do have</label></div>
-                        <div><input type="radio" id="scale-no" name="measuring_scale" value="No I dont" required class="custom-radio-input"><label for="scale-no" class="custom-label">No, I don't</label></div>
-                        <div><input type="radio" id="scale-will" name="measuring_scale" value="I dont but I will" required class="custom-radio-input"><label for="scale-will" class="custom-label">I don't, but I will</label></div>
-                    </div>
-                </div>
-                
-                <!-- Available days for workout -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2"><span class="required-label">Available days for workout?</span></label>
-                    <div class="grid grid-cols-3 md:grid-cols-6 gap-2">
-                        <div><input type="radio" id="days-1" name="workout_days" value="1 day" required class="custom-radio-input"><label for="days-1" class="custom-label w-full">1 day</label></div>
-                        <div><input type="radio" id="days-2" name="workout_days" value="2 days" required class="custom-radio-input"><label for="days-2" class="custom-label w-full">2 days</label></div>
-                        <div><input type="radio" id="days-3" name="workout_days" value="3 days" required class="custom-radio-input"><label for="days-3" class="custom-label w-full">3 days</label></div>
-                        <div><input type="radio" id="days-4" name="workout_days" value="4 days" required class="custom-radio-input"><label for="days-4" class="custom-label w-full">4 days</label></div>
-                        <div><input type="radio" id="days-5" name="workout_days" value="5 days" required class="custom-radio-input"><label for="days-5" class="custom-label w-full">5 days</label></div>
-                        <div><input type="radio" id="days-6" name="workout_days" value="6 days" required class="custom-radio-input"><label for="days-6" class="custom-label w-full">6 days</label></div>
-                    </div>
-                </div>
-                
-                <!-- Training Location -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2"><span class="required-label">Do you seek training at home or at the gym?</span></label>
-                    <div class="flex flex-wrap gap-4">
-                        <div><input type="radio" id="location-gym" name="training_location" value="Gym" required class="custom-radio-input"><label for="location-gym" class="custom-label">Gym</label></div>
-                        <div><input type="radio" id="location-home" name="training_location" value="Home" required class="custom-radio-input"><label for="location-home" class="custom-label">Home</label></div>
-                    </div>
-                </div>
+                        <p class="text-sm text-gray-300 mb-3">
+                            Upload up to 5 supported files: image. Max 10 MB per
+                            file.
+                        </p>
 
-                <!-- Daily/Weekly Habit -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2" for="habit"><span class="required-label">Do you have any daily or weekly habit (good or bad)?</span></label>
-                    <p class="text-sm text-gray-400 mb-3">Example: (weekly football match - Go to work walking on foot - smoking)</p>
-                    <textarea id="habit" name="habit" rows="3" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Your answer"></textarea>
-                </div>
-
-                <!-- Nutrition in the past -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2" for="past_nutrition"><span class="required-label">Tell me about your nutrition in the past 6-3 months (How many meals, type of food)</span></label>
-                    <textarea id="past_nutrition" name="past_nutrition" rows="4" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Your answer"></textarea>
-                </div>
-                
-                <!-- Your Plan (Rare, Epic, Legendary) -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2"><span class="required-label">Your Plan</span></label>
-                    <div class="flex flex-wrap gap-4">
-                        <div><input type="radio" id="plan-rare" name="plan_type" value="Rare" required class="custom-radio-input"><label for="plan-rare" class="custom-label">🟦 Rare</label></div>
-                        <div><input type="radio" id="plan-epic" name="plan_type" value="Epic" required class="custom-radio-input"><label for="plan-epic" class="custom-label">🟪 Epic</label></div>
-                        <div><input type="radio" id="plan-legendary" name="plan_type" value="Legendary" required class="custom-radio-input"><label for="plan-legendary" class="custom-label">🟨 Legendary</label></div>
+                        <input type="file" id="male_photos" name="male_photos"
+                            multiple accept="image/*"
+                            class="block w-full text-sm text-gray-100
+                file:mr-4 file:py-2 file:px-4
+                file:rounded-full file:border-0
+                file:text-sm file:font-semibold
+                file:bg-second-fitra file:text-white
+                hover:file:bg-main-fitra/70 hover:file:text-black">
                     </div>
-                </div>
-                
-                <!-- Illness or injury -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2" for="illness"><span class="required-label">Do you suffer from any illness or injury that affects your performance (If Yes explain)</span></label>
-                    <textarea id="illness" name="illness" rows="3" required class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Your answer"></textarea>
-                </div>
 
-                <!-- Play Any Sports Besides the gym -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2" for="other_sports">Do You Play Any Sports Besides the gym (If Yes explain)</label>
-                    <textarea id="other_sports" name="other_sports" rows="3" class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150" placeholder="Your answer (Optional)"></textarea>
-                </div>
+                    <!-- Conditional: Female Measurements -->
+                    <div id="female-measurements-section"
+                        class="mb-6 p-4 border border-second-fitra bg-second-fitra/10 rounded-lg hidden">
+                        <label class="block text-lg font-medium mb-2"
+                            for="female_measurements">
+                            <span class="required-label">
+                                If you are female, send
+                                circumferential measurements taken with a
+                                measuring tape
+                            </span>
+                        </label>
 
-            </section>
+                        <p class="text-sm text-gray-300 mb-3">
+                            Arm & Thigh (right
+                            and left) - Waist - Belly at navel level - Chest
+                        </p>
 
-            <!-- Commitment Section -->
-            <section class="p-5 bg-section-dark-bg rounded-lg shadow-inner">
-                <h2 class="text-2xl font-bold text-main-fitra mb-6 border-b pb-2 border-gray-600">Commitment and Confidence</h2>
-
-                <!-- Have You Ever Hit The GYM Before -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2"><span class="required-label">Have You Ever Hit The GYM Before?</span></label>
-                    <div class="flex flex-wrap gap-4">
-                        <div><input type="radio" id="gym-yes" name="gym_before" value="Yes" required class="custom-radio-input"><label for="gym-yes" class="custom-label">Yes</label></div>
-                        <div><input type="radio" id="gym-no" name="gym_before" value="No" required class="custom-radio-input"><label for="gym-no" class="custom-label">No</label></div>
+                        <textarea id="female_measurements"
+                            name="female_measurements" rows="4"
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-second-fitra focus:ring focus:ring-second-fitra/50 transition duration-150"
+                            placeholder="Enter measurements here. Example: (Right Arm: 30 cm, Waist: 70 cm, Chest: 95 cm...)"></textarea>
                     </div>
-                </div>
-                
-                <!-- Are You Confident Enough to Take Up sports lifestyle -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2"><span class="required-label">Are You Confident Enough to Take Up a Sports Lifestyle?</span></label>
-                    <div class="flex flex-wrap gap-4">
-                        <div><input type="radio" id="confidence-abs" name="confidence" value="Absolutely" required class="custom-radio-input"><label for="confidence-abs" class="custom-label">Absolutely</label></div>
-                        <div><input type="radio" id="confidence-maybe" name="confidence" value="Maybe" required class="custom-radio-input"><label for="confidence-maybe" class="custom-label">Maybe</label></div>
-                        <div><input type="radio" id="confidence-no" name="confidence" value="No" required class="custom-radio-input"><label for="confidence-no" class="custom-label">No</label></div>
-                    </div>
-                </div>
 
-                <!-- In Case of Lack of Continuity Will You Come Back Again? -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2"><span class="required-label">In Case of Lack of Continuity, Will You Come Back Again?</span></label>
-                    <div class="flex flex-wrap gap-4">
-                        <div><input type="radio" id="return-abs" name="return_continuity" value="Absolutely" required class="custom-radio-input"><label for="return-abs" class="custom-label">Absolutely</label></div>
-                        <div><input type="radio" id="return-not-sure" name="return_continuity" value="Not sure" required class="custom-radio-input"><label for="return-not-sure" class="custom-label">Not sure</label></div>
-                    </div>
-                </div>
+                    <!-- Height & Weight -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="mb-6">
+                            <label class="block text-lg font-medium mb-2"
+                                for="height">
+                                <span class="required-label">
+                                    Height (CM)
+                                </span>
+                            </label>
 
-                <!-- How did you hear about FITRA -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2"><span class="required-label">How did you hear about "FITRA"?</span></label>
-                    <p class="text-sm text-gray-400 mb-3">You can choose more than one option.</p>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                        <div><input type="checkbox" id="hear-friend" name="how_hear" value="A friend" class="custom-checkbox-input"><label for="hear-friend" class="custom-label w-full">A friend</label></div>
-                        <div><input type="checkbox" id="hear-facebook" name="how_hear" value="Facebook" class="custom-checkbox-input"><label for="hear-facebook" class="custom-label w-full">Facebook</label></div>
-                        <div><input type="checkbox" id="hear-instagram" name="how_hear" value="Instagram" class="custom-checkbox-input"><label for="hear-instagram" class="custom-label w-full">Instagram</label></div>
-                        <div><input type="checkbox" id="hear-tiktok" name="how_hear" value="Tiktok" class="custom-checkbox-input"><label for="hear-tiktok" class="custom-label w-full">TikTok</label></div>
-                        <div><input type="checkbox" id="hear-other" name="how_hear" value="Other" class="custom-checkbox-input"><label for="hear-other" class="custom-label w-full">Other</label></div>
-                    </div>
-                </div>
-                
-                <!-- How do you recommend us to a friend -->
-                <div class="mb-6">
-                    <label class="block text-lg font-medium mb-2"><span class="required-label">How do you recommend us to a friend?</span></label>
-                    <div class="flex justify-between mt-4">
-                        <span class="text-sm text-gray-400">1 (Not Recommended)</span>
-                        <span class="text-sm text-gray-400">5 (Highly Recommended)</span>
-                    </div>
-                    <!-- تم إزالة bg-gray-700 و border border-gray-700 -->
-                    <div class="flex justify-between items-center p-3 rounded-lg"> 
-                        <div class="flex justify-around w-full">
-                            <div><input type="radio" id="rating-1" name="recommendation_rating" value="1" required class="custom-radio-input"><label for="rating-1" class="custom-label text-center p-2">1</label></div>
-                            <div><input type="radio" id="rating-2" name="recommendation_rating" value="2" required class="custom-radio-input"><label for="rating-2" class="custom-label text-center p-2">2</label></div>
-                            <div><input type="radio" id="rating-3" name="recommendation_rating" value="3" required class="custom-radio-input"><label for="rating-3" class="custom-label text-center p-2">3</label></div>
-                            <div><input type="radio" id="rating-4" name="recommendation_rating" value="4" required class="custom-radio-input"><label for="rating-4" class="custom-label text-center p-2">4</label></div>
-                            <div><input type="radio" id="rating-5" name="recommendation_rating" value="5" required class="custom-radio-input"><label for="rating-5" class="custom-label text-center p-2">5</label></div>
+                            <input type="number" id="height" name="height"
+                                required
+                                class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                                placeholder="Enter your height in CM">
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-lg font-medium mb-2"
+                                for="current_weight">
+                                <span class="required-label">
+                                    Current Weight (KG)
+                                </span>
+                            </label>
+
+                            <input type="number" id="current_weight"
+                                name="current_weight" step="0.1" required
+                                class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                                placeholder="Enter your current weight in KG">
                         </div>
                     </div>
+
+                    <!-- Measurement Date -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="measurement_date">
+                            <span class="required-label">
+                                Weight Measurement Date
+                            </span>
+                        </label>
+
+                        <input type="date" id="measurement_date"
+                            name="measurement_date" required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150">
+                    </div>
+
+                    <!-- Occupation or academic year -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="occupation">
+                            <span class="required-label">
+                                Occupation or Academic Year
+                            </span>
+                        </label>
+
+                        <input type="text" id="occupation" name="occupation"
+                            required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="e.g., Engineer, 4th Year Science">
+                    </div>
+
+                    <!-- Place of living -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="place_of_living">
+                            <span class="required-label">
+                                Place of Living
+                            </span>
+                        </label>
+
+                        <select id="place_of_living" name="place_of_living"
+                            required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150">
+                            <option value disabled selected>Choose
+                                Governorate</option>
+                            <option value="Alexandria">Alexandria</option>
+                            <option value="Aswan">Aswan</option>
+                            <option value="Asyut">Asyut</option>
+                            <option value="Beheira">Beheira</option>
+                            <option value="Beni Suef">Beni Suef</option>
+                            <option value="Cairo">Cairo</option>
+                            <option value="Dakahlia">Dakahlia</option>
+                            <option value="Damietta">Damietta</option>
+                            <option value="Faiyum">Faiyum</option>
+                            <option value="Gharbia">Gharbia</option>
+                            <option value="Giza">Giza</option>
+                            <option value="Ismailia">Ismailia</option>
+                            <option value="Kafr El Sheikh">Kafr El
+                                Sheikh</option>
+                            <option value="Luxor">Luxor</option>
+                            <option value="Matruh">Matruh</option>
+                            <option value="Minya">Minya</option>
+                            <option value="Monufia">Monufia</option>
+                            <option value="New Valley">New Valley (Wadi El
+                                Gedid)</option>
+                            <option value="North Sinai">North Sinai</option>
+                            <option value="Port Said">Port Said</option>
+                            <option value="Qalyubia">Qalyubia</option>
+                            <option value="Qena">Qena</option>
+                            <option value="Red Sea">Red Sea</option>
+                            <option value="Sharqia">Sharqia</option>
+                            <option value="Sohag">Sohag</option>
+                            <option value="South Sinai">South Sinai</option>
+                            <option value="Suez">Suez</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- ============================================================ -->
+                <!-- Contact Section -->
+                <!-- ============================================================ -->
+                <section class="p-5 bg-section-dark-bg rounded-lg shadow-inner">
+                    <h2
+                        class="text-2xl font-bold text-main-fitra mb-6 border-b pb-2 border-gray-600">
+                        Contact Details
+                    </h2>
+
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="phone">
+                            <span class="required-label">
+                                Phone Number (with WhatsApp)
+                            </span>
+                        </label>
+
+                        <input type="tel" id="phone" name="phone" required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="e.g., 01XXXXXXXXX">
+
+                        <p class="text-sm text-gray-400 mt-1">
+                            Must start with '01'
+                        </p>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="email">
+                            <span class="required-label">Email</span>
+                        </label>
+
+                        <input type="email" id="email" name="email" required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer">
+                    </div>
+                </section>
+
+                <!-- ============================================================ -->
+                <!-- Training Background Section -->
+                <!-- ============================================================ -->
+                <section class="p-5 bg-section-dark-bg rounded-lg shadow-inner">
+                    <h2
+                        class="text-2xl font-bold text-main-fitra mb-6 border-b pb-2 border-gray-600">
+                        Training Background
+                    </h2>
+
+                    <!-- Have you trained in a gym before? -->
+                    <div id="gym-before-section" class="mb-6">
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                Have you trained in a gym before?
+                            </span>
+                        </label>
+
+                        <div class="flex flex-wrap gap-4">
+                            <div>
+                                <input type="radio" id="gym-before-yes"
+                                    name="gym_before" value="Yes" required
+                                    class="custom-radio-input">
+
+                                <label for="gym-before-yes"
+                                    class="custom-label">Yes</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="gym-before-no"
+                                    name="gym_before" value="No" required
+                                    class="custom-radio-input">
+
+                                <label for="gym-before-no"
+                                    class="custom-label">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Training age -->
+                    <div id="training-age-section" class="mb-6">
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                How long have you been resistance training (home
+                                or
+                                gym)?
+                            </span>
+                        </label>
+
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                            <div>
+                                <input type="radio" id="age-3m"
+                                    name="training_age" value="3 months"
+                                    class="custom-radio-input">
+
+                                <label for="age-3m"
+                                    class="custom-label w-full">
+                                    3 months
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="age-6m"
+                                    name="training_age" value="6 months"
+                                    class="custom-radio-input">
+
+                                <label for="age-6m"
+                                    class="custom-label w-full">
+                                    6 months
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="age-1y"
+                                    name="training_age" value="1 year"
+                                    class="custom-radio-input">
+
+                                <label for="age-1y"
+                                    class="custom-label w-full">
+                                    1 year
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="age-2y"
+                                    name="training_age" value="2 years"
+                                    class="custom-radio-input">
+
+                                <label for="age-2y"
+                                    class="custom-label w-full">
+                                    2 years
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="age-2y-plus"
+                                    name="training_age"
+                                    value="More than 2 years"
+                                    class="custom-radio-input">
+
+                                <label for="age-2y-plus"
+                                    class="custom-label w-full">
+                                    More than 2 years
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="age-intermittent"
+                                    name="training_age" value="On and off"
+                                    class="custom-radio-input">
+
+                                <label for="age-intermittent"
+                                    class="custom-label w-full">
+                                    On and off
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="age-never"
+                                    name="training_age"
+                                    value="Never trained before"
+                                    class="custom-radio-input">
+
+                                <label for="age-never"
+                                    class="custom-label w-full">
+                                    Never trained before
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conditional: sets per muscle per week -->
+                    <div id="gym-sets-section"
+                        class="mb-6 p-4 border border-main-fitra bg-main-fitra/10 rounded-lg hidden">
+
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                If you have trained in a gym, how many direct
+                                sets do
+                                you usually do per muscle, per week?
+                            </span>
+                        </label>
+
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                            <div>
+                                <input type="radio" id="sets-2-4"
+                                    name="gym_sets_per_week" value="2-4"
+                                    class="custom-radio-input">
+
+                                <label for="sets-2-4"
+                                    class="custom-label w-full">2-4</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="sets-4-6"
+                                    name="gym_sets_per_week" value="4-6"
+                                    class="custom-radio-input">
+
+                                <label for="sets-4-6"
+                                    class="custom-label w-full">4-6</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="sets-6-8"
+                                    name="gym_sets_per_week" value="6-8"
+                                    class="custom-radio-input">
+
+                                <label for="sets-6-8"
+                                    class="custom-label w-full">6-8</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="sets-8-12"
+                                    name="gym_sets_per_week" value="8-12"
+                                    class="custom-radio-input">
+
+                                <label for="sets-8-12"
+                                    class="custom-label w-full">8-12</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="sets-12-15"
+                                    name="gym_sets_per_week" value="12-15"
+                                    class="custom-radio-input">
+
+                                <label for="sets-12-15"
+                                    class="custom-label w-full">12-15</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="sets-15-20"
+                                    name="gym_sets_per_week" value="15-20"
+                                    class="custom-radio-input">
+
+                                <label for="sets-15-20"
+                                    class="custom-label w-full">15-20</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Muscle failure / RIR -->
+                    <div id="failure-rir-section" class="mb-6">
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                Do you know what "muscle failure" and "RIR"
+                                mean?
+                            </span>
+                        </label>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <div>
+                                <input type="radio" id="rir-both"
+                                    name="failure_rir"
+                                    value="Yes, I know both"
+                                    class="custom-radio-input">
+
+                                <label for="rir-both"
+                                    class="custom-label w-full">
+                                    Yes, I know both
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="rir-failure-only"
+                                    name="failure_rir"
+                                    value="I know muscle failure only"
+                                    class="custom-radio-input">
+
+                                <label for="rir-failure-only"
+                                    class="custom-label w-full">
+                                    I know muscle failure only
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="rir-rir-only"
+                                    name="failure_rir"
+                                    value="I know RIR only, but can't quite apply it"
+                                    class="custom-radio-input">
+
+                                <label for="rir-rir-only"
+                                    class="custom-label w-full">
+                                    I know RIR only,
+                                    but can't quite apply it
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="rir-neither"
+                                    name="failure_rir"
+                                    value="I don't know either"
+                                    class="custom-radio-input">
+
+                                <label for="rir-neither"
+                                    class="custom-label w-full">
+                                    I don't know either
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Home or Gym -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                Are you planning to train at the gym or at home?
+                            </span>
+                        </label>
+
+                        <div class="flex flex-wrap gap-4">
+                            <div>
+                                <input type="radio" id="location-home"
+                                    name="training_location" value="Home"
+                                    required class="custom-radio-input">
+
+                                <label for="location-home"
+                                    class="custom-label">Home</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="location-gym"
+                                    name="training_location" value="Gym"
+                                    required class="custom-radio-input">
+
+                                <label for="location-gym"
+                                    class="custom-label">Gym</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conditional: gym bench -->
+                    <div id="gym-bench-section"
+                        class="mb-6 p-4 border border-main-fitra bg-main-fitra/10 rounded-lg hidden">
+
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                If you'll train at a gym,
+                                does your gym allow you to move the bench to the
+                                cable stations, or is it too crowded / not
+                                allowed?
+                            </span>
+                        </label>
+
+                        <div class="flex flex-wrap gap-4">
+                            <div>
+                                <input type="radio" id="bench-easy"
+                                    name="gym_bench_move"
+                                    value="It's fine, I can move it"
+                                    class="custom-radio-input">
+
+                                <label for="bench-easy"
+                                    class="custom-label">
+                                    It's fine, I can move it
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="bench-hard"
+                                    name="gym_bench_move"
+                                    value="No, it's hard to move"
+                                    class="custom-radio-input">
+
+                                <label for="bench-hard"
+                                    class="custom-label">
+                                    No, it's hard to move
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Workout days -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                How many days a week can you train (weights and
+                                cardio
+                                combined)?
+                            </span>
+                        </label>
+
+                        <div class="grid grid-cols-3 md:grid-cols-5 gap-2">
+                            <div>
+                                <input type="radio" id="days-2"
+                                    name="workout_days" value="2" required
+                                    class="custom-radio-input">
+
+                                <label for="days-2"
+                                    class="custom-label w-full">2</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="days-3"
+                                    name="workout_days" value="3" required
+                                    class="custom-radio-input">
+
+                                <label for="days-3"
+                                    class="custom-label w-full">3</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="days-4"
+                                    name="workout_days" value="4" required
+                                    class="custom-radio-input">
+
+                                <label for="days-4"
+                                    class="custom-label w-full">4</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="days-5"
+                                    name="workout_days" value="5" required
+                                    class="custom-radio-input">
+
+                                <label for="days-5"
+                                    class="custom-label w-full">5</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="days-6"
+                                    name="workout_days" value="6" required
+                                    class="custom-radio-input">
+
+                                <label for="days-6"
+                                    class="custom-label w-full">6</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Training time -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                Do you prefer to train in the morning, midday,
+                                or at
+                                night?
+                            </span>
+                        </label>
+
+                        <div class="flex flex-wrap gap-4">
+                            <div>
+                                <input type="radio" id="time-morning"
+                                    name="training_time" value="Morning"
+                                    required class="custom-radio-input">
+
+                                <label for="time-morning"
+                                    class="custom-label">Morning</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="time-midday"
+                                    name="training_time" value="Midday" required
+                                    class="custom-radio-input">
+
+                                <label for="time-midday"
+                                    class="custom-label">Midday</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="time-night"
+                                    name="training_time" value="Night" required
+                                    class="custom-radio-input">
+
+                                <label for="time-night"
+                                    class="custom-label">Night</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Session duration -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                How long would you like each training session to
+                                be?
+                            </span>
+                        </label>
+
+                        <div class="flex flex-wrap gap-4">
+                            <div>
+                                <input type="radio" id="duration-1h"
+                                    name="session_duration" value="1 hour"
+                                    required class="custom-radio-input">
+
+                                <label for="duration-1h"
+                                    class="custom-label">1 hour</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="duration-1-5h"
+                                    name="session_duration" value="1.5 hours"
+                                    required class="custom-radio-input">
+
+                                <label for="duration-1-5h"
+                                    class="custom-label">1.5 hours</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="duration-2h"
+                                    name="session_duration" value="2 hours"
+                                    required class="custom-radio-input">
+
+                                <label for="duration-2h"
+                                    class="custom-label">2 hours</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Daily steps -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="daily_steps">
+                            <span class="required-label">
+                                Roughly how many steps do you take daily?
+                            </span>
+                        </label>
+
+                        <input type="text" id="daily_steps" name="daily_steps"
+                            required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer">
+                    </div>
+
+                    <!-- Current split -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="current_split">
+                            <span class="required-label">
+                                Is there a specific split you're currently
+                                following
+                                that makes you happy, at home or at the gym?
+                                (Tell me
+                                and I'll find the best fit for you)
+                            </span>
+                        </label>
+
+                        <textarea id="current_split" name="current_split"
+                            rows="3" required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer"></textarea>
+                    </div>
+                </section>
+
+                <!-- ============================================================ -->
+                <!-- Goals and Lifestyle Section -->
+                <!-- ============================================================ -->
+                <section class="p-5 bg-section-dark-bg rounded-lg shadow-inner">
+                    <h2
+                        class="text-2xl font-bold text-main-fitra mb-6 border-b pb-2 border-gray-600">
+                        Goals and Lifestyle
+                    </h2>
+
+                    <!-- Fitness Goal -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                Fitness Goal
+                            </span>
+                        </label>
+
+                        <p class="text-sm text-main-fitra mb-3 font-semibold">
+                            You can choose more than one goal
+                        </p>
+
+                        <div
+                            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+
+                            <div class="flex items-center">
+                                <input type="checkbox" id="goal-fatloss"
+                                    name="fitness_goal" value="Fat loss"
+                                    class="custom-checkbox-input" required>
+
+                                <label for="goal-fatloss"
+                                    class="custom-label w-full">Fat Loss</label>
+                            </div>
+
+                            <div class="flex items-center">
+                                <input type="checkbox" id="goal-muscle"
+                                    name="fitness_goal"
+                                    value="Increase Muscle Mass"
+                                    class="custom-checkbox-input">
+
+                                <label for="goal-muscle"
+                                    class="custom-label w-full">
+                                    Increase Muscle Mass
+                                </label>
+                            </div>
+
+                            <div class="flex items-center">
+                                <input type="checkbox" id="goal-strength"
+                                    name="fitness_goal"
+                                    value="Increase Strength"
+                                    class="custom-checkbox-input">
+
+                                <label for="goal-strength"
+                                    class="custom-label w-full">
+                                    Increase Strength
+                                </label>
+                            </div>
+
+                            <div class="flex items-center">
+                                <input type="checkbox" id="goal-endurance"
+                                    name="fitness_goal"
+                                    value="Increase Endurance"
+                                    class="custom-checkbox-input">
+
+                                <label for="goal-endurance"
+                                    class="custom-label w-full">
+                                    Increase Endurance
+                                </label>
+                            </div>
+
+                            <div class="flex items-center">
+                                <input type="checkbox" id="goal-functional"
+                                    name="fitness_goal"
+                                    value="Functionality in daily life"
+                                    class="custom-checkbox-input">
+
+                                <label for="goal-functional"
+                                    class="custom-label w-full">
+                                    Functionality in Daily Life
+                                </label>
+                            </div>
+
+                            <div class="flex items-center">
+                                <input type="checkbox" id="goal-fun"
+                                    name="fitness_goal"
+                                    value="Having fun and breaking the routine"
+                                    class="custom-checkbox-input">
+
+                                <label for="goal-fun"
+                                    class="custom-label w-full">
+                                    Having Fun & Breaking the Routine
+                                </label>
+                            </div>
+
+                            <div class="flex items-center">
+                                <input type="checkbox" id="goal-rehab"
+                                    name="fitness_goal"
+                                    value="Post-injury strengthening"
+                                    class="custom-checkbox-input">
+
+                                <label for="goal-rehab"
+                                    class="custom-label w-full">
+                                    Post-Injury Strengthening
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Goal timeframe -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="goal_timeframe">
+                            <span class="required-label">
+                                How much time have you set yourself to reach
+                                your goal?
+                                (This helps me understand your mindset)
+                            </span>
+                        </label>
+
+                        <textarea id="goal_timeframe" name="goal_timeframe"
+                            rows="2" required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer"></textarea>
+                    </div>
+
+                    <!-- Daily/Weekly Habit -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="habit">
+                            <span class="required-label">
+                                Do you have any daily or weekly habit (good or
+                                bad)?
+                            </span>
+                        </label>
+
+                        <p class="text-sm text-gray-400 mb-3">
+                            Example: (weekly football match with friends -
+                            walking to
+                            work on foot - smoking)
+                        </p>
+
+                        <textarea id="habit" name="habit" rows="3" required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer"></textarea>
+                    </div>
+
+                    <!-- Other sports -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="other_sports">
+                            Do you practice any other sport besides resistance
+                            training? (If yes, describe)
+                        </label>
+
+                        <textarea id="other_sports" name="other_sports" rows="3"
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer (Optional)"></textarea>
+                    </div>
+
+                    <!-- Injury/issue -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="injury_issue">
+                            Do you suffer from any muscular issue, body-shape
+                            issue,
+                            or a recent/old injury affecting your athletic
+                            performance?
+                            (If yes, explain)
+                        </label>
+
+                        <textarea id="injury_issue" name="injury_issue" rows="3"
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer (Optional)"></textarea>
+                    </div>
+
+                    <!-- Wanted exercise -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="wanted_exercise">
+                            Is there a specific exercise you'd like included in
+                            your
+                            program for any reason?
+                        </label>
+
+                        <textarea id="wanted_exercise" name="wanted_exercise"
+                            rows="2"
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer (Optional)"></textarea>
+                    </div>
+
+                    <!-- Unwanted exercise -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="unwanted_exercise">
+                            Is there a specific exercise you don't want in your
+                            program?
+                            (You don't enjoy it, it's uncomfortable, or it hurts
+                            a
+                            certain area when you do it)
+                        </label>
+
+                        <textarea id="unwanted_exercise"
+                            name="unwanted_exercise" rows="2"
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer (Optional)"></textarea>
+                    </div>
+                </section>
+
+                <!-- ============================================================ -->
+                <!-- Diet Section -->
+                <!-- ============================================================ -->
+                <section class="p-5 bg-section-dark-bg rounded-lg shadow-inner">
+                    <h2
+                        class="text-2xl font-bold text-main-fitra mb-2 border-b pb-2 border-gray-600">
+                        Diet Section
+                    </h2>
+
+                    <p class="text-sm text-gray-400 mb-6">
+                        So I can build you a diet that isn't complicated and
+                        that you
+                        can actually stick to.
+                    </p>
+
+                    <!-- Chronic illness -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="chronic_illness">
+                            <span class="required-label">
+                                Do you have any chronic illness, or a family
+                                history of
+                                one?
+                            </span>
+                        </label>
+
+                        <textarea id="chronic_illness"
+                            name="chronic_illness"
+                            rows="2"
+                            required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer"></textarea>
+                    </div>
+
+                    <!-- Medication -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="medication">
+                            <span class="required-label">
+                                Do you take medication for any illness?
+                            </span>
+                        </label>
+
+                        <textarea id="medication" name="medication" rows="2"
+                            required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer"></textarea>
+                    </div>
+
+                    <!-- Allergy -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="allergy">
+                            <span class="required-label">
+                                Do you have an allergy to lactose, gluten,
+                                legumes, or
+                                any specific allergy?
+                            </span>
+                        </label>
+
+                        <textarea id="allergy" name="allergy" rows="2" required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer"></textarea>
+                    </div>
+
+                    <!-- Meals per day -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                How many meals can you eat per day?
+                            </span>
+                        </label>
+
+                        <p class="text-sm text-main-fitra mb-3 font-semibold">
+                            Best recommended (4 - 5)
+                        </p>
+
+                        <div class="grid grid-cols-3 md:grid-cols-5 gap-2">
+                            <div>
+                                <input type="radio" id="meals-1"
+                                    name="meals_per_day" value="1 meal" required
+                                    class="custom-radio-input">
+
+                                <label for="meals-1"
+                                    class="custom-label w-full">
+                                    1 meal
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="meals-2"
+                                    name="meals_per_day" value="2 meals"
+                                    required class="custom-radio-input">
+
+                                <label for="meals-2"
+                                    class="custom-label w-full">
+                                    2 meals
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="meals-3"
+                                    name="meals_per_day" value="3 meals"
+                                    required class="custom-radio-input">
+
+                                <label for="meals-3"
+                                    class="custom-label w-full">
+                                    3 meals
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="meals-4"
+                                    name="meals_per_day" value="4 meals"
+                                    required class="custom-radio-input">
+
+                                <label for="meals-4"
+                                    class="custom-label w-full">
+                                    4 meals
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="meals-5"
+                                    name="meals_per_day" value="5 meals"
+                                    required class="custom-radio-input">
+
+                                <label for="meals-5"
+                                    class="custom-label w-full">
+                                    5 meals
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Food budget -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                Roughly how much can you spend daily on your
+                                training
+                                food?
+                            </span>
+                        </label>
+
+                        <p class="text-sm text-gray-400 mb-3">
+                            The bigger the budget, the better the results we can
+                            achieve.
+                            (This includes food already available at home, in
+                            case you
+                            live away from your family).
+                        </p>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <input type="radio" id="budget-1"
+                                    name="food_budget"
+                                    value="Less than 100 EGP daily" required
+                                    class="custom-radio-input">
+
+                                <label for="budget-1"
+                                    class="custom-label w-full">
+                                    Less than 100 EGP daily
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="budget-2"
+                                    name="food_budget"
+                                    value="100 - 150 EGP daily" required
+                                    class="custom-radio-input">
+
+                                <label for="budget-2"
+                                    class="custom-label w-full">
+                                    100 - 150 EGP daily
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="budget-3"
+                                    name="food_budget"
+                                    value="150 - 200 EGP daily" required
+                                    class="custom-radio-input">
+
+                                <label for="budget-3"
+                                    class="custom-label w-full">
+                                    150 - 200 EGP daily
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="budget-4"
+                                    name="food_budget"
+                                    value="More than 200 EGP daily" required
+                                    class="custom-radio-input">
+
+                                <label for="budget-4"
+                                    class="custom-label w-full">
+                                    More than 200 EGP daily
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Breakfast -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="breakfast">
+                            <span class="required-label">
+                                What's your typical breakfast?
+                            </span>
+                        </label>
+
+                        <textarea id="breakfast" name="breakfast" rows="2"
+                            required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer"></textarea>
+                    </div>
+
+                    <!-- Lunch -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="lunch">
+                            <span class="required-label">
+                                What's your typical lunch?
+                            </span>
+                        </label>
+
+                        <textarea id="lunch" name="lunch" rows="2" required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer"></textarea>
+                    </div>
+
+                    <!-- Dinner -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="dinner">
+                            <span class="required-label">
+                                What's your typical dinner?
+                            </span>
+                        </label>
+
+                        <textarea id="dinner" name="dinner" rows="2" required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer"></textarea>
+                    </div>
+
+                    <!-- Liked food -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="liked_food">
+                            <span class="required-label">
+                                Is there a specific type of food you love to
+                                eat?
+                            </span>
+                        </label>
+
+                        <p class="text-sm text-gray-400 mb-3">
+                            Example: (duck,
+                            fish, rice, bread). Write everything, literally.
+                        </p>
+
+                        <textarea id="liked_food" name="liked_food" rows="3"
+                            required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer"></textarea>
+                    </div>
+
+                    <!-- Disliked food -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="disliked_food">
+                            <span class="required-label">
+                                Is there a specific type of food you absolutely
+                                cannot
+                                eat?
+                            </span>
+                        </label>
+
+                        <p class="text-sm text-gray-400 mb-3">
+                            Example: (duck,
+                            fish, rice, bread) — whether you dislike it, it's
+                            unavailable, or you're allergic to it.
+                        </p>
+
+                        <textarea id="disliked_food"
+                            name="disliked_food"
+                            rows="3"
+                            required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer"></textarea>
+                    </div>
+
+                    <!-- Favorite meal -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="favorite_meal">
+                            <span class="required-label">
+                                Is there a specific meal you'd always like to
+                                have in
+                                your day?
+                            </span>
+                        </label>
+
+                        <textarea id="favorite_meal"
+                            name="favorite_meal"
+                            rows="2" required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer"></textarea>
+                    </div>
+
+                    <!-- Snack preference -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="snack_preference">
+                            Is there a snack you feel needs to be part of your
+                            day?
+                        </label>
+
+                        <textarea id="snack_preference"
+                            name="snack_preference"
+                            rows="2"
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer (Optional)"></textarea>
+                    </div>
+
+                    <!-- Wanted diet food -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="wanted_diet_food">
+                            <span class="required-label">
+                                Write here every food you'd personally love to
+                                see in
+                                your diet, so I can include as much of it as
+                                possible
+                            </span>
+                        </label>
+
+                        <textarea id="wanted_diet_food"
+                            name="wanted_diet_food"
+                            rows="3" required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer"></textarea>
+                    </div>
+
+                    <!-- Daily drinks -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="daily_drinks">
+                            <span class="required-label">
+                                What drinks do you have on a typical day?
+                            </span>
+                        </label>
+
+                        <textarea id="daily_drinks"
+                            name="daily_drinks"
+                            rows="2"
+                            required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer"></textarea>
+                    </div>
+                </section>
+
+                <!-- ============================================================ -->
+                <!-- Commitment Section -->
+                <!-- ============================================================ -->
+                <section class="p-5 bg-section-dark-bg rounded-lg shadow-inner">
+                    <h2
+                        class="text-2xl font-bold text-main-fitra mb-6 border-b pb-2 border-gray-600">
+                        Commitment and Confidence
+                    </h2>
+
+                    <!-- Plan Type -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                Your Package
+                            </span>
+                        </label>
+
+                        <div class="flex flex-wrap gap-4">
+                            <div>
+                                <input type="radio" id="plan-duos"
+                                    name="plan_type" value="Duos" required
+                                    class="custom-radio-input">
+
+                                <label for="plan-duos"
+                                    class="custom-label">
+                                    👥 Duos
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="plan-epic"
+                                    name="plan_type" value="Epic" required
+                                    class="custom-radio-input">
+
+                                <label for="plan-epic"
+                                    class="custom-label">
+                                    🟪 Epic
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="plan-legendary"
+                                    name="plan_type" value="Legendary" required
+                                    class="custom-radio-input">
+
+                                <label for="plan-legendary"
+                                    class="custom-label">
+                                    🟨 Legendary
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subscribed with a trainer before? -->
+                    <div id="trainer-before-section" class="mb-6">
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                Have you subscribed with a trainer before?
+                            </span>
+                        </label>
+
+                        <div class="flex flex-wrap gap-4">
+                            <div>
+                                <input type="radio" id="trainer-yes"
+                                    name="trainer_before" value="Yes" required
+                                    class="custom-radio-input">
+
+                                <label for="trainer-yes"
+                                    class="custom-label">
+                                    Yes
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="trainer-no"
+                                    name="trainer_before" value="No" required
+                                    class="custom-radio-input">
+
+                                <label for="trainer-no"
+                                    class="custom-label">
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conditional: biggest problem -->
+                    <div id="trainer-problem-section"
+                        class="mb-6 p-4 border border-main-fitra bg-main-fitra/10 rounded-lg hidden">
+
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                If yes, what was the biggest problem you faced
+                                (without
+                                naming names)?
+                            </span>
+                        </label>
+
+                        <textarea id="trainer_problem"
+                            name="trainer_problem"
+                            rows="3"
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer"></textarea>
+                    </div>
+
+                    <!-- Subscribe reason -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2"
+                            for="subscribe_reason">
+                            <span class="required-label">
+                                What made you decide to subscribe with me?
+                            </span>
+                        </label>
+
+                        <textarea id="subscribe_reason"
+                            name="subscribe_reason"
+                            rows="3" required
+                            class="w-full p-3 border-2 border-gray-600 rounded-lg focus:border-main-fitra focus:ring focus:ring-main-fitra/50 transition duration-150"
+                            placeholder="Your answer"></textarea>
+                    </div>
+
+                    <!-- Lifestyle commitment -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                Do you intend to make this sport your lifestyle?
+                            </span>
+                        </label>
+
+                        <div class="flex flex-wrap gap-4">
+                            <div>
+                                <input type="radio" id="lifestyle-abs"
+                                    name="lifestyle_commitment"
+                                    value="Absolutely" required
+                                    class="custom-radio-input">
+
+                                <label for="lifestyle-abs"
+                                    class="custom-label">
+                                    Absolutely
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="lifestyle-maybe"
+                                    name="lifestyle_commitment"
+                                    value="Maybe" required
+                                    class="custom-radio-input">
+
+                                <label for="lifestyle-maybe"
+                                    class="custom-label">
+                                    Maybe
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="lifestyle-no"
+                                    name="lifestyle_commitment"
+                                    value="No" required
+                                    class="custom-radio-input">
+
+                                <label for="lifestyle-no"
+                                    class="custom-label">
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Return continuity -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                If you run into problems along the way, will you
+                                come
+                                back and train again?
+                            </span>
+                        </label>
+
+                        <div class="flex flex-wrap gap-4">
+                            <div>
+                                <input type="radio" id="return-abs"
+                                    name="return_continuity"
+                                    value="Absolutely" required
+                                    class="custom-radio-input">
+
+                                <label for="return-abs"
+                                    class="custom-label">
+                                    Absolutely
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="return-no"
+                                    name="return_continuity"
+                                    value="No" required
+                                    class="custom-radio-input">
+
+                                <label for="return-no"
+                                    class="custom-label">
+                                    No
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- How did you hear about FITRA -->
+                    <div id="how-hear-section" class="mb-6">
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                How did you hear about "FITRA"?
+                            </span>
+                        </label>
+
+                        <p class="text-sm text-gray-400 mb-3">
+                            You can choose more than one option.
+                        </p>
+
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                            <div>
+                                <input type="checkbox" id="hear-friend"
+                                    name="how_hear" value="A friend"
+                                    class="custom-checkbox-input">
+
+                                <label for="hear-friend"
+                                    class="custom-label w-full">
+                                    A friend
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="checkbox" id="hear-facebook"
+                                    name="how_hear" value="Facebook"
+                                    class="custom-checkbox-input">
+
+                                <label for="hear-facebook"
+                                    class="custom-label w-full">
+                                    Facebook
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="checkbox" id="hear-instagram"
+                                    name="how_hear" value="Instagram"
+                                    class="custom-checkbox-input">
+
+                                <label for="hear-instagram"
+                                    class="custom-label w-full">
+                                    Instagram
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="checkbox" id="hear-tiktok"
+                                    name="how_hear" value="Tiktok"
+                                    class="custom-checkbox-input">
+
+                                <label for="hear-tiktok"
+                                    class="custom-label w-full">
+                                    TikTok
+                                </label>
+                            </div>
+
+                            <div>
+                                <input type="checkbox" id="hear-other"
+                                    name="how_hear" value="Other"
+                                    class="custom-checkbox-input">
+
+                                <label for="hear-other"
+                                    class="custom-label w-full">
+                                    Other
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recommendation rating - LAST QUESTION -->
+                    <div class="mb-6">
+                        <label class="block text-lg font-medium mb-2">
+                            <span class="required-label">
+                                How likely are you to recommend us to a friend?
+                            </span>
+                        </label>
+
+                        <div class="flex justify-between mt-4">
+                            <span class="text-sm text-gray-400">
+                                1 (Not Recommended)
+                            </span>
+
+                            <span class="text-sm text-gray-400">
+                                5 (Highly Recommended)
+                            </span>
+                        </div>
+
+                        <div
+                            class="flex justify-between items-center p-3 rounded-lg">
+
+                            <div class="flex justify-around w-full">
+
+                                <div>
+                                    <input type="radio" id="rating-1"
+                                        name="recommendation_rating" value="1"
+                                        required
+                                        class="custom-radio-input">
+
+                                    <label for="rating-1"
+                                        class="custom-label text-center p-2">
+                                        1
+                                    </label>
+                                </div>
+
+                                <div>
+                                    <input type="radio" id="rating-2"
+                                        name="recommendation_rating" value="2"
+                                        required
+                                        class="custom-radio-input">
+
+                                    <label for="rating-2"
+                                        class="custom-label text-center p-2">
+                                        2
+                                    </label>
+                                </div>
+
+                                <div>
+                                    <input type="radio" id="rating-3"
+                                        name="recommendation_rating" value="3"
+                                        required
+                                        class="custom-radio-input">
+
+                                    <label for="rating-3"
+                                        class="custom-label text-center p-2">
+                                        3
+                                    </label>
+                                </div>
+
+                                <div>
+                                    <input type="radio" id="rating-4"
+                                        name="recommendation_rating" value="4"
+                                        required
+                                        class="custom-radio-input">
+
+                                    <label for="rating-4"
+                                        class="custom-label text-center p-2">
+                                        4
+                                    </label>
+                                </div>
+
+                                <div>
+                                    <input type="radio" id="rating-5"
+                                        name="recommendation_rating" value="5"
+                                        required
+                                        class="custom-radio-input">
+
+                                    <label for="rating-5"
+                                        class="custom-label text-center p-2">
+                                        5
+                                    </label>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================================================ -->
+                <!-- Terms and Conditions Section -->
+                <!-- ============================================================ -->
+                <section class="p-5 bg-section-dark-bg rounded-lg shadow-inner">
+
+                    <h2
+                        class="text-2xl font-bold text-main-fitra mb-6 border-b pb-2 border-gray-600">
+                        Terms and Conditions
+                    </h2>
+
+                    <div class="space-y-4 text-gray-200 leading-relaxed">
+
+                        <p class="text-sm text-main-fitra font-semibold">
+                            🛑 Please read the following Terms and Conditions
+                            carefully:
+                        </p>
+
+                        <ul class="list-disc pl-6 space-y-4">
+
+                            <li>
+                                There is currently no installment payment
+                                service available.
+                            </li>
+
+                            <li>
+                                No refunds are available under any circumstances
+                                once the
+                                training plan has been sent and you have
+                                received your
+                                application login credentials (email and
+                                password).
+                            </li>
+
+                            <li>
+                                There is no service freeze period. A maximum
+                                freeze of
+                                <strong>7 days</strong> is allowed only in cases
+                                of extreme
+                                necessity.
+                            </li>
+
+                            <li>
+                                You are not entitled to question delayed results
+                                or the lack
+                                of clear progress if you have failed to maintain
+                                regular
+                                follow-ups, record your training weights, or
+                                complete the
+                                required weekly and periodic assessments.
+
+                                <br><br>
+
+                                <span class="text-gray-300 italic">
+                                    This is a journey that requires two people.
+                                    My role is to
+                                    create realistic and practical plans that
+                                    fit your
+                                    lifestyle and daily routine, while your role
+                                    is to stay
+                                    committed and follow them.
+                                </span>
+                            </li>
+
+                            <li>
+                                Once your training period ends, you will be
+                                automatically
+                                logged out of the application and will no longer
+                                be able to
+                                access the application's features.
+
+                                However, you are completely free to take
+                                screenshots of the
+                                full diet and training programs so you can keep
+                                them for
+                                future reference if needed.
+                            </li>
+
+                            <li>
+                                Please avoid sending voice messages when a quick
+                                response is
+                                needed. In urgent situations, send clear text
+                                messages for a
+                                faster response.
+
+                                <br><br>
+
+                                In non-urgent situations, you may send a voice
+                                message, and
+                                it will be answered when I am available.
+                            </li>
+
+                        </ul>
+
+                        <!-- Agreement Checkbox -->
+                        <div
+                            class="mt-8 p-4 border border-main-fitra/50 bg-main-fitra/5 rounded-lg">
+                            <div class="flex items-start gap-3">
+                                <input
+                                    type="checkbox"
+                                    id="terms-acceptance"
+                                    name="terms_acceptance"
+                                    value="Accepted"
+                                    required
+                                    class="mt-1 w-5 h-5 accent-main-fitra cursor-pointer">
+
+                                <label
+                                    for="terms-acceptance"
+                                    class="text-gray-100 cursor-pointer leading-relaxed">
+                                    I have read, understood, and agree to all of
+                                    the above
+                                    Terms and Conditions.
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Submit and Clear Buttons -->
+                <div
+                    class="flex flex-col md:flex-row justify-between gap-4 pt-6 border-t border-gray-600">
+
+                    <button type="submit"
+                        class="bg-main-fitra hover:bg-second-fitra text-black font-bold py-3 px-6 rounded-xl shadow-lg transition duration-300 transform hover:scale-[1.01] hover:text-white">
+                        Submit
+                    </button>
+
+                    <button type="button" id="clear-form-btn"
+                        class="bg-red-700 hover:bg-red-800 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition duration-300 transform hover:scale-[1.01]">
+                        Clear Form
+                    </button>
                 </div>
 
-            </section>
-            
-            <!-- Submit and Clear Buttons -->
-            <div class="flex flex-col md:flex-row justify-between gap-4 pt-6 border-t border-gray-600">
-                <button type="submit" class="bg-main-fitra hover:bg-second-fitra text-black font-bold py-3 px-6 rounded-xl shadow-lg transition duration-300 transform hover:scale-[1.01] hover:text-white">
-                    Submit
-                </button>
-                <button type="button" id="clear-form-btn" class="bg-red-700 hover:bg-red-800 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition duration-300 transform hover:scale-[1.01]">
-                    Clear Form
-                </button>
+            </form>
+
+            <!-- Notification Message Box -->
+            <div id="message-box"
+                class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-main-fitra text-black p-4 rounded-lg shadow-xl hidden transition-opacity duration-300 z-50"
+                role="alert">
+                Form submitted successfully! Thank you.
             </div>
-            
-        </form>
-        
-        <!-- Notification Message Box (Replaces alert()) -->
-        <div id="message-box" class="fixed top-4 left-1/2 transform -translate-x-1/2 bg-main-fitra text-black p-4 rounded-lg shadow-xl hidden transition-opacity duration-300 z-50" role="alert">
-            Form submitted successfully! Thank you.
+
         </div>
 
-    </div>
-
-    <script>
-        // JavaScript for conditional logic and form validation
-
+        <script>
         document.addEventListener('DOMContentLoaded', () => {
             const form = document.getElementById('fitra-form');
-            const maleRadio = document.getElementById('gender-male');
-            const femaleRadio = document.getElementById('gender-female');
-            const maleSection = document.getElementById('male-photo-section');
-            const femaleSection = document.getElementById('female-measurements-section');
-            const malePhotosInput = document.getElementById('male_photos');
-            const femaleMeasurementsInput = document.getElementById('female_measurements');
             const clearBtn = document.getElementById('clear-form-btn');
             const messageBox = document.getElementById('message-box');
             const phoneInput = document.getElementById('phone');
 
-            // Function to show notification messages
+            // ------------------------------------------------------------
+            // Helper: show a toast message
+            // ------------------------------------------------------------
             function showMessage(message, isError = false) {
                 messageBox.textContent = message;
-                // Ensure visibility and correct color
                 messageBox.classList.remove('hidden', 'bg-main-fitra', 'bg-red-500', 'text-black', 'text-white');
-                
                 if (isError) {
                     messageBox.classList.add('bg-red-500', 'text-white');
                 } else {
                     messageBox.classList.add('bg-main-fitra', 'text-black');
                 }
-
                 messageBox.classList.add('opacity-100');
-                
                 setTimeout(() => {
                     messageBox.classList.add('hidden');
                     messageBox.classList.remove('opacity-100');
                 }, 4000);
             }
 
-            // **1. Gender Conditional Logic**
+            // Helper: add/remove "required" on every field with a given name
+            function setRequired(name, required) {
+                document.querySelectorAll(`[name="${name}"]`).forEach(el => {
+                    if (required) {
+                        el.setAttribute('required', 'required');
+                    } else {
+                        el.removeAttribute('required');
+                    }
+                });
+            }
+
+            function showSection(id, show) {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.classList.toggle('hidden', !show);
+            }
+
+            // ------------------------------------------------------------
+            // 1. Gender conditional fields (Male photos / Female measurements)
+            // ------------------------------------------------------------
+            const maleRadio = document.getElementById('gender-male');
+            const femaleRadio = document.getElementById('gender-female');
+            const malePhotosInput = document.getElementById('male_photos');
+            const femaleMeasurementsInput = document.getElementById('female_measurements');
+
             function toggleGenderFields() {
-                // Hide all conditional sections and remove required attribute first
-                maleSection.classList.add('hidden');
-                femaleSection.classList.add('hidden');
+                showSection('male-photo-section', false);
+                showSection('female-measurements-section', false);
                 malePhotosInput.removeAttribute('required');
                 femaleMeasurementsInput.removeAttribute('required');
 
                 if (maleRadio.checked) {
-                    // Male selected: show photo section and make it required
-                    maleSection.classList.remove('hidden');
+                    showSection('male-photo-section', true);
                     malePhotosInput.setAttribute('required', 'required');
                 } else if (femaleRadio.checked) {
-                    // Female selected: show measurement section and make it required
-                    femaleSection.classList.remove('hidden');
+                    showSection('female-measurements-section', true);
                     femaleMeasurementsInput.setAttribute('required', 'required');
                 }
             }
-
-            // Add event listeners for gender radio buttons
             maleRadio.addEventListener('change', toggleGenderFields);
             femaleRadio.addEventListener('change', toggleGenderFields);
 
-            // Run on load to set initial state
+            // ------------------------------------------------------------
+            // 2. Registration type: New vs Renewal
+            //    On Renewal we hide questions a returning client has
+            //    already answered before. Edit RENEWAL_HIDDEN_SECTIONS
+            //    below to change which questions get skipped.
+            // ------------------------------------------------------------
+            const RENEWAL_HIDDEN_SECTIONS = [
+                { sectionId: 'gym-before-section', fieldName: 'gym_before' },
+                { sectionId: 'gym-sets-section', fieldName: 'gym_sets_per_week' },
+                { sectionId: 'training-age-section', fieldName: 'training_age' },
+                { sectionId: 'failure-rir-section', fieldName: 'failure_rir' },
+                { sectionId: 'trainer-before-section', fieldName: 'trainer_before' },
+                { sectionId: 'trainer-problem-section', fieldName: 'trainer_problem' },
+                { sectionId: 'how-hear-section', fieldName: 'how_hear' }
+            ];
+
+            function isRenewalSelected() {
+                const checked = document.querySelector('input[name="registration_type"]:checked');
+                return checked ? checked.value === 'Renewal' : false;
+            }
+
+            // ------------------------------------------------------------
+            // 3. Have you trained in a gym before? -> sets per muscle/week
+            // ------------------------------------------------------------
+            function updateGymBeforeFields() {
+                const renewal = isRenewalSelected();
+                const gymBeforeChecked = document.querySelector('input[name="gym_before"]:checked');
+                const showSets = !renewal && gymBeforeChecked && gymBeforeChecked.value === 'Yes';
+                showSection('gym-sets-section', showSets);
+                setRequired('gym_sets_per_week', showSets);
+            }
+            document.querySelectorAll('input[name="gym_before"]').forEach(el => {
+                el.addEventListener('change', updateGymBeforeFields);
+            });
+
+            // ------------------------------------------------------------
+            // 4. Home / Gym training -> gym bench / cables question
+            // ------------------------------------------------------------
+            function updateTrainingLocationFields() {
+                const checked = document.querySelector('input[name="training_location"]:checked');
+                const showBench = checked && checked.value === 'Gym';
+                showSection('gym-bench-section', showBench);
+                setRequired('gym_bench_move', showBench);
+            }
+            document.querySelectorAll('input[name="training_location"]').forEach(el => {
+                el.addEventListener('change', updateTrainingLocationFields);
+            });
+
+            // ------------------------------------------------------------
+            // 5. Subscribed with a trainer before? -> biggest problem
+            // ------------------------------------------------------------
+            function updateTrainerBeforeFields() {
+                const renewal = isRenewalSelected();
+                const checked = document.querySelector('input[name="trainer_before"]:checked');
+                const showProblem = !renewal && checked && checked.value === 'Yes';
+                showSection('trainer-problem-section', showProblem);
+                setRequired('trainer_problem', showProblem);
+            }
+            document.querySelectorAll('input[name="trainer_before"]').forEach(el => {
+                el.addEventListener('change', updateTrainerBeforeFields);
+            });
+
+            // ------------------------------------------------------------
+            // Master update, run whenever registration type changes
+            // ------------------------------------------------------------
+            function updateRenewalVisibility() {
+                const renewal = isRenewalSelected();
+
+                RENEWAL_HIDDEN_SECTIONS.forEach(({ sectionId, fieldName }) => {
+                    if (renewal) {
+                        showSection(sectionId, false);
+                        setRequired(fieldName, false);
+                    } else {
+                        showSection(sectionId, true);
+                        setRequired(fieldName, true);
+                    }
+                });
+
+                // Re-apply the more specific sub-conditions on top,
+                // since some sections should only show for New AND a Yes answer.
+                updateGymBeforeFields();
+                updateTrainerBeforeFields();
+            }
+            document.querySelectorAll('input[name="registration_type"]').forEach(el => {
+                el.addEventListener('change', updateRenewalVisibility);
+            });
+
+            // ------------------------------------------------------------
+            // Initial state on page load
+            // ------------------------------------------------------------
             toggleGenderFields();
+            updateRenewalVisibility();
+            updateTrainingLocationFields();
 
-
-            // **2. Form Submission Handler**
+            // ------------------------------------------------------------
+            // Form submission
+            // ------------------------------------------------------------
             form.addEventListener('submit', (event) => {
-                event.preventDefault(); // Prevent default submission
+                event.preventDefault();
 
                 if (!form.checkValidity()) {
                     showMessage("Please review the form data. There are missing or incorrect required fields.", true);
@@ -567,19 +2162,14 @@
 
                 const formData = new FormData(form);
                 const data = {};
-                
-                // Get phone number for specific validation
                 const phoneNumber = formData.get('phone');
-                
-                // **Custom Validation: Phone Number must start with '01'**
+
                 if (phoneNumber && !phoneNumber.startsWith('01')) {
                     showMessage("The Phone Number must start with '01'.", true);
                     phoneInput.focus();
-                    return; // Stop submission
+                    return;
                 }
-                // End custom validation
 
-                // Collect form data (handling multiple checkboxes)
                 for (const [key, value] of formData.entries()) {
                     if (data[key]) {
                         if (Array.isArray(data[key])) {
@@ -592,25 +2182,29 @@
                     }
                 }
 
-                // Log data to console (in a real app, this would be an API call)
                 console.log("--- Form Data Submitted (to be sent to server) ---");
                 console.log(data);
 
-                // Show success message
                 showMessage("Form submitted successfully! Thank you.");
 
-                // Optional: Clear form after successful submission
+                // Optional: reset after successful submission
                 // form.reset();
                 // toggleGenderFields();
+                // updateRenewalVisibility();
+                // updateTrainingLocationFields();
             });
-            
-            // **3. Clear Form Handler**
+
+            // ------------------------------------------------------------
+            // Clear form
+            // ------------------------------------------------------------
             clearBtn.addEventListener('click', () => {
                 form.reset();
-                toggleGenderFields(); // Reset gender conditional fields
+                toggleGenderFields();
+                updateRenewalVisibility();
+                updateTrainingLocationFields();
                 showMessage("Form fields have been cleared.");
             });
         });
     </script>
-</body>
+    </body>
 </html>
