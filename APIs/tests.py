@@ -33,18 +33,18 @@ def make_confirmed_member(email="alice@example.com", **overrides):
         place=governorate,
         whatsapp_number="01012345678",
         email=email,
-        plan="RARE",
+        plan="DUOS",            # was "RARE" -- renamed to DUOS
         recommend_us=5,
         meals_num="3 MEALS",
         training_type="GYM",
         workout_days="3 DAYS",
         daily_spend="100-150 BUCKS",
-        measure_scale="I DO HAVE",
-        before_nutrition="Normal",
-        injuries="None",
+        # measure_scale removed
+        # before_nutrition removed
+        # injuries removed (split into chronic_illness / injury_issue)
         previous_gym="YES",
         habits="None",
-        confidence="ABSOLUTELY",
+        lifestyle_commitment="ABSOLUTELY",  # was confidence="ABSOLUTELY"
         comeback="ABSOLUTELY",
         email_confirmed=True,
         is_activated=False,

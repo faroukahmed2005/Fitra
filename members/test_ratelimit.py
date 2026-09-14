@@ -1,15 +1,15 @@
 """
 members/test_ratelimit.py
 
-Tests for the @ratelimit decorator on the register view (item #6).
-Uses Django's test client and the default LocMemCache (django-ratelimit
-needs a working cache backend to count hits).
+Tests for the @ratelimit decorator on the register view.
+Updated for registration overhaul: old field names replaced with new ones.
 """
 from django.core.cache import cache
 from django.test import TestCase, override_settings
 
 
 VALID_POST_DATA = {
+    "registration_type": "New",
     "full_name": "Rate Limit Test",
     "age": 25,
     "height": "175.50",
@@ -20,23 +20,44 @@ VALID_POST_DATA = {
     "occupation": "Engineer",
     "place_of_living": "Cairo",
     "phone": "01012345678",
-    "email": "",  # left blank on purpose: avoids creating a real
-                  # PendingRegistration/sending real email on every one
-                  # of these repeated POSTs; email is optional per the form
+    # Email left blank on purpose: avoids creating a real PendingRegistration
+    # / sending real email on every repeated POST (so the form will fail
+    # validation but still hit the view, which is all we need for rate-limit testing)
+    "email": "",
     "fitness_goal": ["FAT LOSS"],
     "meals_per_day": "3 MEALS",
     "food_budget": "100-150 BUCKS",
-    "measuring_scale": "I DO HAVE",
     "workout_days": "3 DAYS",
     "training_location": "GYM",
+    "gym_bench_move": "CAN MOVE",
+    "training_time": "MORNING",
+    "session_duration": "1 HOUR",
+    "daily_steps": "5000",
+    "current_split": "PPL",
+    "goal_timeframe": "3 months",
     "habit": "Normal daily routine.",
-    "past_nutrition": "Tried keto before.",
-    "plan_type": "RARE",
-    "illness": "None",
+    "plan_type": "DUOS",
     "gym_before": "YES",
-    "confidence": "ABSOLUTELY",
+    "gym_sets_per_week": "6-8",
+    "training_age": "1 YEAR",
+    "failure_rir": "YES I KNOW BOTH",
+    "trainer_before": "NO",
+    "chronic_illness": "None",
+    "medication": "None",
+    "allergy": "None",
+    "breakfast": "Eggs",
+    "lunch": "Rice",
+    "dinner": "Salad",
+    "liked_food": "Chicken",
+    "disliked_food": "Fish",
+    "favorite_meal": "Shawarma",
+    "wanted_diet_food": "High protein",
+    "daily_drinks": "Water",
+    "subscribe_reason": "Get fit",
+    "lifestyle_commitment": "ABSOLUTELY",
     "return_continuity": "ABSOLUTELY",
     "recommendation_rating": 5,
+    "terms_acceptance": True,
 }
 
 
@@ -48,10 +69,7 @@ class RegistrationRateLimitTests(TestCase):
         cache.clear()
 
     def test_sixth_request_within_a_minute_is_blocked(self):
-        """The decorator is @ratelimit(key='ip', rate='5/m', method='POST', block=True).
-        5 requests should go through (accepted by the view -- may still be a
-        200 with form errors, that's fine, we're only checking it's not
-        rate-limited); the 6th should be blocked with a 429."""
+        """5 requests pass; the 6th should be blocked with 429."""
         for i in range(5):
             response = self.client.post(
                 "/register/",
@@ -74,6 +92,5 @@ class RegistrationRateLimitTests(TestCase):
         for i in range(5):
             self.client.post("/register/", data=VALID_POST_DATA, REMOTE_ADDR="10.0.0.2")
 
-        # A different IP should not be affected by the first IP's usage
         response = self.client.post("/register/", data=VALID_POST_DATA, REMOTE_ADDR="10.0.0.3")
         self.assertNotEqual(response.status_code, 429)

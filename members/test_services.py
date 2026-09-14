@@ -1,21 +1,16 @@
 """
 members/test_services.py
 
-Tests for the pending-registration -> activation flow in members/services.py
-and members/views.py (activate_account).
-
-Covers:
-- create_pending_registration() creates a PendingRegistration + PendingPicture,
-  and does NOT create a Member
-- Two registrations with the same (unactivated) email can coexist
-- Activating one creates a real Member and deletes the PendingRegistration
-- Activating a second PendingRegistration for an email that's now taken
-  renders the "email taken" page and cleans up
-- Duplicate-email check against already-activated Members blocks new pendings
-  at the view level (register()) -- not re-tested here since it's a view-level
-  form error, see test_views.py if you add one
-- ME-29: send_mail() failure still creates the PendingRegistration and
-  surfaces as email_sent=False rather than losing the submission
+Tests for the pending-registration -> activation flow.
+Updated for registration overhaul:
+- illness -> chronic_illness + injury_issue
+- measuring_scale removed
+- past_nutrition removed
+- confidence -> lifestyle_commitment
+- plan_type RARE -> DUOS
+- return_continuity NOT SURE -> NO
+- New fields added to make_cleaned_data
+- Renewal path: renewal_target_member_id, activate updates existing Member
 """
 import datetime
 import tempfile
@@ -35,8 +30,9 @@ signer = TimestampSigner()
 
 
 def make_cleaned_data(**overrides):
-    """Mimics RegistrationForm.cleaned_data for a valid MALE registrant."""
+    """Mimics RegistrationForm.cleaned_data for a valid MALE New registrant."""
     data = {
+        "registration_type": "New",
         "full_name": "Test User",
         "age": 25,
         "height": Decimal("175.50"),
@@ -52,32 +48,52 @@ def make_cleaned_data(**overrides):
         "fitness_goal": ["FAT LOSS"],
         "meals_per_day": "3 MEALS",
         "food_budget": "100-150 BUCKS",
-        "measuring_scale": "I DO HAVE",
         "workout_days": "3 DAYS",
         "training_location": "GYM",
+        "training_time": "MORNING",
+        "session_duration": "1 HOUR",
+        "daily_steps": "5000",
+        "current_split": "PPL",
+        "goal_timeframe": "3 months",
         "habit": "Normal daily routine.",
-        "past_nutrition": "Tried keto before.",
-        "plan_type": "RARE",
-        "illness": "None",
         "other_sports": "",
+        "plan_type": "DUOS",
+        # Training background
         "gym_before": "YES",
-        "confidence": "ABSOLUTELY",
+        "gym_sets_per_week": "6-8",
+        "training_age": "1 YEAR",
+        "failure_rir": "YES I KNOW BOTH",
+        "gym_bench_move": "CAN MOVE",
+        "trainer_before": "NO",
+        "trainer_problem": "",
+        # Health
+        "chronic_illness": "None",
+        "injury_issue": "",
+        "medication": "None",
+        "allergy": "None",
+        # Nutrition
+        "breakfast": "Eggs",
+        "lunch": "Rice",
+        "dinner": "Salad",
+        "liked_food": "Chicken",
+        "disliked_food": "Fish",
+        "favorite_meal": "Shawarma",
+        "snack_preference": "",
+        "wanted_diet_food": "High protein",
+        "daily_drinks": "Water",
+        # Motivation
+        "subscribe_reason": "Get fit",
+        "lifestyle_commitment": "ABSOLUTELY",
         "return_continuity": "ABSOLUTELY",
         "how_hear": [],
         "recommendation_rating": 5,
+        "terms_acceptance": True,
     }
     data.update(overrides)
     return data
 
 
 def make_request(files=None):
-    """Builds a bare Django request with the attributes services.py relies on:
-    LANGUAGE_CODE (normally set by LocaleMiddleware) and FILES.getlist().
-
-    NOTE: WSGIRequest.FILES is a read-only property in modern Django, so it
-    can't be assigned after the request is built. Instead, pass any files
-    as part of the `data` dict -- RequestFactory automatically multipart-
-    encodes them and populates request.FILES correctly on its own."""
     rf = RequestFactory()
     post_data = dict(files) if files else {}
     request = rf.post("/register/", data=post_data)
@@ -85,19 +101,45 @@ def make_request(files=None):
     return request
 
 
+def _make_existing_member():
+    """Create a confirmed Member for use in Renewal tests."""
+    gov, _ = Governorate.objects.get_or_create(governorate_name="Cairo")
+    return Member.objects.create(
+        name="Existing User",
+        age=30,
+        height=Decimal("175.00"),
+        weight=Decimal("80.00"),
+        gender="MALE",
+        education="Engineer",
+        place=gov,
+        whatsapp_number="01099999999",
+        email="existing@example.com",
+        email_confirmed=True,
+        plan="DUOS",
+        recommend_us=4,
+        meals_num="3 MEALS",
+        training_type="GYM",
+        workout_days="3 DAYS",
+        daily_spend="100-150 BUCKS",
+        previous_gym="YES",
+        habits="Normal",
+        lifestyle_commitment="ABSOLUTELY",
+        comeback="ABSOLUTELY",
+        is_activated=False,
+    )
+
+
 @override_settings(
     MEDIA_ROOT=tempfile.mkdtemp(),
     EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend",
 )
 class CreatePendingRegistrationTests(TestCase):
-    """Covers: submitting the form creates a PendingRegistration, not a Member."""
+    """create_pending_registration() creates PendingRegistration, not Member."""
 
     def test_creates_pending_registration_not_member(self):
         data = make_cleaned_data(email="alice@example.com")
         request = make_request()
-
         result = services.create_pending_registration(data, request)
-
         self.assertIsNotNone(result.pending)
         self.assertEqual(PendingRegistration.objects.count(), 1)
         self.assertEqual(Member.objects.count(), 0)
@@ -108,53 +150,24 @@ class CreatePendingRegistrationTests(TestCase):
         photo = SimpleUploadedFile("p1.jpg", b"\xff\xd8\xff" + b"0" * 100, content_type="image/jpeg")
         data = make_cleaned_data(email="bob@example.com")
         request = make_request(files={"male_photos": [photo]})
-
         result = services.create_pending_registration(data, request)
-
         self.assertEqual(PendingPicture.objects.filter(pending_registration=result.pending).count(), 1)
 
-    def test_two_pending_registrations_same_email_can_coexist(self):
-        """This is the whole point of the pending-registration redesign:
-        no UNIQUE constraint conflict for two unactivated signups sharing an email."""
+    def test_two_pending_registrations_same_email_replaces_first(self):
+        """Submitting twice with same email replaces the first pending record."""
         data = make_cleaned_data(email="shared@example.com")
-
-        request1 = make_request()
-        services.create_pending_registration(data, request1)
-
-        # NOTE: create_pending_registration deletes prior pending registrations
-        # for the same email (_delete_pending_registrations_for_email) BEFORE
-        # creating the new one. So submitting twice in a row actually replaces
-        # the first pending record, not adds a second one. This test verifies
-        # THAT behavior -- if you intended both to coexist simultaneously,
-        # this reveals the current design only keeps the latest pending
-        # registration per email, which is worth confirming is what you want.
-        request2 = make_request()
-        services.create_pending_registration(data, request2)
-
+        services.create_pending_registration(data, make_request())
+        services.create_pending_registration(data, make_request())
         self.assertEqual(
             PendingRegistration.objects.filter(email="shared@example.com").count(),
             1,
-            "create_pending_registration replaces prior pending registrations "
-            "for the same email rather than keeping both -- confirm this is intended."
         )
 
     def test_email_send_failure_still_creates_pending_registration(self):
-        """
-        Covers ME-29: if send_mail() itself raises (SMTP down, network
-        error, etc.), the PendingRegistration must still be created --
-        the registration itself succeeded independently of the email step.
-        The failure should surface as email_sent=False with the error
-        captured, not as an unhandled exception that loses the submission.
-        """
         data = make_cleaned_data(email="unlucky@example.com")
         request = make_request()
-
-        with mock.patch(
-            "members.services.send_mail",
-            side_effect=Exception("Simulated SMTP failure"),
-        ):
+        with mock.patch("members.services.send_mail", side_effect=Exception("Simulated SMTP failure")):
             result = services.create_pending_registration(data, request)
-
         self.assertIsNotNone(result.pending)
         self.assertEqual(PendingRegistration.objects.filter(email="unlucky@example.com").count(), 1)
         self.assertFalse(result.email_sent)
@@ -166,8 +179,7 @@ class CreatePendingRegistrationTests(TestCase):
     EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend",
 )
 class ActivatePendingRegistrationTests(TestCase):
-    """Covers: activating a pending registration creates a real Member with
-    correct data, and deletes the pending record."""
+    """Activating a pending registration creates a real Member."""
 
     def test_activation_creates_member_with_correct_fields(self):
         data = make_cleaned_data(email="carol@example.com", full_name="Carol Test")
@@ -182,6 +194,10 @@ class ActivatePendingRegistrationTests(TestCase):
         self.assertTrue(member.email_confirmed)
         self.assertEqual(member.height, Decimal("175.50"))
         self.assertEqual(member.weight_measure_date, datetime.date(2026, 7, 1))
+        # Verify new fields
+        self.assertEqual(member.lifestyle_commitment, "ABSOLUTELY")
+        self.assertEqual(member.plan, "DUOS")
+        self.assertFalse(member.is_activated)
         self.assertEqual(PendingRegistration.objects.filter(id=pending.id).count(), 0)
 
     def test_activation_creates_goals_and_hear_about_us(self):
@@ -192,9 +208,7 @@ class ActivatePendingRegistrationTests(TestCase):
         )
         request = make_request()
         result = services.create_pending_registration(data, request)
-
         member = services.activate_pending_registration(result.pending)
-
         self.assertEqual(member.user_goals.count(), 2)
         self.assertEqual(member.hear_about_us.count(), 2)
 
@@ -203,25 +217,102 @@ class ActivatePendingRegistrationTests(TestCase):
         data = make_cleaned_data(email="erin@example.com")
         request = make_request(files={"male_photos": [photo]})
         result = services.create_pending_registration(data, request)
-
         member = services.activate_pending_registration(result.pending)
-
         self.assertEqual(member.user_images.count(), 1)
 
     def test_activation_reuses_existing_governorate(self):
-        """Confirms get_or_create in activate_pending_registration doesn't
-        create duplicate Governorate rows across two activations for the
-        same governorate name."""
         data1 = make_cleaned_data(email="frank@example.com", place_of_living="Giza")
         data2 = make_cleaned_data(email="grace@example.com", place_of_living="Giza")
-
         r1 = services.create_pending_registration(data1, make_request())
         r2 = services.create_pending_registration(data2, make_request())
-
         services.activate_pending_registration(r1.pending)
         services.activate_pending_registration(r2.pending)
-
         self.assertEqual(Governorate.objects.filter(governorate_name="Giza").count(), 1)
+
+    def test_activation_new_fields_stored(self):
+        """Verify the new fields introduced in the overhaul are persisted."""
+        data = make_cleaned_data(
+            email="newfields@example.com",
+            chronic_illness="Diabetes",
+            medication="Metformin",
+            allergy="Nuts",
+            breakfast="Oats",
+            lunch="Rice and chicken",
+            dinner="Salad",
+            liked_food="Chicken",
+            disliked_food="Fish",
+            favorite_meal="Shawarma",
+            wanted_diet_food="High protein meals",
+            daily_drinks="2L water",
+            subscribe_reason="Lose weight",
+            training_age="1 YEAR",
+            failure_rir="YES I KNOW BOTH",
+        )
+        result = services.create_pending_registration(data, make_request())
+        member = services.activate_pending_registration(result.pending)
+        self.assertEqual(member.chronic_illness, "Diabetes")
+        self.assertEqual(member.medication, "Metformin")
+        self.assertEqual(member.allergy, "Nuts")
+        self.assertEqual(member.breakfast, "Oats")
+        self.assertEqual(member.training_age, "1 YEAR")
+        self.assertEqual(member.failure_rir, "YES I KNOW BOTH")
+        self.assertEqual(member.subscribe_reason, "Lose weight")
+
+
+@override_settings(
+    MEDIA_ROOT=tempfile.mkdtemp(),
+    EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend",
+)
+class RenewalActivationTests(TestCase):
+    """Renewal path: activate updates existing Member instead of creating new one."""
+
+    def test_renewal_updates_existing_member(self):
+        existing = _make_existing_member()
+        data = make_cleaned_data(
+            registration_type="Renewal",
+            full_name="Updated Name",
+            email=existing.email,  # won't be used for lookup but included in data
+        )
+        # Remove email from data as form does for Renewal path
+        data.pop("email", None)
+
+        request = make_request()
+        result = services.create_pending_registration(
+            data, request, renewal_target_member_id=existing.id
+        )
+        self.assertEqual(result.pending.renewal_target_member_id, existing.id)
+        self.assertEqual(result.pending.email, existing.email)
+
+        updated_member = services.activate_pending_registration(result.pending)
+
+        # Should be the SAME member object, not a new one
+        self.assertEqual(updated_member.id, existing.id)
+        self.assertEqual(updated_member.name, "Updated Name")
+        # is_activated reset to False, email_confirmed stays True
+        self.assertFalse(updated_member.is_activated)
+        self.assertTrue(updated_member.email_confirmed)
+        # PendingRegistration cleaned up
+        self.assertEqual(PendingRegistration.objects.filter(id=result.pending.id).count(), 0)
+        # No duplicate Member created
+        self.assertEqual(Member.objects.filter(email=existing.email).count(), 1)
+
+    def test_renewal_replaces_goals(self):
+        from members.models import Goals
+        existing = _make_existing_member()
+        Goals.objects.create(member=existing, goal="FAT LOSS")
+        Goals.objects.create(member=existing, goal="HAVING FUN")
+
+        data = make_cleaned_data(
+            registration_type="Renewal",
+            fitness_goal=["INCREASE MUSCLE MASS"],
+        )
+        result = services.create_pending_registration(
+            data, make_request(), renewal_target_member_id=existing.id
+        )
+        updated = services.activate_pending_registration(result.pending)
+
+        goals = list(updated.user_goals.values_list("goal", flat=True))
+        self.assertEqual(goals, ["INCREASE MUSCLE MASS"])
 
 
 @override_settings(
@@ -229,44 +320,31 @@ class ActivatePendingRegistrationTests(TestCase):
     EMAIL_BACKEND="django.core.mail.backends.locmem.EmailBackend",
 )
 class ActivateAccountViewTests(TestCase):
-    """Covers the activate_account view: valid token, expired token, bad
-    token, and the 'email already taken by someone else' race case."""
+    """activate_account view: valid token, expired, bad token, email-taken race."""
 
     def test_valid_token_activates_and_shows_success(self):
         data = make_cleaned_data(email="henry@example.com")
         result = services.create_pending_registration(data, make_request())
         token = signer.sign(result.pending.id)
-
         response = self.client.get(f"/register/activate/{token}/")
-
         self.assertEqual(response.status_code, 200)
         self.assertTrue(Member.objects.filter(email="henry@example.com", email_confirmed=True).exists())
 
     def test_second_activation_of_same_email_shows_email_taken(self):
-        """Simulates the race: two PendingRegistrations for the same email
-        (created before either activates), first one activates normally,
-        second one's activation link should now show 'email taken', not
-        silently succeed or crash."""
         data = make_cleaned_data(email="iris@example.com")
-
         pending1 = services.create_pending_registration(data, make_request()).pending
-        # Bypass the "replace prior pending" behavior to simulate two
-        # pending records genuinely coexisting at the moment of activation:
         pending2 = PendingRegistration.objects.create(
             email="iris@example.com",
             preferred_language="en",
             form_data=pending1.form_data,
         )
-
         token1 = signer.sign(pending1.id)
         token2 = signer.sign(pending2.id)
 
-        # First activates normally
         response1 = self.client.get(f"/register/activate/{token1}/")
         self.assertEqual(response1.status_code, 200)
         self.assertTrue(Member.objects.filter(email="iris@example.com").exists())
 
-        # Second should hit the "email taken" branch, not create a 2nd Member
         response2 = self.client.get(f"/register/activate/{token2}/")
         self.assertTemplateUsed(response2, "members/email_taken.html")
         self.assertEqual(Member.objects.filter(email="iris@example.com").count(), 1)
@@ -279,22 +357,9 @@ class ActivateAccountViewTests(TestCase):
     def test_expired_token_shows_activation_failed_and_cleans_up(self):
         data = make_cleaned_data(email="jack@example.com")
         pending = services.create_pending_registration(data, make_request()).pending
-
-        # To simulate a genuinely EXPIRED (not tampered) token, we sign it
-        # as if it were created 25 hours ago -- the signature itself stays
-        # perfectly valid (so unsign() can still recover the pending id),
-        # but the max_age=24h check in activate_account will correctly
-        # reject it as too old. Corrupting the token string instead (e.g.
-        # appending garbage) produces a BadSignature, not SignatureExpired
-        # -- a fundamentally different, unrecoverable case where cleanup
-        # correctly cannot happen at all, since no data can be extracted
-        # from a tampered signature.
         import time
-
         with mock.patch("django.core.signing.time.time", return_value=time.time() - 60 * 60 * 25):
             token = signer.sign(pending.id)
-
         response = self.client.get(f"/register/activate/{token}/")
-
         self.assertTemplateUsed(response, "members/activation_failed.html")
         self.assertFalse(PendingRegistration.objects.filter(id=pending.id).exists())
