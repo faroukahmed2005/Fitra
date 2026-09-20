@@ -86,7 +86,10 @@ def _get_activatable_member(member_id: int) -> tuple[Response | None, Member | N
     return None, member
 
 def _create_firebase_trainee(
-    member: Member, email: str, password: str, deadline_date: datetime
+    member: Member,
+    email: str,
+    password: str,
+    deadline_date: datetime,
 ) -> UserRecord:
 
     firebase_user: UserRecord = auth.create_user(
@@ -106,24 +109,65 @@ def _create_firebase_trainee(
             "AccountCreated": True,
             "CreatedAt": firestore.SERVER_TIMESTAMP,
         })
+        normalized_email = email.strip().lower()
+
+        db.collection("TraineeEmailLookup").document(
+            normalized_email
+        ).set({
+            "Uid": firebase_user.uid,
+            "Exists": True,
+        })
+
     except Exception:
         try:
             auth.delete_user(firebase_user.uid)
         except Exception:
             traceback.print_exc()
+
+        try:
+            firestore.client().collection(
+                "Trainees"
+            ).document(firebase_user.uid).delete()
+        except Exception:
+            traceback.print_exc()
+
+        try:
+            firestore.client().collection(
+                "TraineeEmailLookup"
+            ).document(email.strip().lower()).delete()
+        except Exception:
+            traceback.print_exc()
+
         raise
 
     return firebase_user
 
-def _rollback_firebase(firebase_user: UserRecord | None) -> None:
+def _rollback_firebase(
+    firebase_user: UserRecord | None,
+    email: str | None = None,
+) -> None:
 
     if firebase_user is None:
         return
     try:
         auth.delete_user(firebase_user.uid)
-        firestore.client().collection("Trainees").document(firebase_user.uid).delete()
     except Exception:
         traceback.print_exc()
+
+    try:
+        firestore.client().collection(
+            "Trainees"
+        ).document(firebase_user.uid).delete()
+    except Exception:
+        traceback.print_exc()
+
+    if email:
+        try:
+            firestore.client().collection(
+                "TraineeEmailLookup"
+            ).document(email.strip().lower()).delete()
+        except Exception:
+            traceback.print_exc()
 
 def _activate_member_in_django(
     member: Member,
@@ -201,7 +245,7 @@ def activate_trainee(request: HttpRequest) -> Response:
         )
     except Exception:
         traceback.print_exc()
-        _rollback_firebase(firebase_user)
+        _rollback_firebase(firebase_user,email=email,)
         return Response(
             {"message": "Failed to finalize trainee activation. Please try again or contact support."},
             status=status.HTTP_400_BAD_REQUEST,

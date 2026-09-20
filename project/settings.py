@@ -35,7 +35,23 @@ if not SECRET_KEY:
 
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.environ.get(
+        'ALLOWED_HOSTS',
+        '127.0.0.1,localhost,shelf-prance-anthem.ngrok-free.dev'
+    ).split(',')
+    if host.strip()
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get(
+        'CSRF_TRUSTED_ORIGINS',
+        ''
+    ).split(',')
+    if origin.strip()
+]
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (),
@@ -62,6 +78,7 @@ INSTALLED_APPS = [
     'adminsortable2',
     'APIs',
     "rest_framework",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
@@ -184,6 +201,8 @@ PUBLIC_BASE_URL = os.environ.get(
 
 
 import config.firebase
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
