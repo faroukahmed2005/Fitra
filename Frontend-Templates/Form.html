@@ -1848,7 +1848,8 @@
                 <!-- ============================================================ -->
                 <!-- Terms and Conditions Section -->
                 <!-- ============================================================ -->
-                <section class="p-5 bg-section-dark-bg rounded-lg shadow-inner">
+                <section id="terms-section"
+                    class="p-5 bg-section-dark-bg rounded-lg shadow-inner hidden">
 
                     <h2
                         class="text-2xl font-bold text-main-fitra mb-6 border-b pb-2 border-gray-600">
@@ -1938,29 +1939,33 @@
 
                         </ul>
 
-                        <!-- Agreement Checkbox -->
-                        <div
-                            class="mt-8 p-4 border border-main-fitra/50 bg-main-fitra/5 rounded-lg">
-                            <div class="flex items-start gap-3">
-                                <input
-                                    type="checkbox"
-                                    id="terms-acceptance"
-                                    name="terms_acceptance"
-                                    value="Accepted"
-                                    required
-                                    class="mt-1 w-5 h-5 accent-main-fitra cursor-pointer">
-
-                                <label
-                                    for="terms-acceptance"
-                                    class="text-gray-100 cursor-pointer leading-relaxed">
-                                    I have read, understood, and agree to all of
-                                    the above
-                                    Terms and Conditions.
-                                </label>
-                            </div>
-                        </div>
                     </div>
                 </section>
+
+                <!-- ============================================================ -->
+                <!-- Terms & Conditions -->
+                <!-- Checkbox stays visible and active. Only clicking the link -->
+                <!-- opens the full Terms & Conditions section. -->
+                <!-- ============================================================ -->
+                <div id="terms-toggle-wrapper"
+                    class="mt-2 mb-2 p-4 bg-section-dark-bg border border-gray-600 rounded-lg">
+                    <div class="flex items-center gap-3">
+                        <input
+                            type="checkbox"
+                            id="terms-acceptance"
+                            name="terms_acceptance"
+                            value="Accepted"
+                            required
+                            class="w-5 h-5 accent-main-fitra cursor-pointer shrink-0">
+
+                        <button
+                            type="button"
+                            id="terms-toggle"
+                            class="text-main-fitra font-bold hover:text-white transition duration-200 cursor-pointer text-left ">
+                            Terms & Conditions
+                        </button>
+                    </div>
+                </div>
 
                 <!-- Submit and Clear Buttons -->
                 <div
@@ -1994,6 +1999,8 @@
             const clearBtn = document.getElementById('clear-form-btn');
             const messageBox = document.getElementById('message-box');
             const phoneInput = document.getElementById('phone');
+            const termsToggle = document.getElementById('terms-toggle');
+            const termsSection = document.getElementById('terms-section');
 
             // ------------------------------------------------------------
             // Helper: show a toast message
@@ -2029,6 +2036,30 @@
                 if (!el) return;
                 el.classList.toggle('hidden', !show);
             }
+
+            // ------------------------------------------------------------
+            // Terms & Conditions
+            // The checkbox stays visible and required.
+            // Clicking only the Terms & Conditions text opens the full section.
+            // ------------------------------------------------------------
+            function toggleTermsAndConditions() {
+                const isHidden = termsSection.classList.contains('hidden');
+
+                if (isHidden) {
+                    // Open Terms & Conditions
+                    termsSection.classList.remove('hidden');
+
+                    termsSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                } else {
+                    // Close Terms & Conditions
+                    termsSection.classList.add('hidden');
+                }
+            }
+
+            termsToggle.addEventListener('click', toggleTermsAndConditions);
 
             // ------------------------------------------------------------
             // 1. Gender conditional fields (Male photos / Female measurements)
@@ -2199,6 +2230,10 @@
             // ------------------------------------------------------------
             clearBtn.addEventListener('click', () => {
                 form.reset();
+
+                // Reset Terms & Conditions to the initial collapsed state.
+                termsSection.classList.add('hidden');
+
                 toggleGenderFields();
                 updateRenewalVisibility();
                 updateTrainingLocationFields();
