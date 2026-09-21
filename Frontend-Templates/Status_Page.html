@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>FITRA | Status</title>
+
+        <!-- Same fonts used by FITRA -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Kaushan+Script&family=Merienda:wght@300..900&family=Permanent+Marker&display=swap"
+            rel="stylesheet">
+
+        <!-- Same icon libraries used by FITRA -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+            rel="stylesheet">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+        <style>
+        :root {
+            --main-color: rgb(71, 221, 71);
+            --second-color: rgb(37, 121, 37);
+            --black: #000;
+            --white: #fff;
+            --muted: #b4b9c9;
+        }
+
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #000;
+            color: var(--white);
+            overflow-x: hidden;
+            font-family: 'Merienda', cursive;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            position: relative;
+        }
+
+        /* FITRA-like ambient background */
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(80px);
+            opacity: .18;
+        }
+
+        body::before {
+            width: 330px;
+            height: 330px;
+            background: var(--main-color);
+            top: -110px;
+            left: -120px;
+        }
+
+        body::after {
+            width: 380px;
+            height: 380px;
+            background: var(--second-color);
+            right: -140px;
+            bottom: -160px;
+        }
+
+        .status-page {
+            width: 100%;
+            max-width: 720px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Top brand line */
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 22px;
+            color: var(--main-color);
+            font-family: 'Kaushan Script', cursive;
+            font-size: 36px;
+            letter-spacing: .5px;
+            text-shadow: 0 0 8px rgba(71, 221, 71, .35);
+        }
+
+        .brand::before,
+        .brand::after {
+            content: "";
+            width: 72px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--main-color));
+        }
+
+        .brand::after {
+            background: linear-gradient(90deg, var(--main-color), transparent);
+        }
+
+        .status-card {
+            position: relative;
+            background: #050505;
+            border: 3px solid var(--white);
+            box-shadow:
+                0 0 5px rgba(0, 0, 0, .5),
+                inset -5px 5px 20px rgba(0, 0, 0, .3),
+                0 0 30px rgba(71, 221, 71, .12);
+            transform: skewY(-2deg);
+            overflow: hidden;
+        }
+
+        .status-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            padding: 2px;
+            background: repeating-conic-gradient(
+                from 0deg,
+                var(--main-color) 0%,
+                var(--main-color) 5%,
+                transparent 5%,
+                transparent 40%,
+                var(--main-color) 50%
+            );
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: .18;
+            animation: rotating 6s linear infinite;
+            pointer-events: none;
+        }
+
+        .status-inner {
+            transform: skewY(2deg);
+            position: relative;
+            z-index: 1;
+        }
+
+        .status-header {
+            text-align: center;
+            padding: 45px 28px 32px;
+            border-bottom: 1px solid rgba(255, 255, 255, .15);
+            position: relative;
+        }
+
+        .status-header::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -2px;
+            transform: translateX(-50%);
+            width: 110px;
+            height: 3px;
+            background: var(--main-color);
+            box-shadow:
+                0 0 5px var(--main-color),
+                0 0 15px var(--main-color),
+                0 0 30px var(--main-color);
+        }
+
+        .icon-circle {
+            width: 104px;
+            height: 104px;
+            margin: 0 auto 22px;
+            border: 3px solid var(--main-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000;
+            box-shadow:
+                0 0 5px var(--main-color),
+                0 0 15px rgba(71, 221, 71, .7),
+                0 0 35px rgba(71, 221, 71, .28),
+                inset 0 0 20px rgba(71, 221, 71, .12);
+            animation: pulse 2.2s ease-in-out infinite;
+        }
+
+        .status-icon {
+            font-size: 48px;
+            color: var(--main-color);
+        }
+
+        .status-header h1 {
+            color: var(--white);
+            font-family: 'Kaushan Script', cursive;
+            font-size: clamp(42px, 7vw, 64px);
+            font-weight: 400;
+            line-height: 1.1;
+            margin-bottom: 12px;
+            text-shadow: 0 0 8px rgba(255,255,255,.12);
+        }
+
+        .status-header p {
+            color: var(--muted);
+            font-family: 'Merienda', cursive;
+            font-size: 17px;
+            line-height: 1.7;
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .status-content {
+            padding: 38px 34px 32px;
+            text-align: center;
+        }
+
+        .status-message {
+            color: #f4f4f4;
+            font-size: 18px;
+            line-height: 1.9;
+            max-width: 580px;
+            margin: 0 auto;
+        }
+
+        .status-message strong {
+            color: var(--main-color);
+            font-weight: 700;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin-top: 34px;
+        }
+
+        .btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-width: 170px;
+            min-height: 48px;
+            padding: 10px 22px;
+            text-decoration: none;
+            font-family: 'Merienda', cursive;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--white);
+            border: 3px solid var(--white);
+            background: transparent;
+            overflow: hidden;
+            transition: all .25s ease;
+        }
+
+        .btn::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 10px;
+            border-radius: 10px;
+            background: var(--main-color);
+            box-shadow:
+                0 0 5px var(--main-color),
+                0 0 15px var(--main-color),
+                0 0 30px var(--main-color),
+                0 0 60px var(--main-color);
+            transition: .25s;
+        }
+
+        .btn span,
+        .btn i {
+            position: relative;
+            z-index: 2;
+        }
+
+        .btn:hover,
+        .btn:focus-visible {
+            color: #fff;
+            border-color: var(--main-color);
+            transform: translateY(-3px);
+            outline: none;
+        }
+
+        .btn:hover::before,
+        .btn:focus-visible::before {
+            height: 100%;
+            width: 100%;
+            border-radius: 0;
+        }
+
+        .btn-primary {
+            background: rgba(71, 221, 71, .04);
+        }
+
+        .btn-secondary {
+            border-color: #777;
+            color: #ddd;
+        }
+
+        .btn-secondary::before {
+            background: var(--second-color);
+        }
+
+        .btn-secondary:hover,
+        .btn-secondary:focus-visible {
+            border-color: var(--second-color);
+        }
+
+        .footer-note {
+            margin-top: 34px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, .12);
+            color: #8e8e8e;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .footer-note .green {
+            color: var(--main-color);
+        }
+
+        @property --angle {
+            syntax: "<angle>";
+            inherits: false;
+            initial-value: 0deg;
+        }
+
+        @keyframes rotating {
+            0% { --angle: 0deg; }
+            100% { --angle: 360deg; }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.04);
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 14px;
+            }
+
+            .brand {
+                font-size: 30px;
+                margin-bottom: 16px;
+            }
+
+            .brand::before,
+            .brand::after {
+                width: 38px;
+            }
+
+            .status-header {
+                padding: 34px 18px 26px;
+            }
+
+            .icon-circle {
+                width: 88px;
+                height: 88px;
+            }
+
+            .status-icon {
+                font-size: 40px;
+            }
+
+            .status-header p {
+                font-size: 14px;
+            }
+
+            .status-content {
+                padding: 28px 18px 24px;
+            }
+
+            .status-message {
+                font-size: 15px;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+    </head>
+
+    <body>
+        <main class="status-page">
+            <div class="brand">FITRA</div>
+
+            <section class="status-card">
+                <div class="status-inner">
+                    <header class="status-header">
+                        <div class="icon-circle" aria-hidden="true">
+                            <i class="fa-solid fa-check status-icon"></i>
+                        </div>
+
+                        <h1>Success</h1>
+                        <p>Your request has been completed successfully.</p>
+                    </header>
+
+                    <div class="status-content">
+                        <p class="status-message">
+                            Everything is ready. Your request has been received
+                            and processed successfully.
+                            <strong>Welcome to FITRA.</strong>
+                        </p>
+
+                        <div class="button-group">
+                            <a href="#" class="btn btn-primary">
+                                <i class="fa-solid fa-house"></i>
+                                <span>Go Home</span>
+                            </a>
+
+                            <a href="#" class="btn btn-secondary">
+                                <i class="fa-solid fa-arrow-left"></i>
+                                <span>Go Back</span>
+                            </a>
+                        </div>
+
+                        <div class="footer-note">
+                            Feel free to be a part of our family —
+                            <span class="green">FITRA</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </body>
+</html>
