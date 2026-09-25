@@ -1157,7 +1157,7 @@ aside .container .plans .card div ul li .red
 
 @media (max-width: 480px) {
     aside{
-        height: 390vh;
+        height: 530vh;
     }
     aside .container > h1 {
         margin-top: 20px;
@@ -2232,7 +2232,7 @@ footer .farouk a
         background-position-y: -35px;
     }
     footer .farouk{
-        font-size: 12px;
+        font-size: 10px;
     }
     footer .container .footer_1{
         width: 100%;
